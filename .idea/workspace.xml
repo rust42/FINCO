@@ -5,12 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7b35da9-eb6f-4733-85db-2e955de90c67" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/context/FactoryServiceRetriever.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/context/FrameworkBootstrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/context/config/FrameworkContextConfigurer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/AbstractAccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IEmailPartyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IInterestCalculationStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IReportingStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/Entry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/IAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/IEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IOrganization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IParty.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IPerson.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Organization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Party.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultAccountService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultEmailToPartyService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultInterestCalculationStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultReportingStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/storage/AbstractStorageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/storage/service/DefaultInMemoryStorageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/support/Observer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/support/Subject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -19,7 +52,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2BjgxnoGhc60588RiCWPeE9HtUO" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -36,6 +71,40 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.BankFrm">
+    <configuration name="BankFrm" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="project.bank.BankFrm" />
+      <module name="FINCO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="project.bank.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FrameworkBootstrapper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="context.FrameworkBootstrapper" />
+      <module name="FINCO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="context.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BankFrm" />
+        <item itemvalue="Application.FrameworkBootstrapper" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -47,7 +116,7 @@
       <workItem from="1657425157956" duration="4000" />
       <workItem from="1657425236482" duration="224000" />
       <workItem from="1657425474742" duration="23000" />
-      <workItem from="1657481215288" duration="91000" />
+      <workItem from="1657481215288" duration="6994000" />
     </task>
     <servers />
   </component>
