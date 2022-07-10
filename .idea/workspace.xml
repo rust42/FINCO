@@ -5,32 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7b35da9-eb6f-4733-85db-2e955de90c67" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/context/FactoryServiceRetriever.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/context/FrameworkBootstrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/context/config/FrameworkContextConfigurer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/AbstractAccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IEmailPartyService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IInterestCalculationStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/IReportingStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/Entry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/IAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/account/IEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IOrganization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IParty.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/IPerson.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Organization.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Party.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/party/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultAccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultEmailToPartyService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultInterestCalculationStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/model/service/DefaultReportingStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/storage/AbstractStorageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/accountdetails/storage/service/DefaultInMemoryStorageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/support/Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/support/Subject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Create Personal Account.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Create Personal Account.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +38,11 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/saroz/MIU/Academics/ASD/Finco",
+    "last_opened_file_path": "/Users/sandeep/Documents/Courses/ASD/FINCO",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -71,6 +50,11 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.BankFrm">
     <configuration name="BankFrm" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="project.bank.BankFrm" />
@@ -117,6 +101,7 @@
       <workItem from="1657425236482" duration="224000" />
       <workItem from="1657425474742" duration="23000" />
       <workItem from="1657481215288" duration="6994000" />
+      <workItem from="1657491772514" duration="590000" />
     </task>
     <servers />
   </component>
