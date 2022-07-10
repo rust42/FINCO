@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c7b35da9-eb6f-4733-85db-2e955de90c67" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/v3/FrameworkV333.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/v3/framework01.mdj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FINCO.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/FINCO.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FINCO.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/bank/BankFrm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/bank/BankFrm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/bank/JDialog_AddCompAcc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/bank/JDialog_AddCompAcc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/bank/JDialog_AddPAcc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/bank/JDialog_AddPAcc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/bank/JDialog_Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/bank/JDialog_Deposit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/bank/JDialog_Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/bank/JDialog_Withdraw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/CardFrm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/CardFrm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/JDialogGenBill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/JDialogGenBill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/JDialog_AddCCAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/JDialog_AddCCAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/JDialog_AddCompAcc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/JDialog_AddCompAcc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/JDialog_Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/JDialog_Deposit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FINCO/src/project/ccard/JDialog_Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/ccard/JDialog_Withdraw.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FW Project - Bank+Card.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/FW Project - Bank+Card.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project code summary.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Project code summary.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeLog for labs.xls" beforeDir="false" afterPath="$PROJECT_DIR$/docs/TimeLog for labs.xls" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +36,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2BjgxnoGhc60588RiCWPeE9HtUO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -24,7 +50,10 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/sandeep/Documents/Courses/ASD/FINCO&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Finco&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
