@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c7b35da9-eb6f-4733-85db-2e955de90c67" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Create Personal Account.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Create Personal Account.txt" afterDir="false" />
+    <list default="true" id="c7b35da9-eb6f-4733-85db-2e955de90c67" name="Changes" comment="Initial framework skeleton prepared.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,12 +37,9 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/sandeep/Documents/Courses/ASD/FINCO",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
+    "last_opened_file_path": "/Users/saroz/MIU/Academics/ASD/Finco",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -50,11 +47,6 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/docs" />
-    </key>
-  </component>
   <component name="RunManager" selected="Application.BankFrm">
     <configuration name="BankFrm" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="project.bank.BankFrm" />
@@ -69,12 +61,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FrameworkBootstrapper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="context.FrameworkBootstrapper" />
+    <configuration name="project.framework.context.FrameworkBootstrapper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="project.framework.context.FrameworkBootstrapper" />
       <module name="FINCO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="context.*" />
+          <option name="PATTERN" value="project.framework.context.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -85,7 +77,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.BankFrm" />
-        <item itemvalue="Application.FrameworkBootstrapper" />
+        <item itemvalue="Application.project.framework.context.FrameworkBootstrapper" />
       </list>
     </recent_temporary>
   </component>
@@ -100,9 +92,16 @@
       <workItem from="1657425157956" duration="4000" />
       <workItem from="1657425236482" duration="224000" />
       <workItem from="1657425474742" duration="23000" />
-      <workItem from="1657481215288" duration="6994000" />
-      <workItem from="1657491772514" duration="590000" />
+      <workItem from="1657481215288" duration="7919000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial framework skeleton prepared.">
+      <created>1657489352936</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1657489352936</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,5 +117,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial framework skeleton prepared." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial framework skeleton prepared." />
   </component>
 </project>

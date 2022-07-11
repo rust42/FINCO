@@ -2,7 +2,7 @@
 ###  Framework: FINCO
 
 # Introduction
-A simple FINCO framework, with support for party and account.
+A simple FINCO framework, with project.framework.support for party and account.
 
 ## Package Structure
 
@@ -13,15 +13,15 @@ A simple FINCO framework, with support for party and account.
 ### 1. FINCO
 
 ```
-├── context
+├── project.framework.context
 │   - FactoryServiceRetriever.java
 │   - FrameworkBootstraper.java
 │   ├── config
 │       - FrameworkContextConfigurer.java
-├── support
+├── project.framework.support
     - Subject.java
     - Observer.java
-├── core
+├── project.framework.core
     ├── accountdetails
     |   ├── model
     |   |   ├── party
@@ -56,9 +56,9 @@ A simple FINCO framework, with support for party and account.
 ```
 
 ## Structure
- - __"context"__ provides a way to configure services and bootstrap client application.
- - __"support"__ any generalized classes that adds incrementing functionality and acts as support classes.
- - __"core"__ contains all the core functionalities
+ - __"project.framework.context"__ provides a way to configure services and bootstrap client application.
+ - __"project.framework.support"__ any generalized classes that adds incrementing functionality and acts as project.framework.support classes.
+ - __"project.framework.core"__ contains all the project.framework.core functionalities
     - __"accountDetails"__ : contains models, and services for account related features
         - "model": IParty and IAccount
         - "service" default implementation for the abstractions
