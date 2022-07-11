@@ -4,7 +4,12 @@ import project.bank.app.controller.BankFrmController;
 import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankCustomer;
+import project.bank.app.model.BankGUI;
+import project.bank.app.model.BankTableResponseModelMapper;
+import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.helper.OwnerType;
+import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.gui.AbstractAccountGUI;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +38,9 @@ public class BankFrm extends javax.swing.JFrame {
     private JTable JTable1;
     private JScrollPane JScrollPane1;
     BankFrm myframe;
-    private Object rowdata[];
+//    private Object rowdata[];
+
+    AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI;
 
     private BankFrmController bankFrmController = new BankFrmController();
 
@@ -55,22 +62,25 @@ public class BankFrm extends javax.swing.JFrame {
 		*/
         JScrollPane1 = new JScrollPane();
         model = new DefaultTableModel();
-        JTable1 = new JTable(model);
-        model.addColumn("AcctNr");
-        model.addColumn("Name");
-        model.addColumn("City");
-        model.addColumn("P/C");
-        model.addColumn("Ch/S");
-        model.addColumn("Amount");
-        rowdata = new Object[8];
-        newaccount = false;
 
+        // model.addColumn(String)
+
+
+        // model.addRow(Object[] Or Vector<Object>
+        // TODO remove DefaultAccountGUI instantiation
+        AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI = new BankGUI(new BankTableResponseModelMapper(), "Bank");
+
+//        AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI = new DefaultAccountGUI(new BankTableResponseModelMapper(), "Bank App");
+
+        this.abstractAccountGUI = abstractAccountGUI;
+        JTable jTable = abstractAccountGUI.createJTable();
+        this.JTable1 = jTable;
+        newaccount = false;
 
         JPanel1.add(JScrollPane1);
         JScrollPane1.setBounds(12, 92, 442, 160);
         JScrollPane1.getViewport().add(JTable1);
         JTable1.setBounds(0, 0, 420, 0);
-//        rowdata = new Object[8];
 
         JButton_PerAC.setText("Add personal account");
         JPanel1.add(JButton_PerAC);
@@ -187,7 +197,7 @@ public class BankFrm extends javax.swing.JFrame {
         if (newaccount) {
 
             BankCustomer bankCustomer = new BankCustomer();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
+            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
             bankCustomer.setName(clientName);
             bankCustomer.setStreet(street);
             bankCustomer.setCity(city);
@@ -196,15 +206,7 @@ public class BankFrm extends javax.swing.JFrame {
             bankCustomer.setEmail("");
             bankCustomer.setBirthDate(LocalDate.now());
             BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.PERSONAL);
-
-            // add row to table
-            rowdata[0] = bankAccTableModelResponse.getAcctNr();
-            rowdata[1] = bankAccTableModelResponse.getName();
-            rowdata[2] = bankAccTableModelResponse.getCity();
-            rowdata[3] = bankAccTableModelResponse.getOwnerType();
-            rowdata[4] = bankAccTableModelResponse.getAccountType();
-            rowdata[5] = bankAccTableModelResponse.getAmount();
-            model.addRow(rowdata);
+            abstractAccountGUI.addNewRow(bankAccTableModelResponse);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
         }
@@ -225,26 +227,13 @@ public class BankFrm extends javax.swing.JFrame {
 
         if (newaccount) {
 
-            BankCustomer bankCustomer = new BankCustomer();
+            BankCustomer bankCustomer = BankFunctionUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
+            // bankCustomer.setNoOfEmployees(1);
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
-            bankCustomer.setName(clientName);
-            bankCustomer.setStreet(street);
-            bankCustomer.setCity(city);
-            bankCustomer.setState(state);
-            bankCustomer.setZip(zip);
-            bankCustomer.setEmail("");
-            bankCustomer.setBirthDate(LocalDate.now());
-//			bankCustomer.setNoOfEmployees(1);
             BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.COMPANY);
 
             // add row to table
-            rowdata[0] = bankAccTableModelResponse.getAcctNr();
-            rowdata[1] = bankAccTableModelResponse.getName();
-            rowdata[2] = bankAccTableModelResponse.getCity();
-            rowdata[3] = bankAccTableModelResponse.getOwnerType();
-            rowdata[4] = bankAccTableModelResponse.getAccountType();
-            rowdata[5] = bankAccTableModelResponse.getAmount();
-            model.addRow(rowdata);
+            abstractAccountGUI.addNewRow(bankAccTableModelResponse);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
         }
