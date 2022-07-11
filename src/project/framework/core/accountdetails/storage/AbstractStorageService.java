@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface AbstractStorageService {
     void store(IAccount account) throws StorageServiceException;
 
+    void update(IAccount account);
+
     void remove(String uniqueAccId) throws StorageServiceException;
 
     void addEntry(String uniqueAccId, Entry entry) throws StorageServiceException;

@@ -10,7 +10,7 @@ import project.framework.core.accountdetails.AbstractAccountService;
 
 public class BankFrmController {
 
-    AbstractAccountService abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
+    AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
     public BankAccTableModelResponse addBankAccount(BankCustomer bankCustomer, String uniqueAccId, AccountType accountType, OwnerType ownerType) {
 

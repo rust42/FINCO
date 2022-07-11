@@ -14,7 +14,7 @@ public class DefaultReportingStrategy implements IReportingStrategy {
         defaultReport += "Current balance: " + iAccount.getBalance() + "\n ";
         defaultReport += "--------------------------- \n ";
         for (Entry entry : entries) {
-            defaultReport += "Date " + entry.getDate() + " amount " + entry.getAmount() + " entry-type " + entry.getEntryType();
+            defaultReport += "Date " + entry.getDate() + " amount " + entry.getTxAmount() + " entry-type " + entry.getEntryType();
         }
         return defaultReport;
     }

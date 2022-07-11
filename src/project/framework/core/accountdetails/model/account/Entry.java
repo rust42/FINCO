@@ -3,17 +3,17 @@ package project.framework.core.accountdetails.model.account;
 import java.time.LocalDate;
 
 public class Entry implements IEntry {
-    private double amount;
+    private double txAmount;
     private LocalDate date;
     private String entryType;
 
     @Override
-    public double getAmount() {
-        return amount;
+    public double getTxAmount() {
+        return txAmount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setTxAmount(double txAmount) {
+        this.txAmount = txAmount;
     }
 
     @Override

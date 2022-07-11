@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface IEntry {
 
-    public double getAmount();
+    public double getTxAmount();
 
     public LocalDate getDate();
 

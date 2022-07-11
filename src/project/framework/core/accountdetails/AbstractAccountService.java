@@ -7,7 +7,7 @@ import project.framework.core.accountdetails.storage.service.StorageServiceExcep
 
 import java.util.Optional;
 
-public abstract class AbstractAccountService {
+public abstract class AbstractAccountService<T extends IAccount> {
 
     private IInterestCalculationStrategy iInterestCalculationStrategy;
     private IEmailPartyService iEmailPartyService;
@@ -45,7 +45,7 @@ public abstract class AbstractAccountService {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() + depositAmount;
         account.setBalance(newBalance);
-        abstractStorageService.store(account);
+        abstractStorageService.update(account);
     }
 
     public void addInterest() {

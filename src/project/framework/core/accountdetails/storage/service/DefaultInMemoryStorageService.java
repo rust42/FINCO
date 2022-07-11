@@ -5,6 +5,7 @@ import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.model.party.IParty;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,19 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
             throw new StorageServiceException("Account with unique id " + account.getUniqueId() + " already exists");
         }
         accountMap.put(account.getUniqueId(), account);
+    }
+
+    @Override
+    public void update(IAccount account) throws StorageServiceException {
+        if (!accountMap.containsKey(account.getUniqueId())) {
+            throw new StorageServiceException("Account with unique id " + account.getUniqueId() + " doesn't exists");
+        }
+        IAccount iAccount = accountMap.get(account.getUniqueId());
+        Entry entry = new Entry();
+        entry.setEntryType("DR");
+        entry.setTxAmount(account.getBalance());
+        entry.setDate(LocalDate.now());
+        iAccount.addEntry(entry);
     }
 
     @Override
