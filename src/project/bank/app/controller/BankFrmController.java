@@ -19,6 +19,7 @@ public class BankFrmController {
         bankAccount.setBalance(0);
         bankAccount.setiParty(bankCustomer);
         bankAccount.setAccountType(accountType);
+        bankAccount.setOwnerType(ownerType);
         abstractAccountService.addAccount(bankAccount);
 
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
@@ -28,7 +29,7 @@ public class BankFrmController {
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType("P");
+        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C": "P");
         return accTableModelResponse;
     }
 
@@ -41,7 +42,7 @@ public class BankFrmController {
 
         // TODO after successful account deposit, populate AccTableModelResponse with new data
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
-        accTableModelResponse.setAmount(100);
+        accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(accNr));
         return accTableModelResponse;
     }
 
@@ -49,13 +50,27 @@ public class BankFrmController {
 
         // TODO withdraw amount from the account with passed "accNr"
         // TODO get newBalance, prevBalance - withdrawAmount
-        Double newBalance = 100.0 - withdrawAmount;
+        //Double newBalance = 100.0 - withdrawAmount;
+        abstractAccountService.withdrawMoney(accNr, withdrawAmount);
 
 
         // TODO after successful account withdraw, populate AccTableModelResponse with new data
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
-        accTableModelResponse.setAmount(newBalance);
+        accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(accNr));
         return accTableModelResponse;
     }
+
+    /**
+     * Retrieve all account from the bank and add collective interest rate to all of them.
+     * */
+    public BankAccTableModelResponse addInterest(Double interestRate){
+        abstractAccountService.addInterest(interestRate);
+
+        BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
+        //accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(accNr));
+        return accTableModelResponse;
+
+    }
+
 
 }

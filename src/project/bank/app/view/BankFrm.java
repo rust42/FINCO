@@ -27,6 +27,7 @@ public class BankFrm extends javax.swing.JFrame {
     String accountType;
     String clientType;
     String amountDeposit = "0.0";
+    String interestRate = "0.0";
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
@@ -186,7 +187,7 @@ public class BankFrm extends javax.swing.JFrame {
         if (newaccount) {
 
             BankCustomer bankCustomer = new BankCustomer();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
             bankCustomer.setName(clientName);
             bankCustomer.setStreet(street);
             bankCustomer.setCity(city);
@@ -225,7 +226,7 @@ public class BankFrm extends javax.swing.JFrame {
         if (newaccount) {
 
             BankCustomer bankCustomer = new BankCustomer();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
             bankCustomer.setName(clientName);
             bankCustomer.setStreet(street);
             bankCustomer.setCity(city);
@@ -307,7 +308,17 @@ public class BankFrm extends javax.swing.JFrame {
     }
 
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
-        JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
+        JDialog_AddInterest interest = new JDialog_AddInterest(myframe, null);
+        interest.setBounds(430, 15, 275, 140);
+        interest.show();
+
+        Double _interest = Double.parseDouble(interestRate);
+        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.addInterest(_interest);
+
+
+//        JOptionPane.showMessageDialog(JButton_Addinterest,
+//                "Add interest to all accounts", "Add interest to all accounts",
+//                JOptionPane.WARNING_MESSAGE);
 
     }
 }

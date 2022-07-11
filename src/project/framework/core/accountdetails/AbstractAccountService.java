@@ -5,6 +5,7 @@ import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 import project.framework.core.accountdetails.storage.service.StorageServiceException;
 
+import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractAccountService<T extends IAccount> {
@@ -34,7 +35,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() - withdrawAmount;
         account.setBalance(newBalance);
-        abstractStorageService.store(account);
+        abstractStorageService.update(account);
     }
 
     public void depositMoney(String uniqueAccId, double depositAmount) {
@@ -48,8 +49,14 @@ public abstract class AbstractAccountService<T extends IAccount> {
         abstractStorageService.update(account);
     }
 
-    public void addInterest() {
-        // TODO
+    public void addInterest(double interestRate) {
+        List<IAccount> iAccountList = abstractStorageService.getAllAccounts();
+
+        for(IAccount account:iAccountList){
+            account.setInterestRate(interestRate);
+            abstractStorageService.update(account);
+        }
+
     }
 
     public void calculateInterest(String uniqueAccId) {
