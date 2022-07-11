@@ -9,7 +9,7 @@ public class JDialog_AddInterest extends javax.swing.JDialog
 
 	public JDialog_AddInterest(BankFrm parent, String aaccnr)
 	{
-		super(parent);
+		super(parent.getjFrame());
 		parentframe=parent;
 		accnr=aaccnr;
 		

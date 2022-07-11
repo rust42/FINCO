@@ -21,7 +21,7 @@ public class BankApplication {
             }
 
             //Create a new instance of our application's frame, and make it visible.
-            new BankFrm().setVisible(true);
+            new BankFrm().getjFrame().setVisible(true);
         } catch (Throwable t) {
             t.printStackTrace();
             //Ensure the application exits with an error condition.

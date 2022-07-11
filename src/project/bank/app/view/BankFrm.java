@@ -19,7 +19,7 @@ import java.time.LocalDate;
 /**
  * A basic JFC based application.
  **/
-public class BankFrm extends javax.swing.JFrame {
+public class BankFrm {
     /****
      * init variables in the object
      ****/
@@ -34,6 +34,8 @@ public class BankFrm extends javax.swing.JFrame {
     String amountDeposit = "0.0";
     String interestRate = "0.0";
     boolean newaccount;
+
+    private JFrame jFrame;
     private DefaultTableModel model;
     private JTable JTable1;
     private JScrollPane JScrollPane1;
@@ -44,16 +46,28 @@ public class BankFrm extends javax.swing.JFrame {
 
     private BankFrmController bankFrmController = new BankFrmController();
 
+    private void createJFrame() {
+        JFrame jFrame = new JFrame();
+        jFrame.setTitle("Banking Application.");
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.getContentPane().setLayout(new BorderLayout(0, 0));
+        jFrame.setSize(575, 310);
+        jFrame.setVisible(false);
+        this.jFrame = jFrame;
+    }
+
     public BankFrm() {
         myframe = this;
 
-        setTitle("Banking Application.");
-        setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout(0, 0));
-        setSize(575, 310);
-        setVisible(false);
+//        setTitle("Banking Application.");
+//        setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
+//        getContentPane().setLayout(new BorderLayout(0, 0));
+//        setSize(575, 310);
+//        setVisible(false);
+
+        this.createJFrame();
         JPanel1.setLayout(null);
-        getContentPane().add(BorderLayout.CENTER, JPanel1);
+        this.jFrame.getContentPane().add(BorderLayout.CENTER, JPanel1);
         JPanel1.setBounds(0, 0, 584, 324);
 		/*
 		/Add five buttons on the pane 
@@ -108,7 +122,7 @@ public class BankFrm extends javax.swing.JFrame {
         JButton_PerAC.setActionCommand("jbutton");
 
         SymWindow aSymWindow = new SymWindow();
-        this.addWindowListener(aSymWindow);
+        this.jFrame.addWindowListener(aSymWindow);
         SymAction lSymAction = new SymAction();
         JButton_Exit.addActionListener(lSymAction);
         JButton_PerAC.addActionListener(lSymAction);
@@ -119,6 +133,9 @@ public class BankFrm extends javax.swing.JFrame {
 
     }
 
+    public JFrame getjFrame() {
+        return jFrame;
+    }
 
     javax.swing.JPanel JPanel1 = new javax.swing.JPanel();
     javax.swing.JButton JButton_PerAC = new javax.swing.JButton();
@@ -130,8 +147,8 @@ public class BankFrm extends javax.swing.JFrame {
 
     void exitApplication() {
         try {
-            this.setVisible(false);    // hide the Frame
-            this.dispose();            // free the system resources
+            this.jFrame.setVisible(false);    // hide the Frame
+            this.jFrame.dispose();            // free the system resources
             System.exit(0);            // close the application
         } catch (Exception e) {
         }
