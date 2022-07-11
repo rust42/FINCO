@@ -1,9 +1,13 @@
 package project.framework.core.accountdetails.model.party;
 
-public class Organization implements IOrganization{
+public class Organization extends Party implements IOrganization {
     private int noOfEmployees;
 
-    public Organization(int noOfEmployees) {
+    public int getNoOfEmployees() {
+        return noOfEmployees;
+    }
+
+    public void setNoOfEmployees(int noOfEmployees) {
         this.noOfEmployees = noOfEmployees;
     }
 

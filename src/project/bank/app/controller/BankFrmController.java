@@ -1,41 +1,34 @@
 package project.bank.app.controller;
 
 import project.bank.app.model.BankAccTableModelResponse;
-import project.bank.app.model.AccountType;
-import project.bank.app.model.CARequestDTO;
-import project.bank.app.model.PARequestDTO;
+import project.bank.app.model.BankAccount;
+import project.bank.app.model.BankCustomer;
+import project.bank.app.model.helper.AccountType;
+import project.bank.app.model.helper.OwnerType;
+import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.core.accountdetails.AbstractAccountService;
 
 public class BankFrmController {
 
-    public BankAccTableModelResponse addNewPersonalAccount(PARequestDTO paRequestDTO) {
+    AbstractAccountService abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-        // TODO save PersonalAccount request data, paRequestDTO
+    public BankAccTableModelResponse addBankAccount(BankCustomer bankCustomer, String uniqueAccId, AccountType accountType, OwnerType ownerType) {
 
-        // TODO from saved data, populate AccTableModelResponse and return
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setUniqueId(uniqueAccId);
+        bankAccount.setBalance(0);
+        bankAccount.setiParty(bankCustomer);
+        bankAccount.setAccountType(accountType);
+        abstractAccountService.addAccount(bankAccount);
+
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
-        accTableModelResponse.setAcctNr(paRequestDTO.getAccNr());
-        accTableModelResponse.setName(paRequestDTO.getName());
-        accTableModelResponse.setCity(paRequestDTO.getCity());
+        accTableModelResponse.setAcctNr(bankAccount.getUniqueId());
+        accTableModelResponse.setName(bankAccount.getParty().getName());
+        accTableModelResponse.setCity(bankCustomer.getCity());
 
-        String accType = paRequestDTO.getAccountType().equals(AccountType.CHECKING) ? "C" : "S";
+        String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
         accTableModelResponse.setOwnerType("P");
-        return accTableModelResponse;
-    }
-
-    public BankAccTableModelResponse addNewCompanyAccount(CARequestDTO caRequestDTO) {
-
-        // TODO save CompanyAccount request data, paRequestDTO
-
-        // TODO from saved data, populate AccTableModelResponse and return
-        BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
-        accTableModelResponse.setAcctNr(caRequestDTO.getAccNr());
-        accTableModelResponse.setName(caRequestDTO.getName());
-        accTableModelResponse.setCity(caRequestDTO.getCity());
-
-        String accType = caRequestDTO.getAccountType().equals(AccountType.CHECKING) ? "C" : "S";
-        accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType("C");
         return accTableModelResponse;
     }
 
@@ -43,11 +36,12 @@ public class BankFrmController {
 
         // TODO deposit amount into the account with passed "accNr"
         // TODO get newBalance, prevBalance + depositAmount
-        Double newBalance = 100.0 + depositAmount + 100.0;
+        abstractAccountService.depositMoney(accNr, depositAmount);
+//        Double newBalance = 100.0 + depositAmount + 100.0;
 
         // TODO after successful account deposit, populate AccTableModelResponse with new data
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
-        accTableModelResponse.setAmount(newBalance);
+        accTableModelResponse.setAmount(100);
         return accTableModelResponse;
     }
 

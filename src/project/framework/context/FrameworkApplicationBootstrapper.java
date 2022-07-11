@@ -1,5 +1,7 @@
 package project.framework.context;
 
+import project.framework.context.config.FrameworkContextConfigurer;
+
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -10,11 +12,12 @@ public class FrameworkApplicationBootstrapper {
 
     public FrameworkApplicationBootstrapper(Class<?>... primarySources) {
         this.primarySources = new LinkedHashSet(Arrays.asList(primarySources));
-        if(this.primarySources.size() <= 0) {
+        if (this.primarySources.size() <= 0) {
             System.out.println("FINCO: Starting through framework default startup");
         } else {
             System.out.println("FINCO: Starting through " + primarySources[0]);
         }
+        FrameworkContextConfigurer.loadDefaultContext();
     }
 
     public static void main(String[] args) {

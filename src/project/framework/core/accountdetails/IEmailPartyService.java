@@ -1,5 +1,7 @@
 package project.framework.core.accountdetails;
 
+import project.framework.core.accountdetails.model.account.IAccount;
+
 public interface IEmailPartyService {
-    public void onSendEmailToPartyTriggered();
+    public void onSendEmailToPartyTriggered(IAccount iAccount);
 }

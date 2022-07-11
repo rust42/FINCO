@@ -1,14 +1,10 @@
 package project.ccard.app.view;
 
-import project.bank.app.model.AccountType;
-import project.bank.app.model.BankAccTableModelResponse;
-import project.bank.app.model.PARequestDTO;
 import project.ccard.app.controller.CreditFrmController;
 import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
 
 import java.awt.*;
-import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 

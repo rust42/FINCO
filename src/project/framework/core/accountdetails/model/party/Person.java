@@ -1,11 +1,15 @@
 package project.framework.core.accountdetails.model.party;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public class Person implements IPerson{
-    private Date birthDate;
+public class Person extends Party implements IPerson {
+    private LocalDate birthDate;
 
-    public Person(Date birthDate) {
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

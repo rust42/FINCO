@@ -1,30 +1,44 @@
 package project.framework.context.config;
 
 import project.framework.core.accountdetails.AbstractAccountService;
-import project.framework.core.accountdetails.IEmailPartyService;
-import project.framework.core.accountdetails.IInterestCalculationStrategy;
+import project.framework.core.accountdetails.model.service.DefaultAccountService;
+import project.framework.core.accountdetails.model.service.DefaultEmailToPartyService;
+import project.framework.core.accountdetails.model.service.DefaultInterestCalculationStrategy;
+import project.framework.core.accountdetails.model.service.DefaultReportingStrategy;
+import project.framework.core.accountdetails.storage.service.DefaultInMemoryStorageService;
 
-public class FrameworkContextConfigurer {
+public final class FrameworkContextConfigurer {
+
     private AbstractAccountService abstractAccountService;
 
-    public static void loadDefaultContext(){
+    private static FrameworkContextConfigurer singletonInstance = new FrameworkContextConfigurer();
 
+    private FrameworkContextConfigurer() {
     }
 
-    public static FrameworkContextConfigurer getInstance(){
+    public static void loadDefaultContext() {
+        FrameworkContextConfigurer instance = getInstance();
+
+        DefaultInterestCalculationStrategy defaultInterestCalculationStrategy = new DefaultInterestCalculationStrategy();
+        DefaultEmailToPartyService defaultEmailToPartyService = new DefaultEmailToPartyService();
+        DefaultReportingStrategy defaultReportingStrategy = new DefaultReportingStrategy();
+        DefaultInMemoryStorageService defaultInMemoryStorageService = new DefaultInMemoryStorageService();
+        instance.abstractAccountService = new DefaultAccountService(defaultInterestCalculationStrategy, defaultEmailToPartyService,
+                defaultInMemoryStorageService, defaultReportingStrategy);
+    }
+
+    static FrameworkContextConfigurer getInstance() {
+        if (singletonInstance != null) {
+            return singletonInstance;
+        }
         return new FrameworkContextConfigurer();
     }
 
-    public void setIEmailService(IEmailPartyService iEmailPartyService){
-
+    public void setAbstractAccountService(AbstractAccountService abstractAccountService) {
+        this.abstractAccountService = abstractAccountService;
     }
 
-    public void setAbstractAccountService(AbstractAccountService abstractAccountService)
-    {
-
-    }
-
-    public void setInterestCalculationStrategy(IInterestCalculationStrategy iInterestCalculationStrategy){
-
+    public AbstractAccountService getAbstractAccountService() {
+        return abstractAccountService;
     }
 }
