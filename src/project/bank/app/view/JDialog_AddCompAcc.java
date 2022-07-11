@@ -1,8 +1,4 @@
-package project.bank;
-
-import java.awt.*;
-import javax.swing.*;
-
+package project.bank.app.view;
 
 
 public class JDialog_AddCompAcc extends javax.swing.JDialog

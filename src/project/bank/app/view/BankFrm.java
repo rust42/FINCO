@@ -1,10 +1,14 @@
-package project.bank;
+package project.bank.app.view;
 
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.table.DefaultTableModel;
+import project.bank.app.controller.BankFrmController;
+import project.bank.app.model.BankAccTableModelResponse;
+import project.bank.app.model.AccountType;
+import project.bank.app.model.CARequestDTO;
+import project.bank.app.model.PARequestDTO;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 /**
  * A basic JFC based application.
@@ -22,13 +26,15 @@ public class BankFrm extends javax.swing.JFrame
 	public String state;
 	String accountType;
 	String clientType;
-	String amountDeposit;
+	String amountDeposit = "0.0";
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
     private JScrollPane JScrollPane1;
     BankFrm myframe;
     private Object rowdata[];
+
+	private BankFrmController bankFrmController = new BankFrmController();
     
 	public BankFrm()
 	{
@@ -215,13 +221,29 @@ public class BankFrm extends javax.swing.JFrame
 		pac.show();
 
 		if (newaccount){
-            // add row to table
-            rowdata[0] = accountnr;
-            rowdata[1] = clientName;
-            rowdata[2] = city;
-            rowdata[3] = "P";
-            rowdata[4] = accountType;
-            rowdata[5] = "0";
+
+			// TODO repeating code - refactor
+			PARequestDTO paRequestDTO = new PARequestDTO();
+			AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+			paRequestDTO.setAccountType(accountTypeEnum);
+			paRequestDTO.setAccNr(accountnr);
+			paRequestDTO.setName(clientName);
+			paRequestDTO.setStreet(street);
+			paRequestDTO.setCity(city);
+			paRequestDTO.setState(state);
+			paRequestDTO.setZip(zip);
+			paRequestDTO.setEmail("");
+			paRequestDTO.setBirthDate(""); // TODO non-repeating code
+			BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addNewPersonalAccount(paRequestDTO);
+
+			// TODO repeating code - refactor
+			// add row to table
+			rowdata[0] = bankAccTableModelResponse.getAcctNr();
+			rowdata[1] = bankAccTableModelResponse.getName();
+			rowdata[2] = bankAccTableModelResponse.getCity();
+			rowdata[3] = bankAccTableModelResponse.getOwnerType();
+			rowdata[4] = bankAccTableModelResponse.getAccountType();
+			rowdata[5] = bankAccTableModelResponse.getAmount();
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount=false;
@@ -244,13 +266,29 @@ public class BankFrm extends javax.swing.JFrame
 		pac.show();
 		
 		if (newaccount){
+
+			// TODO repeating code - refactor
+			CARequestDTO caRequestDTO = new CARequestDTO();
+			AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+			caRequestDTO.setAccountType(accountTypeEnum);
+			caRequestDTO.setAccNr(accountnr);
+			caRequestDTO.setName(clientName);
+			caRequestDTO.setStreet(street);
+			caRequestDTO.setCity(city);
+			caRequestDTO.setState(state);
+			caRequestDTO.setZip(zip);
+			caRequestDTO.setEmail("");
+			caRequestDTO.setNoOfEmployees(1); // TODO non-repeating code
+			BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addNewCompanyAccount(caRequestDTO);
+
+			// TODO repeating code - refactor
             // add row to table
-            rowdata[0] = accountnr;
-            rowdata[1] = clientName;
-            rowdata[2] = city;
-            rowdata[3] = "C";
-            rowdata[4] = accountType;
-            rowdata[5] = "0";
+			rowdata[0] = bankAccTableModelResponse.getAcctNr();
+			rowdata[1] = bankAccTableModelResponse.getName();
+			rowdata[2] = bankAccTableModelResponse.getCity();
+			rowdata[3] = bankAccTableModelResponse.getOwnerType();
+			rowdata[4] = bankAccTableModelResponse.getAccountType();
+			rowdata[5] = bankAccTableModelResponse.getAmount();
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount=false;
@@ -271,11 +309,16 @@ public class BankFrm extends javax.swing.JFrame
 		    dep.show();
     		
 		    // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String samount = (String)model.getValueAt(selection, 5);
-            long currentamount = Long.parseLong(samount);
-		    long newamount=currentamount+deposit;
+            Double deposit = Double.parseDouble(amountDeposit);
+			BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
+
+//			String samount = (String)model.getValueAt(selection, 5);
+//			Double currentamount = Double.parseDouble(samount);
+//			Double newamount=currentamount+deposit;
+
+			Double newamount = bankAccTableModelResponse.getAmount();
 		    model.setValueAt(String.valueOf(newamount),selection, 5);
+			amountDeposit = "0";
 		}
 		
 		
@@ -294,11 +337,15 @@ public class BankFrm extends javax.swing.JFrame
 		    wd.show();
     		
 		    // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String samount = (String)model.getValueAt(selection, 5);
-            long currentamount = Long.parseLong(samount);
-		    long newamount=currentamount-deposit;
-		    model.setValueAt(String.valueOf(newamount),selection, 5);
+			Double deposit = Double.parseDouble(amountDeposit);
+			BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, deposit);
+
+//            String samount = (String)model.getValueAt(selection, 5);
+//            long currentamount = Long.parseLong(samount);
+//		    Double newamount=currentamount-deposit;
+
+			Double newamount = bankAccTableModelResponse.getAmount();
+			model.setValueAt(String.valueOf(newamount),selection, 5);
 		    if (newamount <0){
 		       JOptionPane.showMessageDialog(JButton_Withdraw, " Account "+accnr+" : balance is negative: $"+String.valueOf(newamount)+" !","Warning: negative balance",JOptionPane.WARNING_MESSAGE);
 		    }

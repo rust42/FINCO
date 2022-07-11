@@ -1,8 +1,14 @@
-package project.ccard;
+package project.ccard.app.view;
+
+import project.bank.app.model.AccountType;
+import project.bank.app.model.BankAccTableModelResponse;
+import project.bank.app.model.PARequestDTO;
+import project.ccard.app.controller.CreditFrmController;
+import project.ccard.app.model.CreditAccTableModelResponse;
+import project.ccard.app.model.CreditAccountRequestDTO;
 
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
+import java.time.LocalDate;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 
@@ -21,6 +27,8 @@ public class CardFrm extends javax.swing.JFrame
     private JScrollPane JScrollPane1;
     CardFrm thisframe;
     private Object rowdata[];
+
+	CreditFrmController creditFrmController = new CreditFrmController();
     
 	public CardFrm()
 	{
@@ -86,34 +94,6 @@ public class CardFrm extends javax.swing.JFrame
 		JButton_Deposit.addActionListener(lSymAction);
 		JButton_Withdraw.addActionListener(lSymAction);
 		
-	}
-
-	
-	/*****************************************************
-	 * The entry point for this application.
-	 * Sets the Look and Feel to the System Look and Feel.
-	 * Creates a new JFrame1 and makes it visible.
-	 *****************************************************/
-	static public void main(String args[])
-	{
-		try {
-		    // Add the following code if you want the Look and Feel
-		    // to be set to the Look and Feel of the native system.
-		    
-		    try {
-		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    } 
-		    catch (Exception e) { 
-		    }
-		    
-			//Create a new instance of our application's frame, and make it visible.
-			(new CardFrm()).setVisible(true);
-		} 
-		catch (Throwable t) {
-			t.printStackTrace();
-			//Ensure the application exits with an error condition.
-			System.exit(1);
-		}
 	}
 
 
@@ -198,12 +178,27 @@ public class CardFrm extends javax.swing.JFrame
 		ccac.show();
 
 		if (newaccount){
-            // add row to table
-            rowdata[0] = clientName;
-            rowdata[1] = ccnumber;
-            rowdata[2] = expdate;
-            rowdata[3] = accountType;
-            rowdata[4] = "0";
+
+			// TODO repeating code - refactor
+			CreditAccountRequestDTO creditAccountRequestDTO = new CreditAccountRequestDTO();
+			creditAccountRequestDTO.setCcNumber(ccnumber);
+			creditAccountRequestDTO.setName(clientName);
+			creditAccountRequestDTO.setStreet(street);
+			creditAccountRequestDTO.setCity(city);
+			creditAccountRequestDTO.setState(state);
+			creditAccountRequestDTO.setZip(zip);
+			creditAccountRequestDTO.setEmail("");
+//			creditAccountRequestDTO.setExpiryDate(LocalDate.parse(expdate));
+			CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(creditAccountRequestDTO);
+
+
+			// TODO repeating code - refactor
+			// add row to table
+            rowdata[0] = creditAccTableModelResponse.getClientName();
+            rowdata[1] = creditAccTableModelResponse.getCcNumber();
+            rowdata[2] = creditAccTableModelResponse.getCcNumber();
+            rowdata[3] = creditAccTableModelResponse.getAccountType();
+            rowdata[4] = creditAccTableModelResponse.getAmount();
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount=false;
@@ -217,8 +212,10 @@ public class CardFrm extends javax.swing.JFrame
 	{
 		JDialogGenBill billFrm = new JDialogGenBill();
 		billFrm.setBounds(450, 20, 400, 350);
+		// TODO refactor generate Bills
+//		billFrm.billstring = creditFrmController.generateMonthlyBills(ccnumber);
 		billFrm.show();
-	    
+
 	}
 
 	void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event)
@@ -234,10 +231,17 @@ public class CardFrm extends javax.swing.JFrame
 		    dep.show();
     		
 		    // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String samount = (String)model.getValueAt(selection, 4);
-            long currentamount = Long.parseLong(samount);
-		    long newamount=currentamount+deposit;
+			String ccNumber = (String)model.getValueAt(selection, 1);
+			Double deposit = Double.parseDouble(amountDeposit);
+			CreditAccTableModelResponse creditAccTableModelResponse = creditFrmController.deposit(ccNumber, deposit);
+
+
+//			long deposit = Long.parseLong(amountDeposit);
+//            String samount = (String)model.getValueAt(selection, 4);
+//            long currentamount = Long.parseLong(samount);
+//		    long newamount=currentamount+deposit;
+
+			Double newamount = creditAccTableModelResponse.getAmount();
 		    model.setValueAt(String.valueOf(newamount),selection, 4);
 		}
 		
@@ -257,10 +261,17 @@ public class CardFrm extends javax.swing.JFrame
 		    wd.show();
     		
 		    // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
-            String samount = (String)model.getValueAt(selection, 4);
-            long currentamount = Long.parseLong(samount);
-		    long newamount=currentamount-deposit;
+
+			String ccNumber = (String)model.getValueAt(selection, 1);
+			Double deposit = Double.parseDouble(amountDeposit);
+			CreditAccTableModelResponse creditAccTableModelResponse = creditFrmController.charge(ccNumber, deposit);
+
+//			long deposit = Long.parseLong(amountDeposit);
+//            String samount = (String)model.getValueAt(selection, 4);
+//            long currentamount = Long.parseLong(samount);
+//		    long newamount=currentamount-deposit;
+
+			Double newamount = creditAccTableModelResponse.getAmount();
 		    model.setValueAt(String.valueOf(newamount),selection, 4);
 		    if (newamount <0){
 		       JOptionPane.showMessageDialog(JButton_Withdraw, " "+name+" Your balance is negative: $"+String.valueOf(newamount)+" !","Warning: negative balance",JOptionPane.WARNING_MESSAGE);

@@ -1,9 +1,9 @@
-package project.ccard;
+package project.ccard.app.view;
 import java.awt.*;
 
 public class JDialogGenBill extends javax.swing.JDialog
 {
-    String billstring;
+    public String billstring;
     
 	public JDialogGenBill(Frame parent)
 	{

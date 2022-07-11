@@ -1,10 +1,4 @@
-package project.ccard;
-
-import project.bank.BankFrm;
-
-import java.awt.*;
-import javax.swing.*;
-
+package project.ccard.app.view;
 
 
 public class JDialog_Withdraw extends javax.swing.JDialog
