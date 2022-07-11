@@ -2,6 +2,7 @@ package project.framework.core.accountdetails.storage.service;
 
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.TransactionType;
 import project.framework.core.accountdetails.model.party.IParty;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 
@@ -28,9 +29,10 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
         if (!accountMap.containsKey(account.getUniqueId())) {
             throw new StorageServiceException("Account with unique id " + account.getUniqueId() + " doesn't exists");
         }
+        // TODO:  review this logic
         IAccount iAccount = accountMap.get(account.getUniqueId());
         Entry entry = new Entry();
-        entry.setEntryType("DR");
+        entry.setTransactionType(TransactionType.OUTGOING);
         entry.setTxAmount(account.getBalance());
         entry.setDate(LocalDate.now());
         iAccount.addEntry(entry);

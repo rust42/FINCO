@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Entry implements IEntry {
     private double txAmount;
     private LocalDate date;
-    private String entryType;
+    private TransactionType transactionType;
 
     @Override
     public double getTxAmount() {
@@ -26,11 +26,11 @@ public class Entry implements IEntry {
     }
 
     @Override
-    public String getEntryType() {
-        return entryType;
+    public TransactionType getTransactionType() {
+        return transactionType;
     }
 
-    public void setEntryType(String entryType) {
-        this.entryType = entryType;
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 }
