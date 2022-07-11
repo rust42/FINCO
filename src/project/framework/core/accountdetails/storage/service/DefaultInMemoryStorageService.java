@@ -29,6 +29,7 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
         if (!accountMap.containsKey(account.getUniqueId())) {
             throw new StorageServiceException("Account with unique id " + account.getUniqueId() + " doesn't exists");
         }
+        // TODO:  review this logic
         IAccount iAccount = accountMap.get(account.getUniqueId());
         Entry entry = new Entry();
         entry.setTransactionType(TransactionType.OUTGOING);
