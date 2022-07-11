@@ -8,5 +8,5 @@ public interface IEntry {
 
     public LocalDate getDate();
 
-    public String getEntryType();
+    public TransactionType getTransactionType();
 }
