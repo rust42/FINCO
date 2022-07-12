@@ -1,12 +1,13 @@
 package project.ccard.app.view;
 
 import project.ccard.app.model.CreditAccountRequestDTO;
+import project.ccard.app.model.TierLevel;
 
 import java.time.LocalDate;
 
 public class CreditViewUtil {
 
-    public static CreditAccountRequestDTO createCreditAccountFromInput(String ccNumber, String clientName, String street, String city, String state, String zip, String email, LocalDate expiryDate) {
+    public static CreditAccountRequestDTO createCreditAccountFromInput(String ccNumber, String clientName, String street, String city, String state, String zip, String email, LocalDate expiryDate, String accountType) {
         CreditAccountRequestDTO creditAccountRequestDTO = new CreditAccountRequestDTO();
         creditAccountRequestDTO.setCcNumber(ccNumber);
         creditAccountRequestDTO.setName(clientName);
@@ -16,6 +17,15 @@ public class CreditViewUtil {
         creditAccountRequestDTO.setZip(zip);
         creditAccountRequestDTO.setEmail(email);
         creditAccountRequestDTO.setExpiryDate(expiryDate);
+
+        TierLevel tierLevel = switch (accountType) {
+            case "Silver" -> TierLevel.SILVER;
+            case "Gold" -> TierLevel.GOLD;
+            case "Bronze" -> TierLevel.BRONZE;
+            default -> TierLevel.BRONZE;
+        };
+
+        creditAccountRequestDTO.setTierLevel(tierLevel);
         return creditAccountRequestDTO;
     }
 

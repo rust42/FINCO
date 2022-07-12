@@ -23,6 +23,9 @@ public class JDialog_AddCCAccount extends javax.swing.JDialog
 		setVisible(false);
 		JRadioButton_Gold.setText("Gold");
 		JRadioButton_Gold.setActionCommand("Checkings");
+
+		// Select Gold by default
+		JRadioButton_Gold.setSelected(true);
 		getContentPane().add(JRadioButton_Gold);
 		JRadioButton_Gold.setBounds(36,12,84,24);
 		JRadioButton_Silver.setText("Silver");

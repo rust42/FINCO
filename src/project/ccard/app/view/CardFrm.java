@@ -158,7 +158,8 @@ public class CardFrm extends AbstractFrameworkGUI {
 
         if (newaccount) {
 
-            CreditAccountRequestDTO creditAccountRequestDTO = CreditViewUtil.createCreditAccountFromInput(ccnumber, clientName, street, city, state, zip, "", LocalDate.now());
+
+            CreditAccountRequestDTO creditAccountRequestDTO = CreditViewUtil.createCreditAccountFromInput(ccnumber, clientName, street, city, state, zip, "", LocalDate.now(), accountType);
             Party customer = CCViewUtil.createCCCustomerFromInput(creditAccountRequestDTO);
 
             CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(customer, creditAccountRequestDTO);
