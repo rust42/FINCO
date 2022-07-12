@@ -1,73 +1,45 @@
 package project.bank.app.view;
 
 import project.bank.app.controller.BankFrmController;
-import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankCustomer;
-import project.bank.app.model.BankGUI;
 import project.bank.app.model.BankTableResponseModelMapper;
 import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.helper.OwnerType;
-import project.framework.context.config.FactoryServiceRetriever;
-import project.framework.gui.AbstractAccountGUI;
+import project.framework.gui.AbstractFrameworkGUI;
+import project.framework.gui.helper.GenericJTableModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 
 /**
  * A basic JFC based application.
  **/
-public class BankFrm {
+public class BankFrm extends AbstractFrameworkGUI {
     /****
      * init variables in the object
      ****/
-    String accountnr;
-    public String clientName;
-    public String street;
-    public String city;
-    public String zip;
-    public String state;
-    String accountType;
-    String clientType;
+    String accountnr; String clientName; String street; String city; String zip; String state; String accountType; String clientType;
     String amountDeposit = "0.0";
     String interestRate = "0.0";
     boolean newaccount;
-
-    private JFrame jFrame;
-    private DefaultTableModel model;
-    private JTable JTable1;
+    private GenericJTableModel<BankAccTableModelResponse> genericJTableModel;
     private JScrollPane JScrollPane1;
     BankFrm myframe;
-//    private Object rowdata[];
 
-    AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI;
 
     private BankFrmController bankFrmController = new BankFrmController();
 
-    private void createJFrame() {
-        JFrame jFrame = new JFrame();
-        jFrame.setTitle("Banking Application.");
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        jFrame.getContentPane().setLayout(new BorderLayout(0, 0));
-        jFrame.setSize(575, 310);
-        jFrame.setVisible(false);
-        this.jFrame = jFrame;
-    }
-
     public BankFrm() {
+        super("Banking Application");
+        super.getCurrJFrame().setVisible(true);
+        genericJTableModel = new GenericJTableModel<>(new BankTableResponseModelMapper());
         myframe = this;
+        JFrame jFrame = super.getCurrJFrame();
 
-//        setTitle("Banking Application.");
-//        setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-//        getContentPane().setLayout(new BorderLayout(0, 0));
-//        setSize(575, 310);
-//        setVisible(false);
-
-        this.createJFrame();
         JPanel1.setLayout(null);
-        this.jFrame.getContentPane().add(BorderLayout.CENTER, JPanel1);
+        jFrame.getContentPane().add(BorderLayout.CENTER, JPanel1);
         JPanel1.setBounds(0, 0, 584, 324);
 		/*
 		/Add five buttons on the pane 
@@ -75,26 +47,13 @@ public class BankFrm {
 		/Deposit, Withdraw and Exit from the system
 		*/
         JScrollPane1 = new JScrollPane();
-        model = new DefaultTableModel();
 
-        // model.addColumn(String)
-
-
-        // model.addRow(Object[] Or Vector<Object>
-        // TODO remove DefaultAccountGUI instantiation
-        AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI = new BankGUI(new BankTableResponseModelMapper(), "Bank");
-
-//        AbstractAccountGUI<BankAccTableModelResponse> abstractAccountGUI = new DefaultAccountGUI(new BankTableResponseModelMapper(), "Bank App");
-
-        this.abstractAccountGUI = abstractAccountGUI;
-        JTable jTable = abstractAccountGUI.createJTable();
-        this.JTable1 = jTable;
         newaccount = false;
 
         JPanel1.add(JScrollPane1);
         JScrollPane1.setBounds(12, 92, 442, 160);
-        JScrollPane1.getViewport().add(JTable1);
-        JTable1.setBounds(0, 0, 420, 0);
+        JScrollPane1.getViewport().add(genericJTableModel.getjTable());
+        genericJTableModel.getjTable().setBounds(0, 0, 420, 0);
 
         JButton_PerAC.setText("Add personal account");
         JPanel1.add(JButton_PerAC);
@@ -115,14 +74,11 @@ public class BankFrm {
         JButton_Exit.setText("Exit");
         JPanel1.add(JButton_Exit);
         JButton_Exit.setBounds(468, 248, 96, 30);
-        // lineBorder1.setRoundedCorners(true);
-        // lineBorder1.setLineColor(java.awt.Color.green);
-        //$$ lineBorder1.move(24,312);
 
         JButton_PerAC.setActionCommand("jbutton");
 
         SymWindow aSymWindow = new SymWindow();
-        this.jFrame.addWindowListener(aSymWindow);
+        jFrame.addWindowListener(aSymWindow);
         SymAction lSymAction = new SymAction();
         JButton_Exit.addActionListener(lSymAction);
         JButton_PerAC.addActionListener(lSymAction);
@@ -131,10 +87,6 @@ public class BankFrm {
         JButton_Withdraw.addActionListener(lSymAction);
         JButton_Addinterest.addActionListener(lSymAction);
 
-    }
-
-    public JFrame getjFrame() {
-        return jFrame;
     }
 
     javax.swing.JPanel JPanel1 = new javax.swing.JPanel();
@@ -147,8 +99,8 @@ public class BankFrm {
 
     void exitApplication() {
         try {
-            this.jFrame.setVisible(false);    // hide the Frame
-            this.jFrame.dispose();            // free the system resources
+            this.getCurrJFrame().setVisible(false);    // hide the Frame
+            this.getCurrJFrame().dispose();            // free the system resources
             System.exit(0);            // close the application
         } catch (Exception e) {
         }
@@ -212,19 +164,11 @@ public class BankFrm {
         pac.show();
 
         if (newaccount) {
-
-            BankCustomer bankCustomer = new BankCustomer();
+            BankCustomer bankCustomer = BankViewUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
-            bankCustomer.setName(clientName);
-            bankCustomer.setStreet(street);
-            bankCustomer.setCity(city);
-            bankCustomer.setState(state);
-            bankCustomer.setZip(zip);
-            bankCustomer.setEmail("");
-            bankCustomer.setBirthDate(LocalDate.now());
             BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.PERSONAL);
-            abstractAccountGUI.addNewRow(bankAccTableModelResponse);
-            JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
+            genericJTableModel.addNewRow(bankAccTableModelResponse);
+            genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
         }
 
@@ -244,14 +188,15 @@ public class BankFrm {
 
         if (newaccount) {
 
-            BankCustomer bankCustomer = BankFunctionUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
+            BankCustomer bankCustomer = BankViewUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
+            // TODO fix logic for no of employees
             // bankCustomer.setNoOfEmployees(1);
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
             BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.COMPANY);
 
             // add row to table
-            abstractAccountGUI.addNewRow(bankAccTableModelResponse);
-            JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
+            genericJTableModel.addNewRow(bankAccTableModelResponse);
+            genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
         }
 
@@ -259,9 +204,9 @@ public class BankFrm {
 
     void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {
         // get selected name
-        int selection = JTable1.getSelectionModel().getMinSelectionIndex();
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
-            String accnr = (String) model.getValueAt(selection, 0);
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
 
             //Show the dialog for adding deposit amount for the current mane
             JDialog_Deposit dep = new JDialog_Deposit(myframe, accnr);
@@ -271,13 +216,8 @@ public class BankFrm {
             // compute new amount
             Double deposit = Double.parseDouble(amountDeposit);
             BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
-
-//			String samount = (String)model.getValueAt(selection, 5);
-//			Double currentamount = Double.parseDouble(samount);
-//			Double newamount=currentamount+deposit;
-
             Double newamount = bankAccTableModelResponse.getAmount();
-            model.setValueAt(String.valueOf(newamount), selection, 5);
+            genericJTableModel.getModel().setValueAt(String.valueOf(newamount), selection, 5);
             amountDeposit = "0";
         }
 
@@ -286,9 +226,9 @@ public class BankFrm {
 
     void JButtonWithdraw_actionPerformed(java.awt.event.ActionEvent event) {
         // get selected name
-        int selection = JTable1.getSelectionModel().getMinSelectionIndex();
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
-            String accnr = (String) model.getValueAt(selection, 0);
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
 
             //Show the dialog for adding withdraw amount for the current mane
             JDialog_Withdraw wd = new JDialog_Withdraw(myframe, accnr);
@@ -298,13 +238,8 @@ public class BankFrm {
             // compute new amount
             Double deposit = Double.parseDouble(amountDeposit);
             BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, deposit);
-
-//            String samount = (String)model.getValueAt(selection, 5);
-//            long currentamount = Long.parseLong(samount);
-//		    Double newamount=currentamount-deposit;
-
             Double newamount = bankAccTableModelResponse.getAmount();
-            model.setValueAt(String.valueOf(newamount), selection, 5);
+            genericJTableModel.getModel().setValueAt(String.valueOf(newamount), selection, 5);
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
             }

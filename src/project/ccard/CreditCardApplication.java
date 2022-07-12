@@ -27,7 +27,7 @@ public class CreditCardApplication {
             }
 
             //Create a new instance of our application's frame, and make it visible.
-            (new CardFrm()).setVisible(true);
+            (new CardFrm()).getCurrJFrame().setVisible(true);
         } catch (Throwable t) {
             t.printStackTrace();
             //Ensure the application exits with an error condition.

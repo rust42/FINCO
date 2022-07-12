@@ -3,7 +3,7 @@ package project.framework.gui.helper;
 import project.framework.core.accountdetails.model.account.Account;
 import project.framework.gui.TableModelRowMapper;
 
-public class FincoAccountModelResponseMapper implements TableModelRowMapper<Account> {
+public class FincoAccountModelResponseMapper<T> implements TableModelRowMapper<Account> {
     @Override
     public Object[] mapToRowData(Account account) {
         Object[] mappedRowData = new Object[getColumns().length];

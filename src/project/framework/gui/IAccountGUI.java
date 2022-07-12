@@ -1,16 +1,13 @@
 package project.framework.gui;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
-public interface IAccountGUI<T> {
+public interface IAccountGUI {
 
-    String getFrameTitle();
+    JFrame createJFrame(String frameTitle);
 
-    DefaultTableModel getTableModel();
+    JFrame getCurrJFrame();
 
-    JTable createJTable();
-
-    void addNewRow(T t);
+    void onExitApplication();
 
 }

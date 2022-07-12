@@ -9,7 +9,7 @@ public class JDialog_Withdraw extends javax.swing.JDialog
 
 	public JDialog_Withdraw(CardFrm parent, String aname)
 	{
-		super(parent);
+		super(parent.getCurrJFrame());
 		parentframe=parent;
 		name=aname;
 		
