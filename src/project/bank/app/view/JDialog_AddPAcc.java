@@ -73,7 +73,7 @@ public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
 
     @Override
     public void JButtonOK_actionPerformed(java.awt.event.ActionEvent event) {
-        DefaultUIAccFormInput accFormInput = super.getAccFormInput();
+        DefaultUIAccFormInput accFormInput = getAccFormInput();
         parentframe.setDefaultUIAccFormInput(accFormInput);
 
         if (JRadioButton_Chk.isSelected())

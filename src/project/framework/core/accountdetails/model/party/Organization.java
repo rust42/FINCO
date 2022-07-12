@@ -17,8 +17,7 @@ public class Organization extends Party implements IOrganization {
 
     @Override
     public void onTransactionTrigger(IAccount iAccount, Entry entry){
-        System.out.println("Sending email to ");
-        System.out.println(this.getEmail());
-        System.out.println("Event occurred on" + entry.getDate() + " Amount: " + entry.getTxAmount() + "Type: "+ entry.getTransactionType());
+        System.out.println("Sending email to " + this.getEmail());
+        System.out.println("Event occurred on: " + entry.getDate() + ", Amount: " + entry.getTxAmount() + ", Type: "+ entry.getTransactionType());
     }
 }

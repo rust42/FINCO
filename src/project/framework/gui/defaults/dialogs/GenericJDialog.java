@@ -18,19 +18,19 @@ public class GenericJDialog extends javax.swing.JDialog
 		// parses  your Java file into its visual envirenment. 
 		//{{ INIT_CONTROLS 
 		getContentPane().setLayout(null);
-		setSize(405,367);
+		setSize(500,367);
 		setVisible(false);
 		getContentPane().add(JScrollPane1);
 		JScrollPane1.setBounds(24,24,358,240);
-		JScrollPane1.getViewport().add(JTextField1);
-		JTextField1.setBounds(0,0,355,237);
+		JScrollPane1.getViewport().add(JTextArea);
+		JTextArea.setBounds(0,0,400,237);
 		JButton_OK.setText("OK");
 		JButton_OK.setActionCommand("OK");
 		getContentPane().add(JButton_OK);
 		JButton_OK.setBounds(156,276,96,24);
 
 		this.content = content;
-		JTextField1.setText(content);
+		JTextArea.setText(content);
 		//}}
 	
 		//{{REGISTER_LISTENERS
@@ -44,6 +44,9 @@ public class GenericJDialog extends javax.swing.JDialog
 	//{{DECLARE_CONTROLS
 	javax.swing.JScrollPane JScrollPane1 = new javax.swing.JScrollPane();
 	javax.swing.JTextField JTextField1 = new javax.swing.JTextField();
+
+	javax.swing.JTextArea JTextArea = new javax.swing.JTextArea();
+
 	javax.swing.JButton JButton_OK = new javax.swing.JButton();
 	//}}
 

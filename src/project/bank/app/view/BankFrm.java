@@ -46,8 +46,8 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
         pac.show();
 
         if (super.isNewAccount()) {
-            DefaultUIAccFormInput defaultUIAccFormInput = getDefaultUIAccFormInput();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+            DefaultUIAccFormInput defaultUIAccFormInput = pac.getAccFormInput();
+            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
 
             String dateOfBirth = pac.getJTextField_BD().getText();
             LocalDate parseDOB = null;
@@ -88,8 +88,8 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
 
         if (super.isNewAccount()) {
 
-            DefaultUIAccFormInput defaultUIAccFormInput = getDefaultUIAccFormInput();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
+            DefaultUIAccFormInput defaultUIAccFormInput = pac.getAccFormInput();
+            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
 
             String noOfEmployee = pac.getJTextField_NoOfEmp().getText();
             Organization organizationRequest = BankViewUtil.createBankOrganizationAccountRequestFromInput(defaultUIAccFormInput, noOfEmployee);
@@ -161,7 +161,7 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
         interest.setBounds(430, 15, 275, 140);
         interest.show();
 
-        Double _interest = Double.parseDouble(super.getInterestRate());
+        Double _interest = Double.parseDouble(getInterestRate());
         BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.addInterest(_interest);
 
 
@@ -173,15 +173,16 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
 
     @Override
     protected void JButtonGenerateReport_actionPerformed(ActionEvent event) {
-        // TODO call controller to generate bill
-        // billFrm.billstring = bankController.generateMonthlyBills(ccnumber);
+        // get selected name
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        if (selection >= 0) {
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
 
-        String report = "";
-        // generate the string for the monthly bill
-        report = "Name= John White\r\n";
-
-        GenericJDialog billFrm = new GenericJDialog(this, report);
-        billFrm.setBounds(450, 20, 400, 350);
-        billFrm.show();
+            // compute new amount
+            String report = bankFrmController.getReport(accnr);
+            GenericJDialog billFrm = new GenericJDialog(this, report);
+            billFrm.setBounds(450, 20, 400, 350);
+            billFrm.show();
+        }
     }
 }

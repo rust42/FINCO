@@ -18,6 +18,8 @@ public class Person extends Party implements IPerson {
 
     @Override
     public void onTransactionTrigger(IAccount iAccount, Entry entry){
-
+        if(entry.getTxAmount() > 400) {
+            System.out.println("Sending email to "+ this.getEmail() + " transaction greater than 400");
+        }
     }
 }

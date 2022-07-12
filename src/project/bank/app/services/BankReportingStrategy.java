@@ -1,7 +1,7 @@
 package project.bank.app.services;
 
+import project.bank.app.model.BankAccount;
 import project.framework.core.accountdetails.model.account.Entry;
-import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.model.account.TransactionType;
 import project.framework.core.accountdetails.model.service.DefaultReportingStrategy;
 
@@ -10,10 +10,11 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Set;
 
-public class BankAccountReportingStrategy extends DefaultReportingStrategy {
+public class BankReportingStrategy extends DefaultReportingStrategy<BankAccount> {
+
     @Override
-    public String generateReport(IAccount iAccount) {
-        Set<Entry> entries = iAccount.getEntries();
+    public String generateReport(BankAccount bankAccount) {
+        Set<Entry> entries = bankAccount.getEntries();
         LocalDate currentMonth = LocalDate.now();
         LocalDate previousMonthEndDate = currentMonth
                 .minusMonths(1)
@@ -32,7 +33,7 @@ public class BankAccountReportingStrategy extends DefaultReportingStrategy {
         double deposits = sumOfEntriesThisMonth - withdrawls;
 
 
-        double previousMonthBalance = iAccount.getBalance() - sumOfEntriesThisMonth;
+        double previousMonthBalance = bankAccount.getBalance() - sumOfEntriesThisMonth;
 
         StringBuilder reportText = new StringBuilder();
         reportText.append("Report for the month ")
@@ -44,8 +45,7 @@ public class BankAccountReportingStrategy extends DefaultReportingStrategy {
         reportText.append("Withdrawls this month: " + withdrawls);
         reportText.append("Deposit this month: " + deposits);
         reportText.append(System.lineSeparator());
-        reportText.append("Current balance: " + iAccount.getBalance());
+        reportText.append("Current balance: " + bankAccount.getBalance());
         return reportText.toString();
     }
-
 }

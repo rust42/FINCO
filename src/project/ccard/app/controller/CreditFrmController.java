@@ -1,9 +1,11 @@
 package project.ccard.app.controller;
 
+import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankAccount;
 import project.ccard.app.model.CCAccount;
 import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
+import project.ccard.app.services.CreditAccountReportingStrategy;
 import project.framework.context.config.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.party.IParty;
@@ -47,4 +49,10 @@ public class CreditFrmController {
         accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(ccNumber));
         return accTableModelResponse;
     }
+
+    public String getReport(String accnr) {
+        abstractAccountService.setiReportingStrategy(new CreditAccountReportingStrategy());
+        return abstractAccountService.generateReport(accnr);
+    }
+
 }

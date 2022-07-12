@@ -1,22 +1,19 @@
 package project.bank.app.controller;
 
-import project.bank.app.model.*;
-
+import project.bank.app.model.BankAccTableModelResponse;
+import project.bank.app.model.BankAccount;
 import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.helper.OwnerType;
 import project.framework.context.config.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.party.Organization;
-import project.framework.core.accountdetails.model.party.Party;
 import project.framework.core.accountdetails.model.party.Person;
-
-import java.time.LocalDate;
 
 public class BankFrmController {
 
     AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception{
+    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception {
 
         BankAccount bankAccount = new BankAccount();
         bankAccount.setiParty(personRequest);
@@ -34,12 +31,12 @@ public class BankFrmController {
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C": "P");
+        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C" : "P");
 
         return accTableModelResponse;
     }
 
-    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception{
+    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception {
 
         BankAccount bankAccount = new BankAccount();
         bankAccount.setiParty(organizationRequest);
@@ -57,7 +54,7 @@ public class BankFrmController {
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C": "P");
+        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C" : "P");
 
         return accTableModelResponse;
     }
@@ -92,8 +89,8 @@ public class BankFrmController {
 
     /**
      * Retrieve all account from the bank and add collective interest rate to all of them.
-     * */
-    public BankAccTableModelResponse addInterest(Double interestRate){
+     */
+    public BankAccTableModelResponse addInterest(Double interestRate) {
         abstractAccountService.addInterest(interestRate);
 
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
@@ -103,4 +100,8 @@ public class BankFrmController {
     }
 
 
+    public String getReport(String accNr) {
+        String report = abstractAccountService.generateReport(accNr);
+        return report;
+    }
 }

@@ -137,6 +137,7 @@ public abstract class GenericJDialog_AddPersonalAcc extends javax.swing.JDialog 
         uiAccFormInput.setCity(JTextField_CT.getText());
         uiAccFormInput.setZip(JTextField_ZIP.getText());
         uiAccFormInput.setState(JTextField_ST.getText());
+        uiAccFormInput.setEmail(JTextField_EM.getText());
         return uiAccFormInput;
     }
 

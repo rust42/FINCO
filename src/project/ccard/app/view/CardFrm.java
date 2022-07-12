@@ -10,6 +10,7 @@ import project.framework.gui.GenericJTableModel;
 import project.framework.gui.defaults.DefaultGUIComponents;
 import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog;
+import project.framework.gui.defaults.dialogs.GenericJDialog_AddInterest;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Deposit;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Withdraw;
 
@@ -37,6 +38,8 @@ public class CardFrm extends AbstractDefaultFrameworkGUI {
         jButton_personalAC.setText("Add Credit-card account");
 
         defaultGUIComponents.getJButton_Report().setText("Generate Monthly Report");
+        defaultGUIComponents.getJButton_Deposit().setText("Deposit");
+        defaultGUIComponents.getJButton_Withdraw().setText("Charge");
 
         defaultGUIComponents.getJButton_OrganizationAC().setVisible(false);
         defaultGUIComponents.getJButton_Addinterest().setVisible(false);
@@ -77,40 +80,22 @@ public class CardFrm extends AbstractDefaultFrameworkGUI {
     }
 
     public void JButtonGenerateReport_actionPerformed(java.awt.event.ActionEvent event) {
-        // TODO call controller to generate bill
-        // billFrm.billstring = creditFrmController.generateMonthlyBills(ccnumber);
+        // get selected name
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        if (selection >= 0) {
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 1);
 
-        String billstring = "";
-		// generate the string for the monthly bill
-		billstring = "Name= John White\r\n";
-		billstring += "Address= 1000 Main, Fairfield, IA, 52556\r\n";
-		billstring += "CC number= 2341 3421 4444 5689\r\n";
-		billstring += "CC type= GOLD\r\n";
-		billstring += "Previous balance = $ 100.00\r\n";
-		billstring += "Total Credits = $ 25.00\r\n";
-		billstring += "Total Charges = $ 560.00\r\n";
-		billstring += "New balance = $ 638.75\r\n";
-		billstring += "Total amount due = $ 63.88\r\n";
-		billstring += "\r\n";
-		billstring += "\r\n";
-		billstring += "Name= Frank Summer\r\n";
-		billstring += "Address= 1000 N, 4th St, Fairfield, IA, 52556\r\n";
-		billstring += "CC number= 0099 3421 4321 6577\r\n";
-		billstring += "CC type= BRONZE\r\n";
-		billstring += "Previous balance = $ 200.00\r\n";
-		billstring += "Total Credits = $ 45.00\r\n";
-		billstring += "Total Charges = $ 150.00\r\n";
-		billstring += "New balance = $ 313.53\r\n";
-		billstring += "Total amount due = $ 34.49\r\n";
-
-        GenericJDialog billFrm = new GenericJDialog(this, billstring);
-        billFrm.setBounds(450, 20, 400, 350);
-        billFrm.show();
+            // compute new amount
+            String report = creditFrmController.getReport(accnr);
+            GenericJDialog billFrm = new GenericJDialog(this, report);
+            billFrm.setBounds(450, 20, 400, 350);
+            billFrm.show();
+        }
     }
 
     @Override
     public void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {
-// get selected name
+        // get selected name
         int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
             String name = (String) genericJTableModel.getModel().getValueAt(selection, 0);
