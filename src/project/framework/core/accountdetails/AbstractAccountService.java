@@ -2,9 +2,11 @@ package project.framework.core.accountdetails;
 
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.TransactionType;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 import project.framework.core.accountdetails.storage.service.StorageServiceException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() - withdrawAmount;
         account.setBalance(newBalance);
+        addEntry(account.getUniqueId(), withdrawAmount, TransactionType.OUTGOING);
         abstractStorageService.update(account);
     }
 
@@ -46,6 +49,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() + depositAmount;
         account.setBalance(newBalance);
+        addEntry(account.getUniqueId(), depositAmount, TransactionType.INCOMING);
         abstractStorageService.update(account);
     }
 
@@ -66,6 +70,10 @@ public abstract class AbstractAccountService<T extends IAccount> {
         }
         iInterestCalculationStrategy.calculateInterest(iAccount.get());
         // TODO return or do something with calculated interest result
+    }
+
+    private void addEntry(String uniqueAccId, double amount, TransactionType type) {
+        addEntry(uniqueAccId, new Entry(amount, LocalDate.now(), type));
     }
 
     public void addEntry(String uniqueAccId, Entry entry) {

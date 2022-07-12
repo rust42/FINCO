@@ -7,6 +7,12 @@ public class Entry implements IEntry {
     private LocalDate date;
     private TransactionType transactionType;
 
+    public Entry(double txAmount, LocalDate date, TransactionType type) {
+        this.txAmount = txAmount;
+        this.date = date;
+        this.transactionType = type;
+    }
+
     @Override
     public double getTxAmount() {
         return txAmount;
