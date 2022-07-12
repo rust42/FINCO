@@ -18,15 +18,12 @@ public class CreditViewUtil {
         creditAccountRequestDTO.setEmail(email);
         creditAccountRequestDTO.setExpiryDate(expiryDate);
 
-        TierLevel tierLevel = switch (accountType) {
+        creditAccountRequestDTO.setTierLevel(switch (accountType) {
             case "Silver" -> TierLevel.SILVER;
             case "Gold" -> TierLevel.GOLD;
             case "Bronze" -> TierLevel.BRONZE;
             default -> TierLevel.BRONZE;
-        };
-
-        creditAccountRequestDTO.setTierLevel(tierLevel);
+        });
         return creditAccountRequestDTO;
     }
-
 }

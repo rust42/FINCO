@@ -43,12 +43,16 @@ public class CreditFrmController {
     }
 
     public CreditAccTableModelResponse deposit(String ccNumber, Double depositAmount) {
-
-        return null;
+        abstractAccountService.depositMoney(ccNumber, depositAmount);
+        CreditAccTableModelResponse accTableModelResponse = new CreditAccTableModelResponse();
+        accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(ccNumber));
+        return accTableModelResponse;
     }
 
     public CreditAccTableModelResponse charge(String ccNumber, Double chargeAmount) {
-
-        return null;
+        abstractAccountService.withdrawMoney(ccNumber, chargeAmount);
+        CreditAccTableModelResponse accTableModelResponse = new CreditAccTableModelResponse();
+        accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(ccNumber));
+        return accTableModelResponse;
     }
 }

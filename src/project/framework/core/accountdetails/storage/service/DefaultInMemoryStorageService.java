@@ -48,8 +48,8 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
 
     @Override
     public void addEntry(String uniqueAccId, Entry entry) throws StorageServiceException {
-        if (accountMap.containsKey(uniqueAccId)) {
-            throw new StorageServiceException("Account with unique id " + uniqueAccId + " already exists");
+        if (!accountMap.containsKey(uniqueAccId)) {
+            throw new StorageServiceException("Account with unique id " + uniqueAccId + " doesn't exists");
         }
         IAccount account = accountMap.get(uniqueAccId);
         account.addEntry(entry);
