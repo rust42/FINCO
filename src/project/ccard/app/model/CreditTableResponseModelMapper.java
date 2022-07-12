@@ -6,17 +6,17 @@ public class CreditTableResponseModelMapper implements TableModelRowMapper<Credi
     @Override
     public Object[] mapToRowData(CreditAccTableModelResponse creditAccTableModelResponse) {
         Object[] mappedRowData = new Object[getColumns().length];
-        mappedRowData[0] = creditAccTableModelResponse.getCcNumber();
-        mappedRowData[1] = creditAccTableModelResponse.getClientName();
-        mappedRowData[2] = creditAccTableModelResponse.getAccountType();
-        mappedRowData[3] = creditAccTableModelResponse.getExpDate();
+        mappedRowData[0] = creditAccTableModelResponse.getClientName();
+        mappedRowData[1] = creditAccTableModelResponse.getCcNumber();
+        mappedRowData[2] = creditAccTableModelResponse.getExpDate();
+        mappedRowData[3] = creditAccTableModelResponse.getAccountType();
         mappedRowData[4] = creditAccTableModelResponse.getAmount();
         return mappedRowData;
     }
 
     @Override
     public String[] getColumns() {
-        return new String[]{"CCNumber", "Name", "Account type", "Expiry Date", "Amount"};
+        return new String[]{"Name", "CC Number",  "Exp Date", "Account type", "Amount"};
     }
 
 }
