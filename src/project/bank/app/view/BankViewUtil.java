@@ -1,38 +1,39 @@
 package project.bank.app.view;
 
-import project.bank.app.model.BankOrgCustomer;
-import project.bank.app.model.BankPersonCustomer;
-import project.bank.app.model.helper.OwnerType;
+import project.framework.core.accountdetails.model.party.Organization;
+import project.framework.core.accountdetails.model.party.Person;
+import project.framework.gui.defaults.DefaultUIAccFormInput;
 
 import java.time.LocalDate;
 
 public class BankViewUtil {
 
-    public static BankPersonCustomer createBankCustomerFromInput(String clientName, String street, String city, String state, String zip, String email, LocalDate dateOfBirth) {
-        BankPersonCustomer bankCustomer = new BankPersonCustomer();
-        bankCustomer.setName(clientName);
-        bankCustomer.setStreet(street);
-        bankCustomer.setCity(city);
-        bankCustomer.setState(state);
-        bankCustomer.setZip(zip);
-        bankCustomer.setEmail(email);
-        bankCustomer.setBirthDate(dateOfBirth);
-//        OwnerType ownerType = switch (ownerType) {
-//            case ""
-//        }
-        //bankCustomer.setOwnerType(ownerType);
-        return bankCustomer;
+    public static Person createBankAccountRequestFromInput(DefaultUIAccFormInput defaultUIAccFormInput, LocalDate dateOfBirth) {
+        Person person = new Person();
+        person.setName(defaultUIAccFormInput.getClientName());
+        person.setStreet(defaultUIAccFormInput.getStreet());
+        person.setCity(defaultUIAccFormInput.getCity());
+        person.setState(defaultUIAccFormInput.getState());
+        person.setZip(defaultUIAccFormInput.getZip());
+        person.setEmail(defaultUIAccFormInput.getEmail());
+        person.setBirthDate(dateOfBirth);
+        return person;
     }
-    public static BankOrgCustomer createBankOrgCustomerFromInput(String clientName, String street, String city, String state, String zip, String email, LocalDate dateOfBirth) {
-        BankOrgCustomer bankOrgCustomer = new BankOrgCustomer();
-        bankOrgCustomer.setName(clientName);
-        bankOrgCustomer.setStreet(street);
-        bankOrgCustomer.setCity(city);
-        bankOrgCustomer.setState(state);
-        bankOrgCustomer.setZip(zip);
-        bankOrgCustomer.setEmail(email);
-        //bankOrgCustomer.setBirthDate(dateOfBirth);
 
-        return bankOrgCustomer;
+    public static Organization createBankOrganizationAccountRequestFromInput(DefaultUIAccFormInput defaultUIAccFormInput, String noOfEmployees) {
+        Organization organization = new Organization();
+        organization.setName(defaultUIAccFormInput.getClientName());
+        organization.setStreet(defaultUIAccFormInput.getStreet());
+        organization.setCity(defaultUIAccFormInput.getCity());
+        organization.setState(defaultUIAccFormInput.getState());
+        organization.setZip(defaultUIAccFormInput.getZip());
+        organization.setEmail(defaultUIAccFormInput.getEmail());
+        Integer noOfEmp = 0;
+        try {
+            noOfEmp = Integer.parseInt(noOfEmployees);
+        } catch (Exception e) {
+        }
+        organization.setNoOfEmployees(noOfEmp);
+        return organization;
     }
 }

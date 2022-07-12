@@ -1,4 +1,4 @@
-package project.framework.gui.helper;
+package project.framework.gui;
 
 import project.framework.gui.TableModelRowMapper;
 

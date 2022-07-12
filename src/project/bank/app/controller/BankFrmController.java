@@ -16,35 +16,10 @@ public class BankFrmController {
 
     AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public BankAccTableModelResponse addBankAccount(BankAccountRequest bankAccountRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) {
+    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception{
 
         BankAccount bankAccount = new BankAccount();
-
-        if(ownerType.equals(OwnerType.PERSONAL)) {
-            BankPersonCustomer person = new BankPersonCustomer();
-            person.setName(bankAccountRequest.getName());
-            person.setStreet(bankAccountRequest.getStreet());
-            person.setCity(bankAccountRequest.getCity());
-            person.setState(bankAccountRequest.getState());
-            person.setZip(bankAccountRequest.getZip());
-            person.setEmail(bankAccountRequest.getEmail());
-            person.setBirthDate(LocalDate.now());
-
-            bankAccount.setiParty(person);
-        } else {
-            BankOrgCustomer organization = new BankOrgCustomer();
-            organization.setName(bankAccountRequest.getName());
-            organization.setStreet(bankAccountRequest.getStreet());
-            organization.setCity(bankAccountRequest.getCity());
-            organization.setState(bankAccountRequest.getState());
-            organization.setZip(bankAccountRequest.getZip());
-            organization.setEmail(bankAccountRequest.getEmail());
-            organization.setNoOfEmployees(10);
-            organization.setOwnerType(ownerType);
-
-            bankAccount.setiParty(organization);
-
-        }
+        bankAccount.setiParty(personRequest);
 
         bankAccount.setUniqueId(uniqueAccId);
         bankAccount.setBalance(0);
@@ -55,7 +30,30 @@ public class BankFrmController {
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
         accTableModelResponse.setAcctNr(bankAccount.getUniqueId());
         accTableModelResponse.setName(bankAccount.getParty().getName());
-        accTableModelResponse.setCity(bankAccountRequest.getCity());
+        accTableModelResponse.setCity(personRequest.getCity());
+
+        String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
+        accTableModelResponse.setAccountType(accType);
+        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C": "P");
+
+        return accTableModelResponse;
+    }
+
+    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception{
+
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setiParty(organizationRequest);
+
+        bankAccount.setUniqueId(uniqueAccId);
+        bankAccount.setBalance(0);
+        bankAccount.setAccountType(accountType);
+        abstractAccountService.addAccount(bankAccount);
+
+        // preparing response for UI
+        BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
+        accTableModelResponse.setAcctNr(bankAccount.getUniqueId());
+        accTableModelResponse.setName(bankAccount.getParty().getName());
+        accTableModelResponse.setCity(organizationRequest.getCity());
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);

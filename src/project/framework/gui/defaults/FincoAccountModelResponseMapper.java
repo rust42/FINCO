@@ -1,4 +1,4 @@
-package project.framework.gui.helper;
+package project.framework.gui.defaults;
 
 import project.framework.core.accountdetails.model.account.Account;
 import project.framework.gui.TableModelRowMapper;

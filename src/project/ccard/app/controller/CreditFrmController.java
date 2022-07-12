@@ -1,20 +1,12 @@
 package project.ccard.app.controller;
 
-import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankAccount;
-import project.bank.app.model.BankCustomer;
-import project.bank.app.model.helper.AccountType;
-import project.bank.app.model.helper.OwnerType;
-import project.ccard.app.model.CCCustomer;
-import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CCAccount;
+import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
-import project.ccard.app.view.CCViewUtil;
 import project.framework.context.config.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
-import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.model.party.IParty;
-import project.framework.core.accountdetails.model.party.Party;
 
 public class CreditFrmController {
 

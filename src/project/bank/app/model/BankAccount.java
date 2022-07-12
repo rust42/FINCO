@@ -1,7 +1,6 @@
 package project.bank.app.model;
 
 import project.bank.app.model.helper.AccountType;
-import project.bank.app.model.helper.OwnerType;
 import project.framework.core.accountdetails.model.account.Account;
 
 public class BankAccount extends Account {

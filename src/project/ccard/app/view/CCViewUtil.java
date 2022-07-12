@@ -1,10 +1,7 @@
 package project.ccard.app.view;
 
-import project.bank.app.model.BankCustomer;
 import project.ccard.app.model.CCCustomer;
 import project.ccard.app.model.CreditAccountRequestDTO;
-
-import java.time.LocalDate;
 
 public class CCViewUtil {
     public static CCCustomer createCCCustomerFromInput(CreditAccountRequestDTO input) {
