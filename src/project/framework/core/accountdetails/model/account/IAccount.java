@@ -23,7 +23,7 @@ public interface IAccount extends Subject {
 
     void setInterestRate(double interestRate);
 
-    public void addEntry(Entry entry);
+    void addEntry(Entry entry);
 
-    public Set<Entry> getEntries();
+    Set<Entry> getEntries();
 }

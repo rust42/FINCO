@@ -31,11 +31,11 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
         }
         // TODO:  review this logic
         IAccount iAccount = accountMap.get(account.getUniqueId());
-        Entry entry = new Entry();
-        entry.setTransactionType(TransactionType.OUTGOING);
-        entry.setTxAmount(account.getBalance());
-        entry.setDate(LocalDate.now());
-        iAccount.addEntry(entry);
+//        Entry entry = new Entry();
+//        entry.setTransactionType(TransactionType.OUTGOING);
+//        entry.setTxAmount(account.getBalance());
+//        entry.setDate(LocalDate.now());
+//        iAccount.addEntry(entry);
     }
 
     @Override

@@ -4,6 +4,7 @@ import project.ccard.app.controller.CreditFrmController;
 import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
 import project.ccard.app.model.CreditTableResponseModelMapper;
+import project.framework.core.accountdetails.model.party.Party;
 import project.framework.gui.AbstractFrameworkGUI;
 import project.framework.gui.helper.GenericJTableModel;
 
@@ -158,14 +159,13 @@ public class CardFrm extends AbstractFrameworkGUI {
         if (newaccount) {
 
             CreditAccountRequestDTO creditAccountRequestDTO = CreditViewUtil.createCreditAccountFromInput(ccnumber, clientName, street, city, state, zip, "", LocalDate.now());
-            CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(creditAccountRequestDTO);
+            Party customer = CCViewUtil.createCCCustomerFromInput(creditAccountRequestDTO);
 
+            CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(customer, creditAccountRequestDTO);
             genericJTableModel.addNewRow(creditAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
         }
-
-
     }
 
     void JButtonGenerateBill_actionPerformed(java.awt.event.ActionEvent event) {
