@@ -1,5 +1,7 @@
 package project.framework.core.accountdetails;
 
+import project.bank.app.model.BankAccount;
+import project.bank.app.model.helper.OwnerType;
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.model.account.TransactionType;
@@ -27,6 +29,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
 
     public void addAccount(IAccount iAccount) {
         abstractStorageService.store(iAccount);
+        iAccount.attach(iAccount.getParty());
     }
 
     public void withdrawMoney(String uniqueAccId, double withdrawAmount) {
@@ -37,8 +40,13 @@ public abstract class AbstractAccountService<T extends IAccount> {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() - withdrawAmount;
         account.setBalance(newBalance);
-        addEntry(account.getUniqueId(), withdrawAmount, TransactionType.OUTGOING);
+
+        Entry entry = new Entry(withdrawAmount, LocalDate.now(), TransactionType.OUTGOING);
+        account.addEntry(entry);
         abstractStorageService.update(account);
+
+        account.notifyPartyOnTxEntry(entry);
+
     }
 
     public void depositMoney(String uniqueAccId, double depositAmount) {
@@ -49,14 +57,19 @@ public abstract class AbstractAccountService<T extends IAccount> {
         IAccount account = iAccount.get();
         double newBalance = account.getBalance() + depositAmount;
         account.setBalance(newBalance);
-        addEntry(account.getUniqueId(), depositAmount, TransactionType.INCOMING);
+
+        Entry entry = new Entry(depositAmount, LocalDate.now(), TransactionType.INCOMING);
+        account.addEntry(entry);
         abstractStorageService.update(account);
+
+        account.notifyPartyOnTxEntry(entry);
+
     }
 
     public void addInterest(double interestRate) {
         List<IAccount> iAccountList = abstractStorageService.getAllAccounts();
 
-        for(IAccount account:iAccountList){
+        for (IAccount account : iAccountList) {
             account.setInterestRate(interestRate);
             abstractStorageService.update(account);
         }

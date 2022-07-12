@@ -1,9 +1,8 @@
 package project.bank.app.view;
 
 import project.bank.app.controller.BankFrmController;
-import project.bank.app.model.BankAccTableModelResponse;
-import project.bank.app.model.BankCustomer;
-import project.bank.app.model.BankTableResponseModelMapper;
+import project.bank.app.model.*;
+
 import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.helper.OwnerType;
 import project.framework.gui.AbstractFrameworkGUI;
@@ -164,9 +163,19 @@ public class BankFrm extends AbstractFrameworkGUI {
         pac.show();
 
         if (newaccount) {
-            BankCustomer bankCustomer = BankViewUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
+            BankPersonCustomer bankCustomer = BankViewUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING) ? AccountType.CHECKING : AccountType.SAVING;
-            BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.PERSONAL);
+
+            BankAccountRequest bankAccountRequest = new BankAccountRequest();
+            bankAccountRequest.setName(clientName) ;
+            bankAccountRequest.setStreet(clientName); ;
+            bankAccountRequest.setCity(clientName); ;
+            bankAccountRequest.setState(clientName); ;
+            bankAccountRequest.setZip(clientName); ;
+            bankAccountRequest.setEmail(""); ;
+
+
+            BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankAccountRequest, accountnr, accountTypeEnum, OwnerType.PERSONAL);
             genericJTableModel.addNewRow(bankAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
@@ -188,11 +197,21 @@ public class BankFrm extends AbstractFrameworkGUI {
 
         if (newaccount) {
 
-            BankCustomer bankCustomer = BankViewUtil.createBankCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
+            BankOrgCustomer bankCustomer = BankViewUtil.createBankOrgCustomerFromInput(clientName, street, city, state, zip, "", LocalDate.now());
             // TODO fix logic for no of employees
             // bankCustomer.setNoOfEmployees(1);
+
+            BankAccountRequest bankAccountRequest = new BankAccountRequest();
+            bankAccountRequest.setName(clientName) ;
+            bankAccountRequest.setStreet(clientName); ;
+            bankAccountRequest.setCity(clientName); ;
+            bankAccountRequest.setState(clientName); ;
+            bankAccountRequest.setZip(clientName); ;
+            bankAccountRequest.setEmail(""); ;
+
+
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
-            BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankCustomer, accountnr, accountTypeEnum, OwnerType.COMPANY);
+            BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankAccount(bankAccountRequest, accountnr, accountTypeEnum, OwnerType.COMPANY);
 
             // add row to table
             genericJTableModel.addNewRow(bankAccTableModelResponse);
