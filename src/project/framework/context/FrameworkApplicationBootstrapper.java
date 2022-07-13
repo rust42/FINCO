@@ -8,11 +8,9 @@ import java.util.Set;
 
 public class FrameworkApplicationBootstrapper {
 
-    private Set<Class<?>> primarySources;
-
     public FrameworkApplicationBootstrapper(Class<?>... primarySources) {
-        this.primarySources = new LinkedHashSet(Arrays.asList(primarySources));
-        if (this.primarySources.size() <= 0) {
+        Set<Class<?>> primarySourcesSet = new LinkedHashSet(Arrays.asList(primarySources));
+        if (primarySourcesSet.size() <= 0) {
             System.out.println("FINCO: Starting through framework default startup");
         } else {
             System.out.println("FINCO: Starting through " + primarySources[0]);

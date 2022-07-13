@@ -1,6 +1,6 @@
 package project.bank;
 
-import project.bank.app.view.BankFrm;
+import project.bank.app.view.BankFrame;
 import project.framework.context.FrameworkApplicationBootstrapper;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ public class BankApplication {
             }
 
             //Create a new instance of our application's frame, and make it visible.
-            new BankFrm().getCurrJFrame().setVisible(true);
+            new BankFrame().getCurrJFrame().setVisible(true);
         } catch (Throwable t) {
             t.printStackTrace();
             //Ensure the application exits with an error condition.

@@ -2,7 +2,6 @@ package project.framework.core.accountdetails.storage;
 
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
-import project.framework.core.accountdetails.model.party.IParty;
 import project.framework.core.accountdetails.storage.service.StorageServiceException;
 
 import java.util.List;
@@ -21,5 +20,4 @@ public interface AbstractStorageService {
 
     List<IAccount> getAllAccounts();
 
-    List<IParty> getAllParties();
 }

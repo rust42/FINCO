@@ -8,9 +8,9 @@ import project.framework.gui.defaults.dialogs.GenericJDialog_AddPersonalAcc;
  **/
 
 public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
-    private BankFrm parentframe;
+    private BankFrame parentframe;
 
-    public JDialog_AddPAcc(BankFrm parent) {
+    public JDialog_AddPAcc(BankFrame parent) {
         super(parent, "Add personal account");
         parentframe = parent;
 

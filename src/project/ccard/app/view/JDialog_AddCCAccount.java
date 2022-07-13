@@ -5,9 +5,9 @@ import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog_AddPersonalAcc;
 
 public class JDialog_AddCCAccount extends GenericJDialog_AddPersonalAcc {
-    private CardFrm parentframe;
+    private CardFrame parentframe;
 
-    public JDialog_AddCCAccount(CardFrm parent) {
+    public JDialog_AddCCAccount(CardFrame parent) {
         super(parent, "Add credit card account");
         parentframe = parent;
 

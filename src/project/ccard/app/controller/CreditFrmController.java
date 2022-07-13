@@ -1,32 +1,32 @@
 package project.ccard.app.controller;
 
-import project.bank.app.model.BankAccTableModelResponse;
-import project.bank.app.model.BankAccount;
 import project.ccard.app.model.CCAccount;
+import project.ccard.app.model.CCCustomer;
 import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
 import project.ccard.app.services.CreditAccountReportingStrategy;
 import project.framework.context.config.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.party.IParty;
+import project.framework.core.accountdetails.model.party.Person;
 
 public class CreditFrmController {
 
-    AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
+    AbstractAccountService<CCAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public CreditAccTableModelResponse addCreditCardAccount(IParty customer, CreditAccountRequestDTO creditAccountRequestDTO) {
+    public CreditAccTableModelResponse addCreditCardAccount(CCCustomer ccCustomer, CreditAccountRequestDTO creditAccountRequestDTO) {
         CCAccount creditAccount = new CCAccount();
         creditAccount.setUniqueId(creditAccountRequestDTO.getCcNumber());
         creditAccount.setCcNumber(creditAccountRequestDTO.getCcNumber());
         creditAccount.setExpDate(creditAccountRequestDTO.getExpiryDate());
         creditAccount.setTierLevel(creditAccountRequestDTO.getTierLevel());
-        creditAccount.setiParty(customer);
+        creditAccount.setiParty(ccCustomer);
 
         abstractAccountService.addAccount(creditAccount);
 
         CreditAccTableModelResponse ccTableModelResponse = new CreditAccTableModelResponse();
         ccTableModelResponse.setCcNumber(creditAccountRequestDTO.getCcNumber());
-        ccTableModelResponse.setClientName(customer.getName());
+        ccTableModelResponse.setClientName(ccCustomer.getName());
         ccTableModelResponse.setExpDate(creditAccountRequestDTO.getExpiryDate().toString());
         return ccTableModelResponse;
     }

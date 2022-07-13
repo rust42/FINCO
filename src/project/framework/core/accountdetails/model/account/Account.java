@@ -8,9 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Account implements IAccount {
+public class Account implements IAccount<Entry> {
 
-    List<IParty> listOfObservers = new ArrayList<>();
+    List<Observer> listOfObservers = new ArrayList<>();
 
     private String accNumber;
     private IParty iParty;
@@ -69,20 +69,15 @@ public class Account implements IAccount {
     }
 
     @Override
-    public List<IParty> getListOfObserversToNotify() {
+    public List<Observer> getListOfObserversToNotify() {
         return this.listOfObservers;
     }
 
     @Override
-    public void notifyPartyOnTxEntry(Entry entry) {
-        for(IParty iParty: getListOfObserversToNotify()) {
-            iParty.onTransactionTrigger(this, entry);
+    public void notifyObserver(Entry entry) {
+        for (Observer observer : getListOfObserversToNotify()) {
+            observer.onUpdate(this, entry);
         }
     }
-
-//    @Override
-//    public void attach(Observer observer) {
-//
-//    }
 
 }

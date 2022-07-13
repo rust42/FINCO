@@ -34,6 +34,7 @@ public abstract class AbstractDefaultFrameworkGUI implements IDisplayFrameGUI {
         this.bindGUIComponents(defaultGUIComponents);
     }
 
+    @Override
     public <T> void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel) {
         this.defaultJScrollPane = new JScrollPane();
         defaultGUIComponents.setGenericJTableForJScrollPane(this.defaultJScrollPane, genericJTableModel);

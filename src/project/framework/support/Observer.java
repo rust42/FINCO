@@ -3,7 +3,7 @@ package project.framework.support;
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
 
-public interface Observer
+public interface Observer<A, E>
 {
-    public void onTransactionTrigger(IAccount iAccount, Entry entry);
+    public void onUpdate(A a, E e);
 }

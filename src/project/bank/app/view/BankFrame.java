@@ -4,7 +4,6 @@ import project.bank.app.controller.BankFrmController;
 import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankTableResponseModelMapper;
 import project.bank.app.model.helper.AccountType;
-import project.bank.app.model.helper.OwnerType;
 import project.framework.core.accountdetails.model.party.Organization;
 import project.framework.core.accountdetails.model.party.Person;
 import project.framework.gui.AbstractDefaultFrameworkGUI;
@@ -22,12 +21,12 @@ import java.time.LocalDate;
 /**
  * A basic JFC based application.
  **/
-public class BankFrm extends AbstractDefaultFrameworkGUI {
+public class BankFrame extends AbstractDefaultFrameworkGUI {
     String accountType;
     private GenericJTableModel<BankAccTableModelResponse> genericJTableModel;
     private BankFrmController bankFrmController = new BankFrmController();
 
-    public BankFrm() {
+    public BankFrame() {
         super("Banking Application");
         genericJTableModel = new GenericJTableModel<>(new BankTableResponseModelMapper());
         super.setJTableForJScrollPane(genericJTableModel);
@@ -45,7 +44,7 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
         pac.setBounds(450, 20, 300, 330);
         pac.show();
 
-        if (super.isNewAccount()) {
+        if (isNewAccount()) {
             DefaultUIAccFormInput defaultUIAccFormInput = pac.getAccFormInput();
             AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
 
@@ -61,14 +60,14 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
             BankAccTableModelResponse bankAccTableModelResponse = null;
             try {
                 bankAccTableModelResponse = this.bankFrmController
-                        .addBankPersonalAccount(personAccountRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum, OwnerType.PERSONAL);
+                        .addBankPersonalAccount(personAccountRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
             genericJTableModel.addNewRow(bankAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
-            super.setNewAccount(false);
+            setNewAccount(false);
         }
 
 
@@ -96,7 +95,7 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
             BankAccTableModelResponse bankAccTableModelResponse = null;
             try {
                 bankAccTableModelResponse = this.bankFrmController
-                        .addBankCompanyAccount(organizationRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum, OwnerType.COMPANY);
+                        .addBankCompanyAccount(organizationRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
@@ -121,11 +120,13 @@ public class BankFrm extends AbstractDefaultFrameworkGUI {
             dep.show();
 
             // compute new amount
-            Double deposit = Double.parseDouble(super.getAmountDeposit());
+            Double deposit = Double.parseDouble(getAmountDeposit());
             BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
+
+            // set new amount to selection model
             Double newamount = bankAccTableModelResponse.getAmount();
             genericJTableModel.getModel().setValueAt(String.valueOf(newamount), selection, 5);
-            super.setDepositAmount("0");
+            setDepositAmount("0");
         }
 
 

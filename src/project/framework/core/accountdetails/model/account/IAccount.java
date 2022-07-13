@@ -5,7 +5,7 @@ import project.framework.support.Subject;
 
 import java.util.Set;
 
-public interface IAccount extends Subject {
+public interface IAccount<T> extends Subject<T> {
 
     public String getUniqueId();
 

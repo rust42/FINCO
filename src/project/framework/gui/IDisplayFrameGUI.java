@@ -7,6 +7,8 @@ import javax.swing.*;
 
 public interface IDisplayFrameGUI {
 
+    <T> void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel);
+
     boolean isNewAccount();
 
     void setNewAccount(boolean isNewAccount);

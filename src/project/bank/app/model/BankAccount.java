@@ -5,8 +5,6 @@ import project.framework.core.accountdetails.model.account.Account;
 
 public class BankAccount extends Account {
     private AccountType accountType;
-//    private OwnerType ownerType;
-
 
     public AccountType getAccountType() {
         return accountType;
@@ -16,11 +14,4 @@ public class BankAccount extends Account {
         this.accountType = accountType;
     }
 
-//    public OwnerType getOwnerType() {
-//        return ownerType;
-//    }
-//
-//    public void setOwnerType(OwnerType ownerType) {
-//        this.ownerType = ownerType;
-//    }
 }

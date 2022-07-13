@@ -1,9 +1,11 @@
 package project.framework.core.accountdetails.model.party;
 
-import project.framework.core.accountdetails.model.account.Entry;
+import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.IEntry;
 
-public class Organization extends Party implements IOrganization {
+public class Organization extends Party implements IOrganization<IAccount, IEntry> {
     private int noOfEmployees;
 
     public int getNoOfEmployees() {
@@ -16,8 +18,8 @@ public class Organization extends Party implements IOrganization {
 
 
     @Override
-    public void onTransactionTrigger(IAccount iAccount, Entry entry){
-        System.out.println("Sending email to " + this.getEmail());
-        System.out.println("Event occurred on: " + entry.getDate() + ", Amount: " + entry.getTxAmount() + ", Type: "+ entry.getTransactionType());
+    public void onUpdate(IAccount iAccount, IEntry entry) {
+        AbstractAccountService service = FactoryServiceRetriever.getService(AbstractAccountService.class);
+        service.sendEmailToParty(iAccount, entry);
     }
 }

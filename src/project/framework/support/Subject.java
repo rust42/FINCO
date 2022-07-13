@@ -1,17 +1,13 @@
 package project.framework.support;
 
-import project.framework.core.accountdetails.model.account.Entry;
-import project.framework.core.accountdetails.model.party.IParty;
-
 import java.util.List;
 
-public interface Subject {
-    default void attach(IParty iParty) {
-        getListOfObserversToNotify().add(iParty);
+public interface Subject<T> {
+    default void attach(Observer observer) {
+        getListOfObserversToNotify().add(observer);
     }
-//    public void detach(Observer observer);
 
-    List<IParty> getListOfObserversToNotify();
-    public void notifyPartyOnTxEntry(Entry entry);
+    List<Observer> getListOfObserversToNotify();
 
+    void notifyObserver(T t);
 }

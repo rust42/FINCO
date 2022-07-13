@@ -2,10 +2,11 @@ package project.framework.core.accountdetails.model.party;
 
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.IEntry;
 
 import java.time.LocalDate;
 
-public class Person extends Party implements IPerson {
+public class Person extends Party implements IPerson<IAccount, IEntry> {
     private LocalDate birthDate;
 
     public LocalDate getBirthDate() {
@@ -16,10 +17,4 @@ public class Person extends Party implements IPerson {
         this.birthDate = birthDate;
     }
 
-    @Override
-    public void onTransactionTrigger(IAccount iAccount, Entry entry){
-        if(entry.getTxAmount() > 400) {
-            System.out.println("Sending email to "+ this.getEmail() + " transaction greater than 400");
-        }
-    }
 }

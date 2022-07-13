@@ -8,9 +8,6 @@ public class DefaultUIAccFormInput {
     String city;
     String zip;
     String state;
-    String accountType;
-    String clientType;
-
     String email;
 
     public String getAccountnr() {
@@ -59,22 +56,6 @@ public class DefaultUIAccFormInput {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
-    public String getClientType() {
-        return clientType;
-    }
-
-    public void setClientType(String clientType) {
-        this.clientType = clientType;
     }
 
     public String getEmail() {

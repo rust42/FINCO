@@ -5,9 +5,9 @@ import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog_AddOrganizationAcc;
 
 public class JDialog_AddCompAcc extends GenericJDialog_AddOrganizationAcc {
-    private BankFrm parentframe;
+    private BankFrame parentframe;
 
-    public JDialog_AddCompAcc(BankFrm parent) {
+    public JDialog_AddCompAcc(BankFrame parent) {
         super(parent, "Add company account");
         parentframe = parent;
 

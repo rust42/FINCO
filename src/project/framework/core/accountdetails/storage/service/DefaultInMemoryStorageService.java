@@ -2,11 +2,8 @@ package project.framework.core.accountdetails.storage.service;
 
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
-import project.framework.core.accountdetails.model.account.TransactionType;
-import project.framework.core.accountdetails.model.party.IParty;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,13 +69,13 @@ public class DefaultInMemoryStorageService implements AbstractStorageService {
         return accounts;
     }
 
-    @Override
-    public List<IParty> getAllParties() {
-        List<IParty> partyList = accountMap.entrySet()
-                .stream()
-                .map(mapEntry -> mapEntry.getValue().getParty())
-                .distinct()
-                .collect(Collectors.toList());
-        return partyList;
-    }
+//    @Override
+//    public List<IParty> getAllParties() {
+//        List<IParty> partyList = accountMap.entrySet()
+//                .stream()
+//                .map(mapEntry -> mapEntry.getValue().getParty())
+//                .distinct()
+//                .collect(Collectors.toList());
+//        return partyList;
+//    }
 }

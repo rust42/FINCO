@@ -1,11 +1,13 @@
 package project.framework.core.accountdetails.model.party;
 
-import project.framework.core.accountdetails.model.account.Entry;
+import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.IEntry;
 
-public abstract class Party implements IParty {
+public abstract class Party implements IParty<IAccount, IEntry> {
 
-    private String name,street,city,state,zip,email;
+    private String name, street, city, state, zip, email;
 
     public String getName() {
         return name;
@@ -55,9 +57,13 @@ public abstract class Party implements IParty {
         this.email = email;
     }
 
-
-    public void onTransactionTrigger(IAccount iAccount, Entry entry){
-
+    @Override
+    public void onUpdate(IAccount iAccount, IEntry entry) {
+        if (entry.getTxAmount() >= 400) {
+            System.out.println("Send email triggered " + this.getEmail() + " transaction greater than 400");
+            AbstractAccountService service = FactoryServiceRetriever.getService(AbstractAccountService.class);
+            service.sendEmailToParty(iAccount, entry);
+        }
     }
 
 }

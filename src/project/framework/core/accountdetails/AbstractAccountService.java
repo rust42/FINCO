@@ -1,9 +1,8 @@
 package project.framework.core.accountdetails;
 
-import project.bank.app.model.BankAccount;
-import project.bank.app.model.helper.OwnerType;
 import project.framework.core.accountdetails.model.account.Entry;
 import project.framework.core.accountdetails.model.account.IAccount;
+import project.framework.core.accountdetails.model.account.IEntry;
 import project.framework.core.accountdetails.model.account.TransactionType;
 import project.framework.core.accountdetails.storage.AbstractStorageService;
 import project.framework.core.accountdetails.storage.service.StorageServiceException;
@@ -45,7 +44,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
         account.addEntry(entry);
         abstractStorageService.update(account);
 
-        account.notifyPartyOnTxEntry(entry);
+        account.notifyObserver(entry);
 
     }
 
@@ -62,7 +61,7 @@ public abstract class AbstractAccountService<T extends IAccount> {
         account.addEntry(entry);
         abstractStorageService.update(account);
 
-        account.notifyPartyOnTxEntry(entry);
+        account.notifyObserver(entry);
 
     }
 
@@ -101,8 +100,8 @@ public abstract class AbstractAccountService<T extends IAccount> {
         return iAccount.get().getBalance();
     }
 
-    public void sendEmailToParty(IAccount iAccount) {
-        iEmailPartyService.onSendEmailToPartyTriggered(iAccount);
+    public void sendEmailToParty(IAccount iAccount, IEntry iEntry) {
+        iEmailPartyService.onSendEmail(iAccount, iEntry);
     }
 
     public void removeAccount(String uniqueAccId) {

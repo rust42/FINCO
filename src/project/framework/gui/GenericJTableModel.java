@@ -1,7 +1,5 @@
 package project.framework.gui;
 
-import project.framework.gui.TableModelRowMapper;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 

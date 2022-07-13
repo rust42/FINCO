@@ -13,7 +13,7 @@ public class BankFrmController {
 
     AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception {
+    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType) throws Exception {
 
         BankAccount bankAccount = new BankAccount();
         bankAccount.setiParty(personRequest);
@@ -21,6 +21,8 @@ public class BankFrmController {
         bankAccount.setUniqueId(uniqueAccId);
         bankAccount.setBalance(0);
         bankAccount.setAccountType(accountType);
+        double interestRate = accountType.equals(AccountType.SAVING.toString()) ? 0.0325 : 0.01;
+        bankAccount.setInterestRate(interestRate);
         abstractAccountService.addAccount(bankAccount);
 
         // preparing response for UI
@@ -31,12 +33,12 @@ public class BankFrmController {
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C" : "P");
+        accTableModelResponse.setOwnerType("P");
 
         return accTableModelResponse;
     }
 
-    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType, OwnerType ownerType) throws Exception {
+    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType) throws Exception {
 
         BankAccount bankAccount = new BankAccount();
         bankAccount.setiParty(organizationRequest);
@@ -44,6 +46,8 @@ public class BankFrmController {
         bankAccount.setUniqueId(uniqueAccId);
         bankAccount.setBalance(0);
         bankAccount.setAccountType(accountType);
+        double interestRate = accountType.equals(AccountType.SAVING.toString()) ? 0.0325 : 0.01;
+        bankAccount.setInterestRate(interestRate);
         abstractAccountService.addAccount(bankAccount);
 
         // preparing response for UI
@@ -54,19 +58,14 @@ public class BankFrmController {
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
-        accTableModelResponse.setOwnerType(ownerType.equals(OwnerType.COMPANY) ? "C" : "P");
+        accTableModelResponse.setOwnerType("C");
 
         return accTableModelResponse;
     }
 
     public BankAccTableModelResponse deposit(String accNr, Double depositAmount) {
 
-        // TODO deposit amount into the account with passed "accNr"
-        // TODO get newBalance, prevBalance + depositAmount
         abstractAccountService.depositMoney(accNr, depositAmount);
-//        Double newBalance = 100.0 + depositAmount + 100.0;
-
-        // TODO after successful account deposit, populate AccTableModelResponse with new data
 
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
         accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(accNr));
@@ -75,13 +74,8 @@ public class BankFrmController {
 
     public BankAccTableModelResponse withdraw(String accNr, Double withdrawAmount) {
 
-        // TODO withdraw amount from the account with passed "accNr"
-        // TODO get newBalance, prevBalance - withdrawAmount
-        //Double newBalance = 100.0 - withdrawAmount;
         abstractAccountService.withdrawMoney(accNr, withdrawAmount);
 
-
-        // TODO after successful account withdraw, populate AccTableModelResponse with new data
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
         accTableModelResponse.setAmount(abstractAccountService.getCurrentBalance(accNr));
         return accTableModelResponse;

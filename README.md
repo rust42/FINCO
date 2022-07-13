@@ -2,20 +2,16 @@
 ###  Framework: FINCO
 
 # Introduction
-A simple FINCO framework, with project.framework.support for party and account.
+A simple FINCO framework, default support and extensible functionality for party and account.
 
 ## Package Structure
 
-1. FINCO
-2. Bank
-3. CCard
-
-### 1. FINCO
+### 1. framework
 
 ```
 ├── project.framework.context
 │   - FactoryServiceRetriever.java
-│   - FrameworkBootstraper.java
+│   - FrameworkApplicationBootstrapper.java
 │   ├── config
 │       - FrameworkContextConfigurer.java
 ├── project.framework.support
@@ -50,7 +46,12 @@ A simple FINCO framework, with project.framework.support for party and account.
     |       ├── service
     |           - DefaultInMemoryStorageService
     ├── util
-        - ...
+├── project.framework.gui
+   ├── defaults
+       |  - ... // defaults
+    |  - AbstractDefaultFrameworkGUI
+    |  - GenericJTableModel
+    |  - TableModelRowMapper
 
 
 ```
@@ -65,19 +66,25 @@ A simple FINCO framework, with project.framework.support for party and account.
         - ... all abstractions of "accountDetails"
     - __"storage"__ : Extensible and default storage service 
     - __"util"__ any static utility methods or utility classes, that needs to be reused.
+ -  __"project.framework.gui"__ contains all the gui helper and default classes
 
 
-| <a target="_blank" href="#">![MeroEdu-UI](./docs/v3/FrameworkV333.PNG)</a> |
-|----------------------------------------------------------------------------|
-| FrameworkV3                                                                |
+| <a target="_blank" href="#">![Framework](./docs/v3/FrameworkV444.PNG)</a> |
+|------------------------------------------------------------------------------|
+| Framework                                                                    |
+
+
+| <a target="_blank" href="#">![GUI](./docs/v3/GUIV444.PNG)</a> |
+|---------------------------------------------------------------|
+| GUI                                                           |
 
 # Development
 
 Note: Currently All Modules Under Development 
 
-1. FINCO
-2. Bank
-3. CCard
+1. framework
+2. bank
+3. ccard
 
 
 ### # Documentation

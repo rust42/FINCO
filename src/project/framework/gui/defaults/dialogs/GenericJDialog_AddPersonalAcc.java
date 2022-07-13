@@ -9,7 +9,7 @@ import javax.swing.*;
  * A basic implementation of the JDialog class.
  **/
 
-public abstract class GenericJDialog_AddPersonalAcc extends javax.swing.JDialog {
+public class GenericJDialog_AddPersonalAcc extends javax.swing.JDialog {
     private IDisplayFrameGUI parentframe;
 
     public GenericJDialog_AddPersonalAcc(IDisplayFrameGUI iDisplayFrameGUI, String dialogTitle) {

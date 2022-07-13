@@ -1,6 +1,7 @@
 package project.ccard.app.view;
 
 import project.ccard.app.controller.CreditFrmController;
+import project.ccard.app.model.CCCustomer;
 import project.ccard.app.model.CreditAccTableModelResponse;
 import project.ccard.app.model.CreditAccountRequestDTO;
 import project.ccard.app.model.CreditTableResponseModelMapper;
@@ -10,7 +11,6 @@ import project.framework.gui.GenericJTableModel;
 import project.framework.gui.defaults.DefaultGUIComponents;
 import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog;
-import project.framework.gui.defaults.dialogs.GenericJDialog_AddInterest;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Deposit;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Withdraw;
 
@@ -21,19 +21,19 @@ import java.time.LocalDate;
 /**
  * A basic JFC based application.
  **/
-public class CardFrm extends AbstractDefaultFrameworkGUI {
+public class CardFrame extends AbstractDefaultFrameworkGUI {
 
     String accountType, expdate, ccnumber;
     private GenericJTableModel<CreditAccTableModelResponse> genericJTableModel;
     CreditFrmController creditFrmController = new CreditFrmController();
 
-    public CardFrm() {
+    public CardFrame() {
         super("Credit Card Processing Application.");
         genericJTableModel = new GenericJTableModel<>(new CreditTableResponseModelMapper());
-        super.setJTableForJScrollPane(genericJTableModel);
+        setJTableForJScrollPane(genericJTableModel);
 
         // customize buttons and their functionality
-        DefaultGUIComponents defaultGUIComponents = super.getDefaultGUIComponents();
+        DefaultGUIComponents defaultGUIComponents = getDefaultGUIComponents();
         JButton jButton_personalAC = defaultGUIComponents.getJButton_PersonalAC();
         jButton_personalAC.setText("Add Credit-card account");
 
@@ -61,13 +61,13 @@ public class CardFrm extends AbstractDefaultFrameworkGUI {
         if (isNewAccount()) {
 
 
-            DefaultUIAccFormInput defaultUIAccFormInput = super.getDefaultUIAccFormInput();
+            DefaultUIAccFormInput defaultUIAccFormInput = ccac.getAccFormInput();
             LocalDate expiryDate = LocalDate.now(); //TODO use expDate
             CreditAccountRequestDTO creditAccountRequestDTO = CreditViewUtil
                     .createCreditAccountFromInput(ccnumber, defaultUIAccFormInput.getClientName(), defaultUIAccFormInput.getStreet(), defaultUIAccFormInput.getCity(), defaultUIAccFormInput.getState(), defaultUIAccFormInput.getZip(), defaultUIAccFormInput.getEmail(), expiryDate, accountType);
-            Party customer = CCViewUtil.createCCCustomerFromInput(creditAccountRequestDTO);
+            CCCustomer ccCustomer = CCViewUtil.createCCCustomerFromInput(creditAccountRequestDTO);
 
-            CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(customer, creditAccountRequestDTO);
+            CreditAccTableModelResponse creditAccTableModelResponse = this.creditFrmController.addCreditCardAccount(ccCustomer, creditAccountRequestDTO);
             genericJTableModel.addNewRow(creditAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             setNewAccount(false);

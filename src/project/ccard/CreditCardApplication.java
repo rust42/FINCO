@@ -1,6 +1,6 @@
 package project.ccard;
 
-import project.ccard.app.view.CardFrm;
+import project.ccard.app.view.CardFrame;
 import project.framework.context.FrameworkApplicationBootstrapper;
 
 import javax.swing.*;
@@ -27,7 +27,7 @@ public class CreditCardApplication {
             }
 
             //Create a new instance of our application's frame, and make it visible.
-            (new CardFrm()).getCurrJFrame().setVisible(true);
+            (new CardFrame()).getCurrJFrame().setVisible(true);
         } catch (Throwable t) {
             t.printStackTrace();
             //Ensure the application exits with an error condition.
