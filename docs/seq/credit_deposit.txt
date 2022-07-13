@@ -1,0 +1,128 @@
+title Credit Card Charge Sequence
+
+actor Client
+
+CreditCardApplication->framework:1.startFinco
+activate framework
+CreditCardApplication<--framework:
+deactivate framework
+
+CreditCardApplication->CardFrm:2.<<new>>
+activate CardFrm
+
+CreditCardApplication<--CardFrm:
+deactivate CardFrm
+space 
+
+participant GenericJTableModel
+
+CreditCardApplication->CardFrm:3.setvisible
+activate CardFrm
+CreditCardApplication<--CardFrm:
+deactivate CardFrm
+
+
+
+
+Client->CardFrm:5.JButtonDeposit_actionPerformed
+activate CardFrm
+
+CardFrm->GenericJDialog_Deposit:6.<<new>>
+activate GenericJDialog_Deposit
+CardFrm<--GenericJDialog_Deposit:
+deactivate GenericJDialog_Deposit
+
+CardFrm->GenericJDialog_Deposit:7.show
+activate GenericJDialog_Deposit
+CardFrm<--GenericJDialog_Deposit:
+Client<--CardFrm:
+
+deactivate GenericJDialog_Deposit
+deactivate CardFrm
+
+
+Client->CardFrm:input deposit amount
+activate CardFrm
+
+
+CardFrm->CardFrm:8.getAmountDeposit
+activate CardFrm
+space 
+deactivate CardFrm
+
+participant CreditAccTableModelResponse
+
+
+
+CardFrm->CreditFrmController:9.deposit
+activate CreditFrmController
+CreditFrmController->AbstractAccountService:10.depositMoney
+activate AbstractAccountService
+
+
+AbstractAccountService->AbstractStorageService:11.getIAccountByUniqueId
+activate AbstractStorageService
+
+AbstractAccountService<--AbstractStorageService:CCAccount
+deactivate AbstractStorageService
+
+
+AbstractAccountService->CCAccount:12.setBalance
+activate CCAccount
+AbstractAccountService<--CCAccount:
+deactivate CCAccount
+
+AbstractAccountService->Entry:13.<<new>>
+activate Entry
+AbstractAccountService<--Entry:
+deactivate Entry
+
+AbstractAccountService->CCAccount:14.addEntry
+activate CCAccount
+AbstractAccountService<--CCAccount:
+deactivate CCAccount
+
+
+AbstractAccountService->AbstractStorageService:15.update
+activate AbstractStorageService
+AbstractAccountService<-AbstractStorageService:
+deactivate AbstractStorageService
+
+
+AbstractAccountService->CCAccount:16.notifyPartyOnTxEntry
+activate CCAccount
+AbstractAccountService<--CCAccount:
+CreditFrmController<--AbstractAccountService:
+
+deactivate CCAccount
+
+
+
+deactivate AbstractAccountService
+
+
+CreditFrmController->CreditAccTableModelResponse:17.<<new>>
+activate CreditAccTableModelResponse
+
+CreditFrmController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
+
+CreditFrmController->CreditAccTableModelResponse:18.setAmount
+activate CreditAccTableModelResponse
+
+CreditFrmController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
+
+
+CardFrm<--CreditFrmController:
+deactivate CreditFrmController
+CardFrm->GenericJTableModel:update
+activate GenericJTableModel
+CardFrm<--GenericJTableModel:
+deactivate GenericJTableModel
+Client<--CardFrm:
+
+
+deactivate CardFrm
+
+
