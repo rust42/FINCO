@@ -24,15 +24,15 @@ deactivate CardFrm
 
 
 
-Client->CardFrm:5.JButtonWithdraw_actionPerformed
+Client->CardFrm:4.JButtonWithdraw_actionPerformed
 activate CardFrm
 
-CardFrm->GenericJDialog_Withdraw:6.<<new>>
+CardFrm->GenericJDialog_Withdraw:5.<<new>>
 activate GenericJDialog_Withdraw
 CardFrm<--GenericJDialog_Withdraw:
 deactivate GenericJDialog_Withdraw
 
-CardFrm->GenericJDialog_Withdraw:7.show
+CardFrm->GenericJDialog_Withdraw:6.show
 activate GenericJDialog_Withdraw
 CardFrm<--GenericJDialog_Withdraw:
 Client<--CardFrm:
@@ -45,7 +45,7 @@ Client->CardFrm:input withdraw amount
 activate CardFrm
 
 
-CardFrm->CardFrm:8.getAmountWithdraw
+CardFrm->CardFrm:7.getAmountWithdraw
 activate CardFrm
 space 
 deactivate CardFrm
@@ -54,42 +54,42 @@ participant CreditAccTableModelResponse
 
 
 
-CardFrm->CreditFrmController:9.charge
+CardFrm->CreditFrmController:8.charge
 activate CreditFrmController
-CreditFrmController->AbstractAccountService:10.withdrawMoney
+CreditFrmController->AbstractAccountService:9.withdrawMoney
 activate AbstractAccountService
 
 
-AbstractAccountService->AbstractStorageService:11.getIAccountByUniqueId
+AbstractAccountService->AbstractStorageService:10.getIAccountByUniqueId
 activate AbstractStorageService
 
 AbstractAccountService<--AbstractStorageService:CCAccount
 deactivate AbstractStorageService
 
 
-AbstractAccountService->CCAccount:12.setBalance
+AbstractAccountService->CCAccount:11.setBalance
 activate CCAccount
 AbstractAccountService<--CCAccount:
 deactivate CCAccount
 
-AbstractAccountService->Entry:13.<<new>>
+AbstractAccountService->Entry:12.<<new>>
 activate Entry
 AbstractAccountService<--Entry:
 deactivate Entry
 
-AbstractAccountService->CCAccount:14.addEntry
+AbstractAccountService->CCAccount:13.addEntry
 activate CCAccount
 AbstractAccountService<--CCAccount:
 deactivate CCAccount
 
 
-AbstractAccountService->AbstractStorageService:15.update
+AbstractAccountService->AbstractStorageService:14.update
 activate AbstractStorageService
 AbstractAccountService<-AbstractStorageService:
 deactivate AbstractStorageService
 
 
-AbstractAccountService->CCAccount:16.notifyPartyOnTxEntry
+AbstractAccountService->CCAccount:15.notifyPartyOnTxEntry
 activate CCAccount
 AbstractAccountService<--CCAccount:
 CreditFrmController<--AbstractAccountService:
@@ -101,13 +101,13 @@ deactivate CCAccount
 deactivate AbstractAccountService
 
 
-CreditFrmController->CreditAccTableModelResponse:17.<<new>>
+CreditFrmController->CreditAccTableModelResponse:16.<<new>>
 activate CreditAccTableModelResponse
 
 CreditFrmController<--CreditAccTableModelResponse:
 deactivate CreditAccTableModelResponse
 
-CreditFrmController->CreditAccTableModelResponse:18.setAmount
+CreditFrmController->CreditAccTableModelResponse:17.setAmount
 activate CreditAccTableModelResponse
 
 CreditFrmController<--CreditAccTableModelResponse:

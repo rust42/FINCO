@@ -24,15 +24,15 @@ deactivate BankFrame
 
 
 
-Client->BankFrame:5.JButtonWithdraw_actionPerformed
+Client->BankFrame:4.JButtonWithdraw_actionPerformed
 activate BankFrame
 
-BankFrame->GenericJDialog_Withdraw:6.<<new>>
+BankFrame->GenericJDialog_Withdraw:5.<<new>>
 activate GenericJDialog_Withdraw
 BankFrame<--GenericJDialog_Withdraw:
 deactivate GenericJDialog_Withdraw
 
-BankFrame->GenericJDialog_Withdraw:7.show
+BankFrame->GenericJDialog_Withdraw:6.show
 activate GenericJDialog_Withdraw
 BankFrame<--GenericJDialog_Withdraw:
 Client<--BankFrame:
@@ -45,7 +45,7 @@ Client->BankFrame:input withdraw amount
 activate BankFrame
 
 
-BankFrame->BankFrame:8.getAmountWithdraw
+BankFrame->BankFrame:7.getAmountWithdraw
 activate BankFrame
 space 
 deactivate BankFrame
@@ -54,42 +54,42 @@ participant BankAccTableModelResponse
 
 
 
-BankFrame->BankController:9.withdraw
+BankFrame->BankController:8.withdraw
 activate BankController
-BankController->AbstractAccountService:10.withdrawMoney
+BankController->AbstractAccountService:9.withdrawMoney
 activate AbstractAccountService
 
 
-AbstractAccountService->AbstractStorageService:11.getIAccountByUniqueId
+AbstractAccountService->AbstractStorageService:10.getIAccountByUniqueId
 activate AbstractStorageService
 
 AbstractAccountService<--AbstractStorageService:BankAccount
 deactivate AbstractStorageService
 
 
-AbstractAccountService->BankAccount:12.setBalance
+AbstractAccountService->BankAccount:11.setBalance
 activate BankAccount
 AbstractAccountService<--BankAccount:
 deactivate BankAccount
 
-AbstractAccountService->Entry:13.<<new>>
+AbstractAccountService->Entry:12.<<new>>
 activate Entry
 AbstractAccountService<--Entry:
 deactivate Entry
 
-AbstractAccountService->BankAccount:14.addEntry
+AbstractAccountService->BankAccount:13.addEntry
 activate BankAccount
 AbstractAccountService<--BankAccount:
 deactivate BankAccount
 
 
-AbstractAccountService->AbstractStorageService:15.update
+AbstractAccountService->AbstractStorageService:14.update
 activate AbstractStorageService
 AbstractAccountService<-AbstractStorageService:
 deactivate AbstractStorageService
 
 
-AbstractAccountService->BankAccount:16.notifyPartyOnTxEntry
+AbstractAccountService->BankAccount:15.notifyPartyOnTxEntry
 activate BankAccount
 AbstractAccountService<--BankAccount:
 BankController<--AbstractAccountService:
@@ -101,13 +101,13 @@ deactivate BankAccount
 deactivate AbstractAccountService
 
 
-BankController->BankAccTableModelResponse:17.<<new>>
+BankController->BankAccTableModelResponse:16.<<new>>
 activate BankAccTableModelResponse
 
 BankController<--BankAccTableModelResponse:
 deactivate BankAccTableModelResponse
 
-BankController->BankAccTableModelResponse:18.setAmount
+BankController->BankAccTableModelResponse:17.setAmount
 activate BankAccTableModelResponse
 
 BankController<--BankAccTableModelResponse:
