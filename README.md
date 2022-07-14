@@ -9,11 +9,10 @@ A simple FINCO framework, default support and extensible functionality for party
 ### 1. framework
 
 ```
+│   - Finco.java
 ├── project.framework.context
 │   - FactoryServiceRetriever.java
-│   - FrameworkApplicationBootstrapper.java
-│   ├── config
-│       - FrameworkContextConfigurer.java
+│   - FrameworkContextConfigurer.java
 ├── project.framework.support
     - Subject.java
     - Observer.java
@@ -69,12 +68,12 @@ A simple FINCO framework, default support and extensible functionality for party
  -  __"project.framework.gui"__ contains all the gui helper and default classes
 
 
-| <a target="_blank" href="#">![Framework](./docs/v3/FrameworkV444.PNG)</a> |
-|------------------------------------------------------------------------------|
-| Framework                                                                    |
+| <a target="_blank" href="#">![Framework](./docs/v4/Bank 01.PNG)</a> |
+|---------------------------------------------------------------------|
+| Framework                                                           |
 
 
-| <a target="_blank" href="#">![GUI](./docs/v3/GUIV444.PNG)</a> |
+| <a target="_blank" href="#">![GUI](./docs/v4/Bank 02.PNG)</a> |
 |---------------------------------------------------------------|
 | GUI                                                           |
 
