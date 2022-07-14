@@ -1,0 +1,86 @@
+title Add Interest 
+
+actor Client
+
+Bank->Framework:1.startFinco
+activate Framework
+Bank<--Framework:
+deactivate Framework
+
+Bank->BankFrame:2.<<new>>
+activate BankFrame
+
+Bank<--BankFrame:
+deactivate BankFrame
+space
+
+
+Bank->BankFrame:3.setvisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+Client->BankFrame:4.JButtonAddinterest_actionPerformed
+activate BankFrame
+
+BankFrame->GenericJDialog_AddInterest:5.<<new>>
+activate GenericJDialog_AddInterest
+BankFrame<--GenericJDialog_AddInterest:interest
+deactivate GenericJDialog_AddInterest
+
+BankFrame->GenericJDialog_AddInterest:6.show
+activate GenericJDialog_AddInterest
+BankFrame<--GenericJDialog_AddInterest:
+Client<--BankFrame:
+
+deactivate GenericJDialog_AddInterest
+deactivate BankFrame
+
+
+Client->GenericJDialog_AddInterest:input interest rate
+activate GenericJDialog_AddInterest
+space 
+deactivate GenericJDialog_AddInterest
+BankFrame<--GenericJDialog_AddInterest:
+space 
+activate BankFrame
+
+
+BankFrame->BankFrame:7.getInterestRate
+activate BankFrame
+space
+deactivate BankFrame
+
+
+BankFrame->BankFrmController:8.addInterest
+activate BankFrmController
+BankFrmController->AbstractAccountService:9.addInterest
+activate AbstractAccountService
+
+
+AbstractAccountService->AbstractStorageService:10.getAllAccounts
+activate AbstractStorageService
+
+AbstractAccountService<--AbstractStorageService:iAccountList
+deactivate AbstractStorageService
+
+space 
+AbstractAccountService->AbstractAccountService:11.update*
+activate AbstractAccountService
+
+space
+deactivate AbstractAccountService
+BankFrmController<--AbstractAccountService:
+deactivate AbstractAccountService
+
+BankFrmController->BankAccTableModelResponse:12.<<new>>
+activate BankAccTableModelResponse
+BankFrmController<--BankAccTableModelResponse:accTableModelResponse
+deactivate BankAccTableModelResponse
+space
+BankFrame<--BankFrmController:
+deactivate BankFrmController
+
+
+deactivate BankFrame

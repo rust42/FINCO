@@ -1,0 +1,87 @@
+title Create Personal Account
+
+actor Client
+
+Bank->Framework:1.startFinco
+activate Framework
+Bank<--Framework:
+deactivate Framework
+
+
+Bank->BankFrame:2.<<new>>
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+Bank->BankFrame:3.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+Client->BankFrame:4.JButtonPersonalAC_actionPerformed
+activate BankFrame
+
+
+BankFrame->JDialog_AddPAcc:5.<<new>>
+activate JDialog_AddPAcc
+
+JDialog_AddPAcc->JDialog_AddPAcc:6.getAccFormInput
+activate JDialog_AddPAcc
+BankFrame<--JDialog_AddPAcc:
+deactivate JDialog_AddPAcc
+deactivate JDialog_AddPAcc
+Client<--BankFrame:
+deactivate BankFrame
+
+Client->JDialog_AddPAcc:userInput
+activate JDialog_AddPAcc
+
+space
+BankFrame<--JDialog_AddPAcc:
+deactivate JDialog_AddPAcc
+activate BankFrame
+BankFrame->BankViewUtil:7.createBankAccReqFromInput
+activate BankViewUtil
+
+BankViewUtil->Person:8.<<new>>
+activate Person
+BankViewUtil<--Person:person
+deactivate Person
+
+BankFrame<--BankViewUtil:personAccountRequest
+deactivate BankViewUtil
+
+BankFrame->BankFrmController:9.addBankPersonalAccount
+activate BankFrmController
+
+BankFrmController->BankAccount:10.<<new>>
+activate BankAccount
+BankFrmController<--BankAccount:bankAccount
+deactivate BankAccount
+
+BankFrmController->AbstractAccountService:11.addAccount
+activate AbstractAccountService
+BankFrmController<--AbstractAccountService:
+deactivate AbstractAccountService
+
+
+
+BankFrame<--BankFrmController:BankAccTableModelResponse
+deactivate BankFrmController
+
+
+BankFrame->GenericJTableModel:12.addNewRow
+activate GenericJTableModel
+GenericJTableModel->GenericJTableModel:13.setNewAccount
+BankFrame<--GenericJTableModel:
+
+deactivate GenericJTableModel
+
+
+
+Client<--BankFrame:
+deactivate BankFrame
+
+space 

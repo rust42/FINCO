@@ -1,0 +1,93 @@
+title Create CCard Account
+
+actor Client
+
+CCard->framework:1.startFinco
+activate framework
+CCard<--framework:
+deactivate framework
+
+
+CCard->CardFrame:2.new
+activate CardFrame
+CCard<--CardFrame:
+deactivate CardFrame
+
+
+CCard->CardFrame:3.getCurrentJFrame
+activate CardFrame
+CCardApp<--CardFrame:
+deactivate CardFrame
+
+
+Client->CardFrame:4.createAccount
+activate CardFrame
+
+
+CardFrame->JDialog_AddCCAccount:5.new
+activate JDialog_AddCCAccount
+
+JDialog_AddCCAccount->JDialog_AddCCAccount:6.getDefaultUIAccFormInput
+activate JDialog_AddCCAccount
+CardFrame<--JDialog_AddCCAccount:defaultUIAccFormInput
+deactivate JDialog_AddCCAccount
+deactivate JDialog_AddCCAccount
+Client<--CardFrame:
+deactivate CardFrame
+
+Client->JDialog_AddCCAccount:userInput
+activate JDialog_AddCCAccount
+space 
+CardFrame<--JDialog_AddCCAccount:
+deactivate JDialog_AddCCAccount
+activate CardFrame
+
+CardFrame->CreditViewUtil:7.createCreditAccountFromInput
+activate CreditViewUtil
+
+CreditViewUtil->CreditAccountRequestDTO:8.new
+activate CreditAccountRequestDTO
+CreditViewUtil<--CreditAccountRequestDTO:creditAccountRequestDTO
+deactivate CreditAccountRequestDTO
+
+
+
+CardFrame<--CreditViewUtil:creditAccountRequestDTO
+deactivate CreditViewUtil
+
+CardFrame->CCViewUtil:9.createCCCustomerFromInput
+activate CCViewUtil
+CCViewUtil->CCCustomer:10.new
+activate CCCustomer
+CCViewUtil<--CCCustomer:customer
+deactivate CCCustomer
+CardFrame<--CCViewUtil:customer
+deactivate CCViewUtil
+
+CardFrame->CreditFrmController:11.addCreditCardAccount
+activate CreditFrmController
+
+CreditFrmController->AbstractAccountService:12.addAccount
+activate AbstractAccountService
+CreditFrmController<--AbstractAccountService:
+deactivate AbstractAccountService
+
+
+
+CardFrame<--CreditFrmController:CreditAccTableModelResponse
+deactivate CreditFrmController
+
+
+CardFrame->GenericJTableModel:13.addNewRow
+activate GenericJTableModel
+GenericJTableModel->GenericJTableModel:14.setNewAccount
+CardFrame<--GenericJTableModel:
+
+deactivate GenericJTableModel
+
+
+
+Client<--CardFrame:
+deactivate CardFrame
+
+space 
