@@ -16,14 +16,14 @@ import java.awt.event.ActionEvent;
  **/
 public class CardFrame extends AbstractDefaultFrameworkGUI<CreditAccTableModelResponse> {
 
-    private GenericJTableModel<CreditAccTableModelResponse> genericJTableModel;
+    private GenericJTableModel<CreditAccTableModelResponse> genericCreditJTableModel;
     private CreditFrmController creditFrmController;
 
     public CardFrame() {
         super("Credit Card Processing Application.");
         this.creditFrmController = new CreditFrmController();
-        genericJTableModel = new GenericJTableModel<>(new CreditTableResponseModelMapper());
-        setJTableForJScrollPane(genericJTableModel);
+        genericCreditJTableModel = new GenericJTableModel<>(new CreditTableResponseModelMapper());
+        setJTableForJScrollPane(genericCreditJTableModel);
 
         // customize buttons and their functionality
         DefaultGUIComponents defaultGUIComponents = getDefaultGUIComponents();
@@ -63,7 +63,7 @@ public class CardFrame extends AbstractDefaultFrameworkGUI<CreditAccTableModelRe
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
-            genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+            genericCreditJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
             gDialogAddCCAccount.setNewaccount(false);
         }
     }

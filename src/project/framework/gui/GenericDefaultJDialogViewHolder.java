@@ -1,4 +1,4 @@
-package project.framework.gui.defaults;
+package project.framework.gui;
 
 import project.framework.gui.defaults.dialogs.*;
 

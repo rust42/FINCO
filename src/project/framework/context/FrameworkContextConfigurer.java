@@ -7,7 +7,7 @@ import project.framework.core.accountdetails.model.service.DefaultEmailToPartySe
 import project.framework.core.accountdetails.model.service.DefaultInterestCalculationStrategy;
 import project.framework.core.accountdetails.model.service.DefaultReportingStrategy;
 import project.framework.core.accountdetails.storage.service.DefaultInMemoryStorageService;
-import project.framework.gui.FincoFrame;
+import project.framework.gui.defaults.FincoFrame;
 import project.framework.gui.GenericJTableModel;
 import project.framework.gui.defaults.modal.FincoAccountModelResponseMapper;
 

@@ -3,7 +3,6 @@ package project.framework.gui;
 import project.framework.context.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.gui.defaults.DefaultGUIComponents;
-import project.framework.gui.defaults.GenericDefaultJDialogViewHolder;
 import project.framework.gui.defaults.dialogs.*;
 
 import javax.swing.*;
@@ -12,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI<T> {
+public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI<T, DefaultGUIComponents> {
 
     private String frameTitle;
     private JFrame jFrame;
@@ -44,6 +43,7 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
 
     }
 
+    @Override
     public void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel) {
         this.genericJTableModel = genericJTableModel;
         this.defaultJScrollPane = new JScrollPane();

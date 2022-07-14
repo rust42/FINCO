@@ -1,10 +1,12 @@
 package project.framework.gui;
 
-import project.framework.gui.defaults.DefaultGUIComponents;
-
 import javax.swing.*;
 
-public interface IDisplayFrameGUI<T> {
+public interface IDisplayFrameGUI<T,U> {
+
+    JFrame onCreateJFrame(String frameTitle);
+
+    JFrame getCurrJFrame();
 
     void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel);
 
@@ -12,11 +14,7 @@ public interface IDisplayFrameGUI<T> {
 
     void bindGUIComponents();
 
-    DefaultGUIComponents getDefaultGUIComponents();
-
-    JFrame onCreateJFrame(String frameTitle);
-
-    JFrame getCurrJFrame();
+    U getDefaultGUIComponents();
 
     void onExitApplication();
 

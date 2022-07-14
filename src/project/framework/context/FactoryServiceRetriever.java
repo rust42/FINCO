@@ -1,8 +1,7 @@
 package project.framework.context;
 
-import project.framework.Finco;
 import project.framework.core.accountdetails.AbstractAccountService;
-import project.framework.gui.FincoFrame;
+import project.framework.gui.defaults.FincoFrame;
 
 public class FactoryServiceRetriever {
     private static FrameworkContextConfigurer frameworkContextConfigurer = FrameworkContextConfigurer.getInstance();

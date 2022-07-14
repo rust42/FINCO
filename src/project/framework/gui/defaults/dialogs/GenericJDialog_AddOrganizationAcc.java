@@ -91,7 +91,7 @@ public class GenericJDialog_AddOrganizationAcc extends javax.swing.JDialog {
     public void bindActionListenersToJButtons() {
         //{{REGISTER_LISTENERS
         JButton_OK.addActionListener(e -> {
-            this.getAccFormInput();
+            this.getOrgAFormInputModal();
             newaccount = true;
             dispose();
         });
@@ -122,7 +122,7 @@ public class GenericJDialog_AddOrganizationAcc extends javax.swing.JDialog {
     //}}
 
 
-    public OrgAFormInputModal getAccFormInput() {
+    public OrgAFormInputModal getOrgAFormInputModal() {
         OrgAFormInputModal orgAFormInputModal = new OrgAFormInputModal();
         orgAFormInputModal.setAccountnr(JTextField_ACNR.getText());
         orgAFormInputModal.setClientName(JTextField_NAME.getText());

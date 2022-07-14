@@ -2,7 +2,7 @@ package project.framework;
 
 import project.framework.context.FactoryServiceRetriever;
 import project.framework.context.FrameworkContextConfigurer;
-import project.framework.gui.FincoFrame;
+import project.framework.gui.defaults.FincoFrame;
 
 public class Finco {
 

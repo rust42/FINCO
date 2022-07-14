@@ -1,13 +1,11 @@
 package project.bank.app.view;
 
 import project.bank.app.controller.BankFrmController;
+import project.bank.app.model.helper.AccountType;
 import project.bank.app.model.ui.BankAccTableModelResponse;
 import project.bank.app.model.ui.BankTableResponseModelMapper;
-import project.bank.app.model.helper.AccountType;
 import project.framework.gui.AbstractDefaultFrameworkGUI;
 import project.framework.gui.GenericJTableModel;
-import project.framework.gui.defaults.dialogs.GenericJDialog_Deposit;
-import project.framework.gui.defaults.dialogs.GenericJDialog_Withdraw;
 import project.framework.gui.defaults.modal.OrgAFormInputModal;
 import project.framework.gui.defaults.modal.PAFormInputModal;
 
@@ -68,7 +66,7 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
         JDialog_AddCompAcc gDialogAddOrgAcc = (JDialog_AddCompAcc) genericDefaultJDialogViewHolder.getGenericJDialog_addOrganizationAcc();
         if (gDialogAddOrgAcc.isNewaccount()) {
 
-            OrgAFormInputModal orgAFormInputModal = gDialogAddOrgAcc.getAccFormInput();
+            OrgAFormInputModal orgAFormInputModal = gDialogAddOrgAcc.getOrgAFormInputModal();
             AccountType accountTypeEnum = gDialogAddOrgAcc.getAccountType().equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
 
             try {
@@ -83,38 +81,39 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
         }
     }
 
-    @Override
-    public void onDepositDialogDisposed(int selectedRow) {
-        GenericJDialog_Deposit gDialogDeposit = genericDefaultJDialogViewHolder.getGenericJDialog_deposit();
+//    @Override
+//    public void onDepositDialogDisposed(int selectedRow) {
+//        GenericJDialog_Deposit gDialogDeposit = genericDefaultJDialogViewHolder.getGenericJDialog_deposit();
+//
+//        // compute new amount
+//        Double deposit = Double.parseDouble(gDialogDeposit.getAmountDeposit());
+//        String accnr = gDialogDeposit.getAccnr();
+//
+//        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
+//
+//        // set new amount to selection model
+//        Double currentBalance = bankAccTableModelResponse.getAmount();
+//        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
+//
+//    }
+//
+//    @Override
+//    public void onWithdrawDialogDisposed(int selectedRow) {
+//        GenericJDialog_Withdraw gDialogWithdraw = genericDefaultJDialogViewHolder.getGenericJDialog_withdraw();
+//
+//        // compute new amount
+//        Double withdraw = Double.parseDouble(gDialogWithdraw.getAmountWithdraw());
+//        String accnr = gDialogWithdraw.getAccnr();
+//
+//        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, withdraw);
+//        Double currentBalance = bankAccTableModelResponse.getAmount();
+//
+//        // set new amount to selection model
+//        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
+//        if (currentBalance < 0) {
+//            JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
+//            JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+//        }
+//    }
 
-        // compute new amount
-        Double deposit = Double.parseDouble(gDialogDeposit.getAmountDeposit());
-        String accnr = gDialogDeposit.getAccnr();
-
-        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
-
-        // set new amount to selection model
-        Double currentBalance = bankAccTableModelResponse.getAmount();
-        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
-
-    }
-
-    @Override
-    public void onWithdrawDialogDisposed(int selectedRow) {
-        GenericJDialog_Withdraw gDialogWithdraw = genericDefaultJDialogViewHolder.getGenericJDialog_withdraw();
-
-        // compute new amount
-        Double withdraw = Double.parseDouble(gDialogWithdraw.getAmountWithdraw());
-        String accnr = gDialogWithdraw.getAccnr();
-
-        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, withdraw);
-        Double currentBalance = bankAccTableModelResponse.getAmount();
-
-        // set new amount to selection model
-        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
-        if (currentBalance < 0) {
-            JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
-            JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
-        }
-    }
 }
