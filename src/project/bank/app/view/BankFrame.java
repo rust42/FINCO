@@ -1,8 +1,8 @@
 package project.bank.app.view;
 
 import project.bank.app.controller.BankFrmController;
-import project.bank.app.model.BankAccTableModelResponse;
-import project.bank.app.model.BankTableResponseModelMapper;
+import project.bank.app.model.ui.BankAccTableModelResponse;
+import project.bank.app.model.ui.BankTableResponseModelMapper;
 import project.bank.app.model.helper.AccountType;
 import project.framework.gui.AbstractDefaultFrameworkGUI;
 import project.framework.gui.GenericJTableModel;
@@ -15,13 +15,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResponse> {
-    private GenericJTableModel<BankAccTableModelResponse> genericJTableModel;
-    private BankFrmController bankFrmController = new BankFrmController();
+    private GenericJTableModel<BankAccTableModelResponse> genericBankJTableModel;
+    private BankFrmController bankFrmController;
 
     public BankFrame() {
         super("Banking Application");
-        genericJTableModel = new GenericJTableModel<>(new BankTableResponseModelMapper());
-        super.setJTableForJScrollPane(genericJTableModel);
+        this.bankFrmController = new BankFrmController();
+        genericBankJTableModel = new GenericJTableModel<>(new BankTableResponseModelMapper());
+        super.setJTableForJScrollPane(genericBankJTableModel);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
-            genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+            genericBankJTableModel.resetJTableAnchorSelection();
             gDialogAddPAC.setNewaccount(false);
         }
     }
@@ -77,7 +78,7 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
-            genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+            genericBankJTableModel.resetJTableAnchorSelection();
             gDialogAddOrgAcc.setNewaccount(false);
         }
     }
@@ -94,7 +95,7 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
 
         // set new amount to selection model
         Double currentBalance = bankAccTableModelResponse.getAmount();
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
+        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
 
     }
 
@@ -110,7 +111,7 @@ public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResp
         Double currentBalance = bankAccTableModelResponse.getAmount();
 
         // set new amount to selection model
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
+        this.genericBankJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
         if (currentBalance < 0) {
             JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
             JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);

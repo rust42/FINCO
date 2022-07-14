@@ -18,6 +18,7 @@ public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
 
         JRadioButton_Chk.setText("Checkings");
         JRadioButton_Chk.setActionCommand("Checkings");
+        JRadioButton_Chk.setSelected(true);
         getContentPane().add(JRadioButton_Chk);
         JRadioButton_Chk.setBounds(36, 0, 84, 24);
         JRadioButton_Sav.setText("Savings");

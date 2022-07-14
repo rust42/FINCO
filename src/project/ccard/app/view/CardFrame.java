@@ -19,9 +19,9 @@ public class CardFrame extends AbstractDefaultFrameworkGUI<CreditAccTableModelRe
     private GenericJTableModel<CreditAccTableModelResponse> genericJTableModel;
     private CreditFrmController creditFrmController;
 
-    public CardFrame(CreditFrmController creditFrmController) {
+    public CardFrame() {
         super("Credit Card Processing Application.");
-        this.creditFrmController = creditFrmController;
+        this.creditFrmController = new CreditFrmController();
         genericJTableModel = new GenericJTableModel<>(new CreditTableResponseModelMapper());
         setJTableForJScrollPane(genericJTableModel);
 

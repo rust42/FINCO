@@ -1,4 +1,4 @@
-package project.bank.app.model;
+package project.bank.app.model.ui;
 
 import project.bank.app.model.helper.OwnerType;
 import project.framework.core.accountdetails.model.account.Entry;

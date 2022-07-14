@@ -31,7 +31,7 @@ public class FincoFrame extends AbstractDefaultFrameworkGUI<Account> {
                 return;
             }
             addDataToGenericJTableModel(iAccount);
-            genericAccountJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+            genericJTableModel.resetJTableAnchorSelection();
             gDialogAddPAC.setNewaccount(false);
         }
     }
@@ -51,7 +51,7 @@ public class FincoFrame extends AbstractDefaultFrameworkGUI<Account> {
                 return;
             }
             addDataToGenericJTableModel(iAccount);
-            genericAccountJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+            genericJTableModel.resetJTableAnchorSelection();
         }
         gDialogAddOrgAcc.setNewaccount(false);
     }
@@ -68,8 +68,8 @@ public class FincoFrame extends AbstractDefaultFrameworkGUI<Account> {
         double currentBalance = abstractAccountService.getCurrentBalance(accnr);
 
         // set new amount to selection model
-        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
+        int defaultValueIndex = genericJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
     }
 
     @Override
@@ -83,8 +83,8 @@ public class FincoFrame extends AbstractDefaultFrameworkGUI<Account> {
         double currentBalance = abstractAccountService.getCurrentBalance(accnr);
 
         // set new amount to selection model
-        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
+        int defaultValueIndex = genericJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
         if (currentBalance < 0) {
             JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
             JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);

@@ -16,6 +16,7 @@ public class JDialog_AddCompAcc extends GenericJDialog_AddOrganizationAcc {
 
         JRadioButton_Chk.setText("Checkings");
         JRadioButton_Chk.setActionCommand("Checkings");
+        JRadioButton_Chk.setSelected(true);
         getContentPane().add(JRadioButton_Chk);
         JRadioButton_Chk.setBounds(36, 12, 84, 24);
 

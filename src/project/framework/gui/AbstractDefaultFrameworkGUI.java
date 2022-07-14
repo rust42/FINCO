@@ -18,7 +18,7 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
     private JFrame jFrame;
     private JScrollPane defaultJScrollPane;
 
-    protected GenericJTableModel<T> genericAccountJTableModel; // table wrapper
+    protected GenericJTableModel<T> genericJTableModel; // table wrapper
     protected DefaultGUIComponents defaultGUIComponents; // default gui components
     protected AbstractAccountService abstractAccountService; // service
 
@@ -26,9 +26,9 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
 
     public AbstractDefaultFrameworkGUI(String frameTitle, GenericJTableModel<T> genericAccountJTableModel) {
         this.frameTitle = frameTitle;
-        this.genericAccountJTableModel = genericAccountJTableModel;
+        this.genericJTableModel = genericAccountJTableModel;
         this.onInit();
-        setJTableForJScrollPane(this.genericAccountJTableModel);
+        setJTableForJScrollPane(this.genericJTableModel);
     }
 
     public AbstractDefaultFrameworkGUI(String frameTitle) {
@@ -45,14 +45,14 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
     }
 
     public void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel) {
-        this.genericAccountJTableModel = genericJTableModel;
+        this.genericJTableModel = genericJTableModel;
         this.defaultJScrollPane = new JScrollPane();
         defaultGUIComponents.setGenericJTableForJScrollPane(this.defaultJScrollPane, genericJTableModel);
     }
 
     @Override
     public void addDataToGenericJTableModel(T t) {
-        genericAccountJTableModel.addNewRow(t);
+        genericJTableModel.addNewRow(t);
     }
 
     @Override
@@ -133,15 +133,15 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
 
     public void onDepositButtonClicked(ActionEvent event) {
         // get selected name
-        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
-            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
-            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+            int uniqueIdIndex = genericJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
 
             //Show the dialog for adding deposit amount for the current mane
             GenericJDialog_Deposit gDialogDeposit = new GenericJDialog_Deposit(getCurrJFrame(), null, accnr);
             genericDefaultJDialogViewHolder.setGenericJDialog_deposit(gDialogDeposit);
-            gDialogDeposit.setBounds(430, 15, 275, 140);
+            gDialogDeposit.setBounds(430, 15, 275, 160);
             gDialogDeposit.show();
 
             onDepositDialogDisposed(selection);
@@ -160,21 +160,21 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
         double currentBalance = abstractAccountService.getCurrentBalance(accnr);
 
         // set new amount to selection model
-        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
+        int defaultValueIndex = genericJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
     }
 
     public void onWithdrawButtonClicked(ActionEvent event) {
         // get selected name
-        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
-            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
-            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+            int uniqueIdIndex = genericJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
 
             //Show the dialog for adding deposit amount for the current mane
             GenericJDialog_Withdraw gDialogWithdraw = new GenericJDialog_Withdraw(getCurrJFrame(), null, accnr);
             genericDefaultJDialogViewHolder.setGenericJDialog_withdraw(gDialogWithdraw);
-            gDialogWithdraw.setBounds(430, 15, 275, 140);
+            gDialogWithdraw.setBounds(430, 15, 275, 160);
             gDialogWithdraw.show();
 
             onWithdrawDialogDisposed(selection);
@@ -192,8 +192,8 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
         double currentBalance = abstractAccountService.getCurrentBalance(accnr);
 
         // set new amount to selection model
-        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
-        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
+        int defaultValueIndex = genericJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
         if (currentBalance < 0) {
             JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
             JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
@@ -215,10 +215,10 @@ public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI
 
     public void onGenerateReportButtonClicked(ActionEvent event) {
         // get selected name
-        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
         if (selection >= 0) {
-            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
-            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+            int uniqueIdIndex = genericJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
 
             // compute new amount
             String report = abstractAccountService.generateReport(accnr);

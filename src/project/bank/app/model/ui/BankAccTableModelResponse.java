@@ -1,4 +1,4 @@
-package project.bank.app.model;
+package project.bank.app.model.ui;
 
 public class BankAccTableModelResponse {
 

@@ -40,8 +40,7 @@ public class Credit extends Finco {
             AbstractAccountService abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
             abstractAccountService.setiReportingStrategy(new CreditAccountReportingStrategy());
 
-            CreditFrmController creditFrmController = new CreditFrmController();
-            new CardFrame(creditFrmController).getCurrJFrame().setVisible(true);
+            new CardFrame().getCurrJFrame().setVisible(true);
         } catch (Throwable t) {
             t.printStackTrace();
             //Ensure the application exits with an error condition.

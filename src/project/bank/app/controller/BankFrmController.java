@@ -1,6 +1,6 @@
 package project.bank.app.controller;
 
-import project.bank.app.model.BankAccTableModelResponse;
+import project.bank.app.model.ui.BankAccTableModelResponse;
 import project.bank.app.model.BankAccount;
 import project.bank.app.model.helper.AccountType;
 import project.framework.context.FactoryServiceRetriever;

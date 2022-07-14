@@ -32,6 +32,10 @@ public class GenericJTableModel<T> {
         return jTable;
     }
 
+    public void resetJTableAnchorSelection() {
+        getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
+    }
+
     public DefaultTableModel getModel() {
         return model;
     }
