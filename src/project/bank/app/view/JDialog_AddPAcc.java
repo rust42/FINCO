@@ -1,16 +1,18 @@
 package project.bank.app.view;
 
-import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog_AddPersonalAcc;
+
+import javax.swing.*;
 
 /**
  * A basic implementation of the JDialog class.
  **/
 
 public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
-    private BankFrame parentframe;
+    private JFrame parentframe;
+    private String accountType;
 
-    public JDialog_AddPAcc(BankFrame parent) {
+    public JDialog_AddPAcc(JFrame parent) {
         super(parent, "Add personal account");
         parentframe = parent;
 
@@ -35,6 +37,16 @@ public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
         JRadioButton_Sav.addMouseListener(aSymMouse);
 
         //}}
+
+        super.getJButton_OK().addActionListener(e -> {
+            if (JRadioButton_Chk.isSelected())
+                accountType = "CHECKING";
+            else
+                accountType = "SAVING";
+            setNewaccount(true);
+            dispose();
+        });
+
     }
 
 
@@ -71,17 +83,7 @@ public class JDialog_AddPAcc extends GenericJDialog_AddPersonalAcc {
 
     }
 
-    @Override
-    public void JButtonOK_actionPerformed(java.awt.event.ActionEvent event) {
-        DefaultUIAccFormInput accFormInput = getAccFormInput();
-        parentframe.setDefaultUIAccFormInput(accFormInput);
-
-        if (JRadioButton_Chk.isSelected())
-            parentframe.accountType = "CHECKING";
-        else
-            parentframe.accountType = "SAVING";
-        parentframe.setNewAccount(true);
-        dispose();
+    public String getAccountType() {
+        return accountType;
     }
-
 }

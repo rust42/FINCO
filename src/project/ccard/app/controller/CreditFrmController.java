@@ -1,39 +1,48 @@
 package project.ccard.app.controller;
 
 import project.ccard.app.model.CCAccount;
-import project.ccard.app.model.CCCustomer;
 import project.ccard.app.model.CreditAccTableModelResponse;
-import project.ccard.app.model.CreditAccountRequestDTO;
-import project.ccard.app.services.CreditAccountReportingStrategy;
-import project.framework.context.config.FactoryServiceRetriever;
+import project.ccard.app.model.TierLevel;
+import project.framework.context.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
-import project.framework.core.accountdetails.model.party.IParty;
 import project.framework.core.accountdetails.model.party.Person;
+import project.framework.gui.defaults.modal.FormInputUtil;
+import project.framework.gui.defaults.modal.PAFormInputModal;
+
+import java.time.LocalDate;
 
 public class CreditFrmController {
 
     AbstractAccountService<CCAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public CreditAccTableModelResponse addCreditCardAccount(CCCustomer ccCustomer, CreditAccountRequestDTO creditAccountRequestDTO) {
+    public CreditAccTableModelResponse addCreditCardAccount(PAFormInputModal paFormInputModal, String ccNumber, String accType, String expDate) {
+
+        TierLevel tierLevel;
+        if (accType.equals(TierLevel.GOLD.toString())) {
+            tierLevel = TierLevel.GOLD;
+        } else if (accType.equals(TierLevel.SILVER.toString())) {
+            tierLevel = TierLevel.SILVER;
+        } else {
+            tierLevel = TierLevel.BRONZE;
+        }
+
         CCAccount creditAccount = new CCAccount();
-        creditAccount.setUniqueId(creditAccountRequestDTO.getCcNumber());
-        creditAccount.setCcNumber(creditAccountRequestDTO.getCcNumber());
-        creditAccount.setExpDate(creditAccountRequestDTO.getExpiryDate());
-        creditAccount.setTierLevel(creditAccountRequestDTO.getTierLevel());
-        creditAccount.setiParty(ccCustomer);
+        creditAccount.setUniqueId(ccNumber);
+        creditAccount.setCcNumber(ccNumber);
+        creditAccount.setExpDate(LocalDate.now()); // TODO expDate
+        creditAccount.setTierLevel(tierLevel);
+
+        Person person = new Person();
+        FormInputUtil.mapAbstractAccFormInputModalToParty(paFormInputModal, person);
+        creditAccount.setiParty(person);
 
         abstractAccountService.addAccount(creditAccount);
 
         CreditAccTableModelResponse ccTableModelResponse = new CreditAccTableModelResponse();
-        ccTableModelResponse.setCcNumber(creditAccountRequestDTO.getCcNumber());
-        ccTableModelResponse.setClientName(ccCustomer.getName());
-        ccTableModelResponse.setExpDate(creditAccountRequestDTO.getExpiryDate().toString());
+        ccTableModelResponse.setCcNumber(creditAccount.getCcNumber());
+        ccTableModelResponse.setClientName(person.getName());
+        ccTableModelResponse.setExpDate(creditAccount.getExpDate().toString());
         return ccTableModelResponse;
-    }
-
-    public String generateMonthlyBills(String ccNumber) {
-
-        return null;
     }
 
     public CreditAccTableModelResponse deposit(String ccNumber, Double depositAmount) {
@@ -51,7 +60,6 @@ public class CreditFrmController {
     }
 
     public String getReport(String accnr) {
-        abstractAccountService.setiReportingStrategy(new CreditAccountReportingStrategy());
         return abstractAccountService.generateReport(accnr);
     }
 

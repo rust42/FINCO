@@ -35,4 +35,8 @@ public class GenericJTableModel<T> {
     public DefaultTableModel getModel() {
         return model;
     }
+
+    public TableModelRowMapper<T> getTableModelRowMapper() {
+        return tableModelRowMapper;
+    }
 }

@@ -1,31 +1,20 @@
 package project.framework.gui;
 
 import project.framework.gui.defaults.DefaultGUIComponents;
-import project.framework.gui.defaults.DefaultUIAccFormInput;
 
 import javax.swing.*;
 
-public interface IDisplayFrameGUI {
+public interface IDisplayFrameGUI<T> {
 
-    <T> void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel);
+    void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel);
 
-    boolean isNewAccount();
+    void addDataToGenericJTableModel(T t);
 
-    void setNewAccount(boolean isNewAccount);
+    void bindGUIComponents();
 
-    void  bindGUIComponents(DefaultGUIComponents defaultGUIComponents);
+    DefaultGUIComponents getDefaultGUIComponents();
 
-    DefaultUIAccFormInput getDefaultUIAccFormInput();
-
-    void setDefaultUIAccFormInput(DefaultUIAccFormInput uiAccFormInput);
-
-    void setDepositAmount(String amount);
-
-    void setAmountWithdraw(String withdrawAmount);
-
-    void setInterestAmount(String interestRate);
-
-    JFrame createJFrame(String frameTitle);
+    JFrame onCreateJFrame(String frameTitle);
 
     JFrame getCurrJFrame();
 

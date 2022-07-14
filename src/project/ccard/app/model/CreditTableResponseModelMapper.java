@@ -19,4 +19,14 @@ public class CreditTableResponseModelMapper implements TableModelRowMapper<Credi
         return new String[]{"Name", "CC Number",  "Exp Date", "Account type", "Amount"};
     }
 
+    @Override
+    public int getUniqueIdIndex() {
+        return 1;
+    }
+
+    @Override
+    public int getDefaultValueIndex() {
+        return 4;
+    }
+
 }

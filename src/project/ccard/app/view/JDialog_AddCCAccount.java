@@ -1,13 +1,19 @@
 package project.ccard.app.view;
 
 
-import project.framework.gui.defaults.DefaultUIAccFormInput;
 import project.framework.gui.defaults.dialogs.GenericJDialog_AddPersonalAcc;
 
-public class JDialog_AddCCAccount extends GenericJDialog_AddPersonalAcc {
-    private CardFrame parentframe;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
-    public JDialog_AddCCAccount(CardFrame parent) {
+public class JDialog_AddCCAccount extends GenericJDialog_AddPersonalAcc {
+    private JFrame parentframe;
+
+    private String ccnumber;
+    private String expdate;
+    private String accountType;
+
+    public JDialog_AddCCAccount(JFrame parent) {
         super(parent, "Add credit card account");
         parentframe = parent;
 
@@ -54,6 +60,10 @@ public class JDialog_AddCCAccount extends GenericJDialog_AddPersonalAcc {
         // customizing ok and cancel bounds
         getJButton_OK().setBounds(48, 300, 84, 24);
         getJButton_Cancel().setBounds(156, 300, 84, 24);
+
+        getJButton_OK().addActionListener(e -> {
+            JButtonOK_actionPerformed(e);
+        });
 
         //{{REGISTER_LISTENERS
         SymMouse aSymMouse = new SymMouse();
@@ -109,22 +119,31 @@ public class JDialog_AddCCAccount extends GenericJDialog_AddPersonalAcc {
 
     }
 
-    public void JButtonOK_actionPerformed(java.awt.event.ActionEvent event) {
-        DefaultUIAccFormInput accFormInput = getAccFormInput();
-        parentframe.setDefaultUIAccFormInput(accFormInput);
-        parentframe.ccnumber = JTextField_CCNR.getText();
-        parentframe.expdate = JTextField_ExpDate.getText();
+    public void JButtonOK_actionPerformed(ActionEvent event) {
+        ccnumber = JTextField_CCNR.getText();
+        expdate = JTextField_ExpDate.getText();
         if (JRadioButton_Gold.isSelected())
-            parentframe.accountType = "Gold";
+            accountType = "Gold";
         else {
             if (JRadioButton_Silver.isSelected())
-                parentframe.accountType = "Silver";
+                accountType = "Silver";
             else
-                parentframe.accountType = "Bronze";
+                accountType = "Bronze";
         }
 
-        parentframe.setNewAccount(true);
+        setNewaccount(true);
         dispose();
     }
 
+    public String getCcnumber() {
+        return ccnumber;
+    }
+
+    public String getExpdate() {
+        return expdate;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
 }

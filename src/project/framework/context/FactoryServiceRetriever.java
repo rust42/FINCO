@@ -1,6 +1,8 @@
-package project.framework.context.config;
+package project.framework.context;
 
+import project.framework.Finco;
 import project.framework.core.accountdetails.AbstractAccountService;
+import project.framework.gui.FincoFrame;
 
 public class FactoryServiceRetriever {
     private static FrameworkContextConfigurer frameworkContextConfigurer = FrameworkContextConfigurer.getInstance();
@@ -8,6 +10,8 @@ public class FactoryServiceRetriever {
     public static <T> T getService(Class<T> tClass) {
         if (tClass.isAssignableFrom(AbstractAccountService.class)) {
             return (T) frameworkContextConfigurer.getAbstractAccountService();
+        } else if (tClass.isAssignableFrom(FincoFrame.class)) {
+            return (T) frameworkContextConfigurer.getFincoFrame();
         } else if (tClass.isAssignableFrom(FrameworkContextConfigurer.class)) {
             return (T) frameworkContextConfigurer;
         }

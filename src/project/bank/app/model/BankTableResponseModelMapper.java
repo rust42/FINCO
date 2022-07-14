@@ -19,4 +19,14 @@ public class BankTableResponseModelMapper implements TableModelRowMapper<BankAcc
     public String[] getColumns() {
         return new String[]{"AccNr", "Name", "City", "P/C", "Ch/S", "Amount"};
     }
+
+    @Override
+    public int getUniqueIdIndex() {
+        return 0;
+    }
+
+    @Override
+    public int getDefaultValueIndex() {
+        return 5;
+    }
 }

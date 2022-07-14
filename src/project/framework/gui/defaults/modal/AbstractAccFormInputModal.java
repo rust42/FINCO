@@ -1,6 +1,6 @@
-package project.framework.gui.defaults;
+package project.framework.gui.defaults.modal;
 
-public class DefaultUIAccFormInput {
+public abstract class AbstractAccFormInputModal {
 
     String accountnr;
     String clientName;

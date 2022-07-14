@@ -3,22 +3,30 @@ package project.bank.app.controller;
 import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankAccount;
 import project.bank.app.model.helper.AccountType;
-import project.bank.app.model.helper.OwnerType;
-import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.context.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.party.Organization;
 import project.framework.core.accountdetails.model.party.Person;
+import project.framework.gui.defaults.modal.FormInputUtil;
+import project.framework.gui.defaults.modal.OrgAFormInputModal;
+import project.framework.gui.defaults.modal.PAFormInputModal;
+
+import java.time.LocalDate;
 
 public class BankFrmController {
 
     AbstractAccountService<BankAccount> abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
 
-    public BankAccTableModelResponse addBankPersonalAccount(Person personRequest, String uniqueAccId, AccountType accountType) throws Exception {
+    public BankAccTableModelResponse addBankPersonalAccount(PAFormInputModal paFormInputModal, AccountType accountType) throws Exception {
+
+        Person person = new Person();
+        FormInputUtil.mapAbstractAccFormInputModalToParty(paFormInputModal, person);
+        person.setBirthDate(LocalDate.now());
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setiParty(personRequest);
+        bankAccount.setiParty(person);
 
-        bankAccount.setUniqueId(uniqueAccId);
+        bankAccount.setUniqueId(paFormInputModal.getAccountnr());
         bankAccount.setBalance(0);
         bankAccount.setAccountType(accountType);
         double interestRate = accountType.equals(AccountType.SAVING.toString()) ? 0.0325 : 0.01;
@@ -29,7 +37,7 @@ public class BankFrmController {
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
         accTableModelResponse.setAcctNr(bankAccount.getUniqueId());
         accTableModelResponse.setName(bankAccount.getParty().getName());
-        accTableModelResponse.setCity(personRequest.getCity());
+        accTableModelResponse.setCity(person.getCity());
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);
@@ -38,12 +46,16 @@ public class BankFrmController {
         return accTableModelResponse;
     }
 
-    public BankAccTableModelResponse addBankCompanyAccount(Organization organizationRequest, String uniqueAccId, AccountType accountType) throws Exception {
+    public BankAccTableModelResponse addBankCompanyAccount(OrgAFormInputModal orgAFormInputModal, AccountType accountType) throws Exception {
+
+        Organization organization = new Organization();
+        FormInputUtil.mapAbstractAccFormInputModalToParty(orgAFormInputModal, organization);
+        organization.setNoOfEmployees(organization.getNoOfEmployees());
 
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setiParty(organizationRequest);
+        bankAccount.setiParty(organization);
 
-        bankAccount.setUniqueId(uniqueAccId);
+        bankAccount.setUniqueId(orgAFormInputModal.getAccountnr());
         bankAccount.setBalance(0);
         bankAccount.setAccountType(accountType);
         double interestRate = accountType.equals(AccountType.SAVING.toString()) ? 0.0325 : 0.01;
@@ -54,7 +66,7 @@ public class BankFrmController {
         BankAccTableModelResponse accTableModelResponse = new BankAccTableModelResponse();
         accTableModelResponse.setAcctNr(bankAccount.getUniqueId());
         accTableModelResponse.setName(bankAccount.getParty().getName());
-        accTableModelResponse.setCity(organizationRequest.getCity());
+        accTableModelResponse.setCity(organization.getCity());
 
         String accType = accountType.equals(AccountType.CHECKING) ? "C" : "S";
         accTableModelResponse.setAccountType(accType);

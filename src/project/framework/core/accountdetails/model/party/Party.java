@@ -1,6 +1,6 @@
 package project.framework.core.accountdetails.model.party;
 
-import project.framework.context.config.FactoryServiceRetriever;
+import project.framework.context.FactoryServiceRetriever;
 import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.core.accountdetails.model.account.IAccount;
 import project.framework.core.accountdetails.model.account.IEntry;

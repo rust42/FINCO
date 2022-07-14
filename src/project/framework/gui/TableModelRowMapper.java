@@ -7,4 +7,8 @@ public interface TableModelRowMapper<T> {
 //    T mapFromObjectToData(Object object);
 
     String[] getColumns();
+
+    int getUniqueIdIndex();
+
+    int getDefaultValueIndex();
 }

@@ -4,25 +4,17 @@ import project.bank.app.controller.BankFrmController;
 import project.bank.app.model.BankAccTableModelResponse;
 import project.bank.app.model.BankTableResponseModelMapper;
 import project.bank.app.model.helper.AccountType;
-import project.framework.core.accountdetails.model.party.Organization;
-import project.framework.core.accountdetails.model.party.Person;
 import project.framework.gui.AbstractDefaultFrameworkGUI;
 import project.framework.gui.GenericJTableModel;
-import project.framework.gui.defaults.DefaultUIAccFormInput;
-import project.framework.gui.defaults.dialogs.GenericJDialog;
-import project.framework.gui.defaults.dialogs.GenericJDialog_AddInterest;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Deposit;
 import project.framework.gui.defaults.dialogs.GenericJDialog_Withdraw;
+import project.framework.gui.defaults.modal.OrgAFormInputModal;
+import project.framework.gui.defaults.modal.PAFormInputModal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.time.LocalDate;
 
-/**
- * A basic JFC based application.
- **/
-public class BankFrame extends AbstractDefaultFrameworkGUI {
-    String accountType;
+public class BankFrame extends AbstractDefaultFrameworkGUI<BankAccTableModelResponse> {
     private GenericJTableModel<BankAccTableModelResponse> genericJTableModel;
     private BankFrmController bankFrmController = new BankFrmController();
 
@@ -33,157 +25,95 @@ public class BankFrame extends AbstractDefaultFrameworkGUI {
     }
 
     @Override
-    public void JButtonPersonalAC_actionPerformed(java.awt.event.ActionEvent event) {
-		/*
-		 JDialog_AddPAcc type object is for adding personal information
-		 construct a JDialog_AddPAcc type object 
-		 set the boundaries and show it 
-		*/
-
-        JDialog_AddPAcc pac = new JDialog_AddPAcc(this);
+    public void onCreatePersonalAccountButtonClicked(ActionEvent actionEvent) {
+        JDialog_AddPAcc pac = new JDialog_AddPAcc(getCurrJFrame());
         pac.setBounds(450, 20, 300, 330);
+        genericDefaultJDialogViewHolder.setGenericJDialog_addPersonalAcc(pac);
         pac.show();
+        onAddPACDialogDisposed();
+    }
 
-        if (isNewAccount()) {
-            DefaultUIAccFormInput defaultUIAccFormInput = pac.getAccFormInput();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
+    @Override
+    public void onAddPACDialogDisposed() {
+        JDialog_AddPAcc gDialogAddPAC = (JDialog_AddPAcc) genericDefaultJDialogViewHolder.getGenericJDialog_addPersonalAcc();
 
-            String dateOfBirth = pac.getJTextField_BD().getText();
-            LocalDate parseDOB = null;
+        if (gDialogAddPAC.isNewaccount()) {
+            PAFormInputModal paFormInputModal = gDialogAddPAC.getPAFormInputModal();
+            AccountType accountTypeEnum = gDialogAddPAC.getAccountType().equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
+
             try {
-                parseDOB = LocalDate.parse(dateOfBirth);
-            } catch (Exception e) {
-                parseDOB = LocalDate.of(2000, 01, 01); // default
-            }
-            Person personAccountRequest = BankViewUtil.createBankAccountRequestFromInput(defaultUIAccFormInput, parseDOB);
-
-            BankAccTableModelResponse bankAccTableModelResponse = null;
-            try {
-                bankAccTableModelResponse = this.bankFrmController
-                        .addBankPersonalAccount(personAccountRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum);
+                BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankPersonalAccount(paFormInputModal, accountTypeEnum);
+                addDataToGenericJTableModel(bankAccTableModelResponse);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
-            genericJTableModel.addNewRow(bankAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
-            setNewAccount(false);
+            gDialogAddPAC.setNewaccount(false);
         }
-
-
     }
 
     @Override
-    public void JButtonOrganizationAC_actionPerformed(java.awt.event.ActionEvent event) {
-		/*
-		 construct a JDialog_AddCompAcc type object 
-		 set the boundaries and 
-		 show it 
-		*/
-
-        JDialog_AddCompAcc pac = new JDialog_AddCompAcc(this);
+    public void onCreateOrganizationAccountButtonClicked(ActionEvent actionEvent) {
+        JDialog_AddCompAcc pac = new JDialog_AddCompAcc(getCurrJFrame());
+        genericDefaultJDialogViewHolder.setGenericJDialog_addOrganizationAcc(pac);
         pac.setBounds(450, 20, 300, 330);
         pac.show();
+        onAddOrgACDialogDisposed();
+    }
 
-        if (super.isNewAccount()) {
+    @Override
+    public void onAddOrgACDialogDisposed() {
+        JDialog_AddCompAcc gDialogAddOrgAcc = (JDialog_AddCompAcc) genericDefaultJDialogViewHolder.getGenericJDialog_addOrganizationAcc();
+        if (gDialogAddOrgAcc.isNewaccount()) {
 
-            DefaultUIAccFormInput defaultUIAccFormInput = pac.getAccFormInput();
-            AccountType accountTypeEnum = accountType.equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
+            OrgAFormInputModal orgAFormInputModal = gDialogAddOrgAcc.getAccFormInput();
+            AccountType accountTypeEnum = gDialogAddOrgAcc.getAccountType().equals(AccountType.CHECKING.toString()) ? AccountType.CHECKING : AccountType.SAVING;
 
-            String noOfEmployee = pac.getJTextField_NoOfEmp().getText();
-            Organization organizationRequest = BankViewUtil.createBankOrganizationAccountRequestFromInput(defaultUIAccFormInput, noOfEmployee);
-            BankAccTableModelResponse bankAccTableModelResponse = null;
             try {
-                bankAccTableModelResponse = this.bankFrmController
-                        .addBankCompanyAccount(organizationRequest, defaultUIAccFormInput.getAccountnr(), accountTypeEnum);
+                BankAccTableModelResponse bankAccTableModelResponse = this.bankFrmController.addBankCompanyAccount(orgAFormInputModal, accountTypeEnum);
+                addDataToGenericJTableModel(bankAccTableModelResponse);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(getCurrJFrame(), e.getMessage());
                 return;
             }
-            genericJTableModel.addNewRow(bankAccTableModelResponse);
             genericJTableModel.getjTable().getSelectionModel().setAnchorSelectionIndex(-1);
-            super.setNewAccount(false);
+            gDialogAddOrgAcc.setNewaccount(false);
         }
+    }
+
+    @Override
+    public void onDepositDialogDisposed(int selectedRow) {
+        GenericJDialog_Deposit gDialogDeposit = genericDefaultJDialogViewHolder.getGenericJDialog_deposit();
+
+        // compute new amount
+        Double deposit = Double.parseDouble(gDialogDeposit.getAmountDeposit());
+        String accnr = gDialogDeposit.getAccnr();
+
+        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
+
+        // set new amount to selection model
+        Double currentBalance = bankAccTableModelResponse.getAmount();
+        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
 
     }
 
     @Override
-    public void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {
-        // get selected name
-        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
-        if (selection >= 0) {
-            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
+    public void onWithdrawDialogDisposed(int selectedRow) {
+        GenericJDialog_Withdraw gDialogWithdraw = genericDefaultJDialogViewHolder.getGenericJDialog_withdraw();
 
-            //Show the dialog for adding deposit amount for the current mane
-            GenericJDialog_Deposit dep = new GenericJDialog_Deposit(this, null, accnr);
-            dep.setBounds(430, 15, 275, 140);
-            dep.show();
+        // compute new amount
+        Double withdraw = Double.parseDouble(gDialogWithdraw.getAmountWithdraw());
+        String accnr = gDialogWithdraw.getAccnr();
 
-            // compute new amount
-            Double deposit = Double.parseDouble(getAmountDeposit());
-            BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.deposit(accnr, deposit);
+        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, withdraw);
+        Double currentBalance = bankAccTableModelResponse.getAmount();
 
-            // set new amount to selection model
-            Double newamount = bankAccTableModelResponse.getAmount();
-            genericJTableModel.getModel().setValueAt(String.valueOf(newamount), selection, 5);
-            setDepositAmount("0");
-        }
-
-
-    }
-
-    public void JButtonWithdraw_actionPerformed(java.awt.event.ActionEvent event) {
-        // get selected name
-        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
-        if (selection >= 0) {
-            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
-
-            //Show the dialog for adding withdraw amount for the current mane
-            GenericJDialog_Withdraw wd = new GenericJDialog_Withdraw(this, null, accnr);
-            wd.setBounds(430, 15, 275, 140);
-            wd.show();
-
-            // compute new amount
-            Double deposit = Double.parseDouble(getAmountWithdraw());
-            BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.withdraw(accnr, deposit);
-            Double newamount = bankAccTableModelResponse.getAmount();
-            genericJTableModel.getModel().setValueAt(String.valueOf(newamount), selection, 5);
-            if (newamount < 0) {
-                JButton jButton_withdraw = super.getDefaultGUIComponents().getJButton_Withdraw();
-                JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-
-
-    }
-
-    public void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
-        GenericJDialog_AddInterest interest = new GenericJDialog_AddInterest(this, null, null);
-        interest.setBounds(430, 15, 275, 140);
-        interest.show();
-
-        Double _interest = Double.parseDouble(getInterestRate());
-        BankAccTableModelResponse bankAccTableModelResponse = bankFrmController.addInterest(_interest);
-
-
-//        JOptionPane.showMessageDialog(JButton_Addinterest,
-//                "Add interest to all accounts", "Add interest to all accounts",
-//                JOptionPane.WARNING_MESSAGE);
-
-    }
-
-    @Override
-    protected void JButtonGenerateReport_actionPerformed(ActionEvent event) {
-        // get selected name
-        int selection = genericJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
-        if (selection >= 0) {
-            String accnr = (String) genericJTableModel.getModel().getValueAt(selection, 0);
-
-            // compute new amount
-            String report = bankFrmController.getReport(accnr);
-            GenericJDialog billFrm = new GenericJDialog(this, report);
-            billFrm.setBounds(450, 20, 400, 350);
-            billFrm.show();
+        // set new amount to selection model
+        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, 5);
+        if (currentBalance < 0) {
+            JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
+            JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

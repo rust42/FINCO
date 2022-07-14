@@ -1,15 +1,22 @@
 package project.bank;
 
 import project.bank.app.view.BankFrame;
-import project.framework.context.FrameworkApplicationBootstrapper;
+import project.framework.Finco;
 
 import javax.swing.*;
 
-public class BankApplication {
+public class Bank extends Finco {
+
+    public Bank(String[] args) {
+        super(args, Bank.class);
+    }
 
     static public void main(String args[]) {
-        FrameworkApplicationBootstrapper.startFinco(BankApplication.class, args);
+        new Bank(args);
+    }
 
+    @Override
+    public void onContextLoaded() {
         System.out.println("Bank Application");
         try {
             // Add the following code if you want the Look and Feel

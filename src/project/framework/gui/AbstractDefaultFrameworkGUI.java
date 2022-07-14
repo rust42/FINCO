@@ -1,104 +1,81 @@
 package project.framework.gui;
 
-import project.framework.core.accountdetails.model.account.Account;
+import project.framework.context.FactoryServiceRetriever;
+import project.framework.core.accountdetails.AbstractAccountService;
 import project.framework.gui.defaults.DefaultGUIComponents;
-import project.framework.gui.defaults.DefaultUIAccFormInput;
-import project.framework.gui.defaults.FincoAccountModelResponseMapper;
+import project.framework.gui.defaults.GenericDefaultJDialogViewHolder;
+import project.framework.gui.defaults.dialogs.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public abstract class AbstractDefaultFrameworkGUI implements IDisplayFrameGUI {
+public abstract class AbstractDefaultFrameworkGUI<T> implements IDisplayFrameGUI<T> {
 
-    /**
-     * Default input states: defaultUIAccFormInput, amountDeposit, interestRate, newaccount
-     */
-    DefaultUIAccFormInput defaultUIAccFormInput;
-    String amountDeposit = "0.0";
-    String amountWithdraw = "0.0";
-    String interestRate = "0.0";
-    boolean newaccount;
+    private String frameTitle;
     private JFrame jFrame;
-
     private JScrollPane defaultJScrollPane;
 
-    private GenericJTableModel<Account> genericAccountJTableModel = new GenericJTableModel<>(new FincoAccountModelResponseMapper<>());
-    ;
-    private DefaultGUIComponents defaultGUIComponents;
+    protected GenericJTableModel<T> genericAccountJTableModel; // table wrapper
+    protected DefaultGUIComponents defaultGUIComponents; // default gui components
+    protected AbstractAccountService abstractAccountService; // service
 
-    public AbstractDefaultFrameworkGUI(String frameTitle) {
-        this.createJFrame(frameTitle);
+    protected GenericDefaultJDialogViewHolder genericDefaultJDialogViewHolder = new GenericDefaultJDialogViewHolder();
 
-        // setting some defaults
-        defaultGUIComponents = new DefaultGUIComponents(this);
-        this.bindGUIComponents(defaultGUIComponents);
+    public AbstractDefaultFrameworkGUI(String frameTitle, GenericJTableModel<T> genericAccountJTableModel) {
+        this.frameTitle = frameTitle;
+        this.genericAccountJTableModel = genericAccountJTableModel;
+        this.onInit();
+        setJTableForJScrollPane(this.genericAccountJTableModel);
     }
 
-    @Override
-    public <T> void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel) {
+    public AbstractDefaultFrameworkGUI(String frameTitle) {
+        this.frameTitle = frameTitle;
+        this.onInit();
+    }
+
+    private void onInit() {
+        abstractAccountService = FactoryServiceRetriever.getService(AbstractAccountService.class);
+        this.onCreateJFrame(this.frameTitle);
+        defaultGUIComponents = new DefaultGUIComponents(this);
+        this.bindGUIComponents();
+
+    }
+
+    public void setJTableForJScrollPane(GenericJTableModel<T> genericJTableModel) {
+        this.genericAccountJTableModel = genericJTableModel;
         this.defaultJScrollPane = new JScrollPane();
         defaultGUIComponents.setGenericJTableForJScrollPane(this.defaultJScrollPane, genericJTableModel);
     }
 
     @Override
-    public void bindGUIComponents(DefaultGUIComponents defaultGUIComponents) {
-        AbstractDefaultFrameworkGUI.SymWindow aSymWindow = new AbstractDefaultFrameworkGUI.SymWindow();
-        jFrame.addWindowListener(aSymWindow);
-        AbstractDefaultFrameworkGUI.SymAction lSymAction = new AbstractDefaultFrameworkGUI.SymAction();
-        defaultGUIComponents.getJButton_Exit().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_PersonalAC().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_OrganizationAC().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_Deposit().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_Withdraw().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_Addinterest().addActionListener(lSymAction);
-        defaultGUIComponents.getJButton_Report().addActionListener(lSymAction);
-
+    public void addDataToGenericJTableModel(T t) {
+        genericAccountJTableModel.addNewRow(t);
     }
 
     @Override
-    public boolean isNewAccount() {
-        return this.newaccount;
-    }
-
-    @Override
-    public void setNewAccount(boolean isNewAccount) {
-        this.newaccount = isNewAccount;
-    }
-
-    @Override
-    public DefaultUIAccFormInput getDefaultUIAccFormInput() {
-        return this.defaultUIAccFormInput;
-    }
-
-    @Override
-    public void setDefaultUIAccFormInput(DefaultUIAccFormInput defaultUIAccFormInput) {
-        this.defaultUIAccFormInput = defaultUIAccFormInput;
-    }
-
-    public String getAmountDeposit() {
-        return amountDeposit;
-    }
-
-    public String getInterestRate() {
-        return interestRate;
-    }
-
-    @Override
-    public void setDepositAmount(String amount) {
-        this.amountDeposit = amount;
-    }
-
-    public String getAmountWithdraw() {
-        return amountWithdraw;
-    }
-
-    public void setAmountWithdraw(String amountWithdraw) {
-        this.amountWithdraw = amountWithdraw;
-    }
-
-    @Override
-    public void setInterestAmount(String interestRate) {
-        this.interestRate = interestRate;
+    public void bindGUIComponents() {
+        jFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                onExitApplication();
+            }
+        });
+        defaultGUIComponents.getJButton_Exit().addActionListener(e -> System.exit(0));
+        defaultGUIComponents.getJButton_PersonalAC().addActionListener(e -> {
+            onCreatePersonalAccountButtonClicked(e);
+        });
+        defaultGUIComponents.getJButton_OrganizationAC().addActionListener(e -> {
+            onCreateOrganizationAccountButtonClicked(e);
+        });
+        defaultGUIComponents.getJButton_Deposit().addActionListener(e -> {
+            onDepositButtonClicked(e);
+        });
+        defaultGUIComponents.getJButton_Withdraw().addActionListener(e -> onWithdrawButtonClicked(e));
+        defaultGUIComponents.getJButton_Addinterest().addActionListener(e -> onAddInterestButtonClicked(e));
+        defaultGUIComponents.getJButton_Report().addActionListener(e -> onGenerateReportButtonClicked(e));
     }
 
     public DefaultGUIComponents getDefaultGUIComponents() {
@@ -106,7 +83,7 @@ public abstract class AbstractDefaultFrameworkGUI implements IDisplayFrameGUI {
     }
 
     @Override
-    public JFrame createJFrame(String frameTitle) {
+    public JFrame onCreateJFrame(String frameTitle) {
         JFrame jFrame = new JFrame();
         jFrame.setTitle(frameTitle);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -117,12 +94,14 @@ public abstract class AbstractDefaultFrameworkGUI implements IDisplayFrameGUI {
         return jFrame;
     }
 
+    @Override
     public void onExitApplication() {
         try {
             this.jFrame.setVisible(false);    // hide the Frame
             this.jFrame.dispose();            // free the system resources
             System.exit(0);            // close the application
         } catch (Exception e) {
+
         }
     }
 
@@ -131,65 +110,122 @@ public abstract class AbstractDefaultFrameworkGUI implements IDisplayFrameGUI {
         return this.jFrame;
     }
 
+    public void onCreatePersonalAccountButtonClicked(ActionEvent actionEvent) {
+        GenericJDialog_AddPersonalAcc gDialogAddPAC = new GenericJDialog_AddPersonalAcc(getCurrJFrame(), "Add personal account");
+        genericDefaultJDialogViewHolder.setGenericJDialog_addPersonalAcc(gDialogAddPAC);
+        gDialogAddPAC.setBounds(450, 20, 300, 330);
+        gDialogAddPAC.show();
+        onAddPACDialogDisposed();
+    }
 
-    class SymWindow extends java.awt.event.WindowAdapter {
-        public void windowClosing(java.awt.event.WindowEvent event) {
-            Object object = event.getSource();
-            if (object == AbstractDefaultFrameworkGUI.this)
-                AbstractFrm_windowClosing(event);
+    public abstract void onAddPACDialogDisposed();
+
+    public void onCreateOrganizationAccountButtonClicked(ActionEvent actionEvent) {
+        GenericJDialog_AddOrganizationAcc gDialogAddOrgAcc = new GenericJDialog_AddOrganizationAcc(getCurrJFrame(), "Add Organization account");
+        genericDefaultJDialogViewHolder.setGenericJDialog_addOrganizationAcc(gDialogAddOrgAcc);
+        gDialogAddOrgAcc.setBounds(450, 20, 300, 330);
+        gDialogAddOrgAcc.show();
+        onAddOrgACDialogDisposed();
+    }
+
+    public abstract void onAddOrgACDialogDisposed();
+
+
+    public void onDepositButtonClicked(ActionEvent event) {
+        // get selected name
+        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        if (selection >= 0) {
+            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+
+            //Show the dialog for adding deposit amount for the current mane
+            GenericJDialog_Deposit gDialogDeposit = new GenericJDialog_Deposit(getCurrJFrame(), null, accnr);
+            genericDefaultJDialogViewHolder.setGenericJDialog_deposit(gDialogDeposit);
+            gDialogDeposit.setBounds(430, 15, 275, 140);
+            gDialogDeposit.show();
+
+            onDepositDialogDisposed(selection);
+            gDialogDeposit.setAmountDeposit("0");
         }
     }
 
-    void AbstractFrm_windowClosing(java.awt.event.WindowEvent event) {
-        // to do: code goes here.
+    public void onDepositDialogDisposed(int selectedRow) {
+        GenericJDialog_Deposit gDialogDeposit = genericDefaultJDialogViewHolder.getGenericJDialog_deposit();
 
-        AbstractFrm_windowClosing_Interaction1(event);
+        // compute new amount
+        Double deposit = Double.parseDouble(gDialogDeposit.getAmountDeposit());
+        String accnr = gDialogDeposit.getAccnr();
+
+        abstractAccountService.depositMoney(accnr, deposit);
+        double currentBalance = abstractAccountService.getCurrentBalance(accnr);
+
+        // set new amount to selection model
+        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
     }
 
-    void AbstractFrm_windowClosing_Interaction1(java.awt.event.WindowEvent event) {
-        try {
-            this.onExitApplication();
-        } catch (Exception e) {
+    public void onWithdrawButtonClicked(ActionEvent event) {
+        // get selected name
+        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        if (selection >= 0) {
+            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+
+            //Show the dialog for adding deposit amount for the current mane
+            GenericJDialog_Withdraw gDialogWithdraw = new GenericJDialog_Withdraw(getCurrJFrame(), null, accnr);
+            genericDefaultJDialogViewHolder.setGenericJDialog_withdraw(gDialogWithdraw);
+            gDialogWithdraw.setBounds(430, 15, 275, 140);
+            gDialogWithdraw.show();
+
+            onWithdrawDialogDisposed(selection);
+            gDialogWithdraw.setAmountWithdraw("0");
         }
     }
 
-    class SymAction implements java.awt.event.ActionListener {
-        public void actionPerformed(java.awt.event.ActionEvent event) {
-            Object object = event.getSource();
-            if (object == defaultGUIComponents.getJButton_Exit())
-                JButtonExit_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_PersonalAC())
-                JButtonPersonalAC_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_OrganizationAC())
-                JButtonOrganizationAC_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_Report())
-                JButtonGenerateReport_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_Deposit())
-                JButtonDeposit_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_Withdraw())
-                JButtonWithdraw_actionPerformed(event);
-            else if (object == defaultGUIComponents.getJButton_Addinterest())
-                JButtonAddinterest_actionPerformed(event);
+    public void onWithdrawDialogDisposed(int selectedRow) {
+        GenericJDialog_Withdraw gDialogWithdraw = genericDefaultJDialogViewHolder.getGenericJDialog_withdraw();
 
+        // compute new amount
+        Double withdraw = Double.parseDouble(gDialogWithdraw.getAmountWithdraw());
+        String accnr = gDialogWithdraw.getAccnr();
+        abstractAccountService.withdrawMoney(accnr, withdraw);
+        double currentBalance = abstractAccountService.getCurrentBalance(accnr);
+
+        // set new amount to selection model
+        int defaultValueIndex = genericAccountJTableModel.getTableModelRowMapper().getDefaultValueIndex();
+        genericAccountJTableModel.getModel().setValueAt(String.valueOf(currentBalance), selectedRow, defaultValueIndex);
+        if (currentBalance < 0) {
+            JButton jButton_withdraw = getDefaultGUIComponents().getJButton_Withdraw();
+            JOptionPane.showMessageDialog(jButton_withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(currentBalance) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
+
+    public void onAddInterestButtonClicked(ActionEvent event) {
+        GenericJDialog_AddInterest gJDialogInterest = new GenericJDialog_AddInterest(getCurrJFrame(), null, null);
+        gJDialogInterest.setBounds(430, 15, 275, 140);
+        gJDialogInterest.show();
+
+        String interestRate = gJDialogInterest.getInterestRate();
+        if (null != interestRate && interestRate.length() > 0) {
+            Double _interest = Double.parseDouble(gJDialogInterest.getInterestRate());
+            abstractAccountService.addInterest(_interest);
         }
     }
 
-    //When the Exit button is pressed this code gets executed
-    //this will exit from the system
-    protected void JButtonExit_actionPerformed(java.awt.event.ActionEvent event) {
-        System.exit(0);
+    public void onGenerateReportButtonClicked(ActionEvent event) {
+        // get selected name
+        int selection = genericAccountJTableModel.getjTable().getSelectionModel().getMinSelectionIndex();
+        if (selection >= 0) {
+            int uniqueIdIndex = genericAccountJTableModel.getTableModelRowMapper().getUniqueIdIndex();
+            String accnr = (String) genericAccountJTableModel.getModel().getValueAt(selection, uniqueIdIndex);
+
+            // compute new amount
+            String report = abstractAccountService.generateReport(accnr);
+            GenericJDialog billFrm = new GenericJDialog(getCurrJFrame(), report);
+            billFrm.setBounds(450, 20, 400, 350);
+            billFrm.show();
+        }
     }
-
-    protected abstract void JButtonPersonalAC_actionPerformed(java.awt.event.ActionEvent event);
-
-    protected abstract void JButtonOrganizationAC_actionPerformed(java.awt.event.ActionEvent event);
-
-    protected abstract void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event);
-
-    protected abstract void JButtonWithdraw_actionPerformed(java.awt.event.ActionEvent event);
-
-    protected abstract void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event);
-
-    protected abstract void JButtonGenerateReport_actionPerformed(java.awt.event.ActionEvent event);
 
 }
