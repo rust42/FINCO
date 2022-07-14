@@ -22,15 +22,15 @@ activate BankFrame
 Bank<--BankFrame:
 deactivate BankFrame
 
-Client->BankFrame:4.onAddInterestButtonClicked
+Client->BankFrame:5.onAddInterestButtonClicked
 activate BankFrame
 
-BankFrame->GenericJDialog_AddInterest:5.<<new>>
+BankFrame->GenericJDialog_AddInterest:6.<<new>>
 activate GenericJDialog_AddInterest
 BankFrame<--GenericJDialog_AddInterest:
 deactivate GenericJDialog_AddInterest
 
-BankFrame->GenericJDialog_AddInterest:6.show
+BankFrame->GenericJDialog_AddInterest:7.show
 activate GenericJDialog_AddInterest
 BankFrame<--GenericJDialog_AddInterest:
 Client<--BankFrame:
@@ -48,7 +48,7 @@ space
 activate BankFrame
 
 
-BankFrame->GenericJDialog_AddInterest:7.getInterestRate
+BankFrame->GenericJDialog_AddInterest:8.getInterestRate
 activate GenericJDialog_AddInterest
 deactivate BankFrame
 space
@@ -56,23 +56,23 @@ deactivate GenericJDialog_AddInterest
 BankFrame<--GenericJDialog_AddInterest:
 activate BankFrame
 
-BankFrame->BankFrmController:8.addInterest
+BankFrame->BankFrmController:9.addInterest
 activate BankFrmController
 deactivate BankFrame
 
-BankFrmController->AbstractAccountService:9.addInterest
+BankFrmController->AbstractAccountService:10.addInterest
 activate AbstractAccountService
 deactivate BankFrmController
 
 
-AbstractAccountService->AbstractStorageService:10.getAllAccounts
+AbstractAccountService->AbstractStorageService:11.getAllAccounts
 activate AbstractStorageService
 
 AbstractAccountService<--AbstractStorageService:iAccountList
 deactivate AbstractStorageService
 
 space 
-AbstractAccountService->AbstractAccountService:11.update*
+AbstractAccountService->AbstractAccountService:12.update*
 activate AbstractAccountService
 
 space
@@ -83,13 +83,10 @@ deactivate AbstractAccountService
 activate BankFrmController
 
 
-BankFrmController->BankAccTableModelResponse:12.<<new>>
+BankFrmController->BankAccTableModelResponse:13.<<new>>
 activate BankAccTableModelResponse
 BankFrmController<--BankAccTableModelResponse:accTableModelResponse
 deactivate BankAccTableModelResponse
 space
 BankFrame<--BankFrmController:
 deactivate BankFrmController
-
-
-deactivate BankFrame
