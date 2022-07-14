@@ -10,34 +10,34 @@ activate BankFrmController
 BankFrame<--BankFrmController:
 deactivate BankFrmController
 
-BankFrame->GenericJTableModel:2.<<new>>
+BankFrame->GenericJTableModel:3.<<new>>
 activate GenericJTableModel
 BankFrame<--GenericJTableModel:
 deactivate GenericJTableModel
 Bank<--BankFrame:
 deactivate BankFrame
 
-Bank->BankFrame:3.setVisible
+Bank->BankFrame:4.setVisible
 activate BankFrame
 Bank<--BankFrame:
 deactivate BankFrame
 
 
 # Taking input from JDialog_Add PersonalAcc UI
-Client->BankFrame:4.onCreatePersonalAccountButtonClicked
+Client->BankFrame:5.onCreatePersonalAccountButtonClicked
 activate BankFrame
 
 
-BankFrame->JDialog_AddPAcc:5.<<new>>
+BankFrame->JDialog_AddPAcc:6.<<new>>
 activate JDialog_AddPAcc
 
-Client->JDialog_AddPAcc:userInput
+Client->JDialog_AddPAcc:7.userInput
 activate JDialog_AddPAcc
 BankFrame<--JDialog_AddPAcc:
 
 deactivate JDialog_AddPAcc
 
-BankFrame->JDialog_AddPAcc:6.getAccFormInput
+BankFrame->JDialog_AddPAcc:8.getAccFormInput
 
 BankFrame<--JDialog_AddPAcc:
 deactivate JDialog_AddPAcc
@@ -56,12 +56,12 @@ BankFrmController<--BankAccount:bankAccount
 deactivate BankAccount
 
 # - create bank account
-BankFrmController->Person:10.<<new>>
+BankFrmController->Person:11.<<new>>
 activate Person
 BankFrmController<--Person:person
 deactivate Person
 
-BankFrmController->AbstractAccountService:11.addAccount
+BankFrmController->AbstractAccountService:12.addAccount
 activate AbstractAccountService
 BankFrmController<--AbstractAccountService:
 deactivate AbstractAccountService
@@ -69,7 +69,7 @@ deactivate AbstractAccountService
 # return response
 
 # - Create response object to return to UI
-BankFrmController->BankAccTableModelResponse:11.<<new>>
+BankFrmController->BankAccTableModelResponse:13.<<new>>
 activate BankAccTableModelResponse
 BankFrmController<--BankAccTableModelResponse:
 deactivate BankAccTableModelResponse
@@ -78,15 +78,11 @@ BankFrame<--BankFrmController:BankAccTableModelResponse
 deactivate BankFrmController
 
 # - UI, add BankAccTableModelResponse to new row
-BankFrame->GenericJTableModel:12.addNewRow
-activate GenericJTableModel
-GenericJTableModel->GenericJTableModel:13.addRow
-BankFrame<--GenericJTableModel:
-deactivate GenericJTableModel
 
-# -- UI, reset selection
-BankFrame->GenericJTableModel:12.resetJTableAnchorSelection
+BankFrame->BankFrame:14.addDataToGenericJTableModel
+BankFrame->GenericJTableModel:15.addNewRow
 activate GenericJTableModel
+GenericJTableModel->GenericJTableModel:15.addRow
 BankFrame<--GenericJTableModel:
 deactivate GenericJTableModel
 

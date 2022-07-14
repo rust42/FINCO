@@ -2,31 +2,32 @@ title Add Interest
 
 actor Client
 
-Bank->Framework:1.startFinco
-activate Framework
-Bank<--Framework:
-deactivate Framework
-
-Bank->BankFrame:2.<<new>>
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
 activate BankFrame
+BankFrame->BankFrmController:2.<<new>>
+activate BankFrmController
+BankFrame<--BankFrmController:
+deactivate BankFrmController
 
-Bank<--BankFrame:
-deactivate BankFrame
-space
-
-
-Bank->BankFrame:3.setvisible
-activate BankFrame
+BankFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
 Bank<--BankFrame:
 deactivate BankFrame
 
+Bank->BankFrame:4.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
 
-Client->BankFrame:4.JButtonAddinterest_actionPerformed
+Client->BankFrame:4.onAddInterestButtonClicked
 activate BankFrame
 
 BankFrame->GenericJDialog_AddInterest:5.<<new>>
 activate GenericJDialog_AddInterest
-BankFrame<--GenericJDialog_AddInterest:interest
+BankFrame<--GenericJDialog_AddInterest:
 deactivate GenericJDialog_AddInterest
 
 BankFrame->GenericJDialog_AddInterest:6.show
@@ -47,16 +48,21 @@ space
 activate BankFrame
 
 
-BankFrame->BankFrame:7.getInterestRate
-activate BankFrame
-space
+BankFrame->GenericJDialog_AddInterest:7.getInterestRate
+activate GenericJDialog_AddInterest
 deactivate BankFrame
-
+space
+deactivate GenericJDialog_AddInterest
+BankFrame<--GenericJDialog_AddInterest:
+activate BankFrame
 
 BankFrame->BankFrmController:8.addInterest
 activate BankFrmController
+deactivate BankFrame
+
 BankFrmController->AbstractAccountService:9.addInterest
 activate AbstractAccountService
+deactivate BankFrmController
 
 
 AbstractAccountService->AbstractStorageService:10.getAllAccounts
@@ -73,6 +79,9 @@ space
 deactivate AbstractAccountService
 BankFrmController<--AbstractAccountService:
 deactivate AbstractAccountService
+
+activate BankFrmController
+
 
 BankFrmController->BankAccTableModelResponse:12.<<new>>
 activate BankAccTableModelResponse

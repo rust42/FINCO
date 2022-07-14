@@ -2,92 +2,93 @@ title Create CCard Account
 
 actor Client
 
-CCard->framework:1.startFinco
-activate framework
-CCard<--framework:
-deactivate framework
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
+activate BankFrame
+BankFrame->BankFrmController:2.<<new>>
+activate BankFrmController
+BankFrame<--BankFrmController:
+deactivate BankFrmController
+
+BankFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Bank<--BankFrame:
+deactivate BankFrame
+
+Bank->BankFrame:4.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
 
 
-CCard->CardFrame:2.new
-activate CardFrame
-CCard<--CardFrame:
-deactivate CardFrame
+# Taking input from JDialog_Add PersonalAcc UI
+Client->BankFrame:5.onCreatePersonalAccountButtonClicked
+activate BankFrame
 
 
-CCard->CardFrame:3.getCurrentJFrame
-activate CardFrame
-CCardApp<--CardFrame:
-deactivate CardFrame
-
-
-Client->CardFrame:4.createAccount
-activate CardFrame
-
-
-CardFrame->JDialog_AddCCAccount:5.new
+BankFrame->JDialog_AddCCAccount:6.<<new>>
 activate JDialog_AddCCAccount
 
-JDialog_AddCCAccount->JDialog_AddCCAccount:6.getDefaultUIAccFormInput
+Client->JDialog_AddCCAccount:7.userInput
 activate JDialog_AddCCAccount
-CardFrame<--JDialog_AddCCAccount:defaultUIAccFormInput
+BankFrame<--JDialog_AddCCAccount:
+
 deactivate JDialog_AddCCAccount
+
+BankFrame->JDialog_AddCCAccount:8.getPAFormInputModal
+
+BankFrame<--JDialog_AddCCAccount:
 deactivate JDialog_AddCCAccount
-Client<--CardFrame:
-deactivate CardFrame
-
-Client->JDialog_AddCCAccount:userInput
-activate JDialog_AddCCAccount
-space 
-CardFrame<--JDialog_AddCCAccount:
-deactivate JDialog_AddCCAccount
-activate CardFrame
-
-CardFrame->CreditViewUtil:7.createCreditAccountFromInput
-activate CreditViewUtil
-
-CreditViewUtil->CreditAccountRequestDTO:8.new
-activate CreditAccountRequestDTO
-CreditViewUtil<--CreditAccountRequestDTO:creditAccountRequestDTO
-deactivate CreditAccountRequestDTO
 
 
+#Requesting Controller now
+space
 
-CardFrame<--CreditViewUtil:creditAccountRequestDTO
-deactivate CreditViewUtil
+BankFrame->BankFrmController:9.addCreditCardAccount
+activate BankFrmController
 
-CardFrame->CCViewUtil:9.createCCCustomerFromInput
-activate CCViewUtil
-CCViewUtil->CCCustomer:10.new
-activate CCCustomer
-CCViewUtil<--CCCustomer:customer
-deactivate CCCustomer
-CardFrame<--CCViewUtil:customer
-deactivate CCViewUtil
+# - create person
+BankFrmController->CCAccount:10.<<new>>
+activate CCAccount
+BankFrmController<--CCAccount:creditAccount
+deactivate CCAccount
 
-CardFrame->CreditFrmController:11.addCreditCardAccount
-activate CreditFrmController
+# - create bank account
+BankFrmController->Person:11.<<new>>
+activate Person
+BankFrmController<--Person:person
+deactivate Person
 
-CreditFrmController->AbstractAccountService:12.addAccount
+BankFrmController->AbstractAccountService:12.addAccount
 activate AbstractAccountService
-CreditFrmController<--AbstractAccountService:
+BankFrmController<--AbstractAccountService:
 deactivate AbstractAccountService
 
+# return response
 
+# - Create response object to return to UI
+BankFrmController->CreditAccTableModelResponse:13.<<new>>
+activate CreditAccTableModelResponse
+BankFrmController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
 
-CardFrame<--CreditFrmController:CreditAccTableModelResponse
-deactivate CreditFrmController
+BankFrame<--BankFrmController:CreditAccTableModelResponse
+deactivate BankFrmController
 
+# - UI, add CreditAccTableModelResponse to new row
 
-CardFrame->GenericJTableModel:13.addNewRow
+BankFrame->BankFrame:14.addDataToGenericJTableModel
+BankFrame->GenericJTableModel:15.addNewRow
 activate GenericJTableModel
-GenericJTableModel->GenericJTableModel:14.setNewAccount
-CardFrame<--GenericJTableModel:
-
+GenericJTableModel->GenericJTableModel:15.addRow
+BankFrame<--GenericJTableModel:
 deactivate GenericJTableModel
 
 
 
-Client<--CardFrame:
-deactivate CardFrame
+Client<--BankFrame:
+deactivate BankFrame
 
 space 

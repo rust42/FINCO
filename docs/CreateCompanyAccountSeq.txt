@@ -2,80 +2,88 @@ title Create Company Account
 
 actor Client
 
-Bank->Framework:1.startFinco
-activate Framework
-Bank<--Framework:
-deactivate Framework
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
+activate BankFrame
+BankFrame->BankFrmController:2.<<new>>
+activate BankFrmController
+BankFrame<--BankFrmController:
+deactivate BankFrmController
 
+BankFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Bank<--BankFrame:
+deactivate BankFrame
 
-Bank->BankFrame:2.new
+Bank->BankFrame:4.setVisible
 activate BankFrame
 Bank<--BankFrame:
 deactivate BankFrame
 
 
-Bank->BankFrame:3.getCurrentJFrame
-activate BankFrame
-Bank<--BankFrame:
-deactivate BankFrame
-
-
-Client->BankFrame:4.JButtonOrganizationAC_actionPerformed
+# Taking input from JDialog_Add PersonalAcc UI
+Client->BankFrame:5.onCreateOrganizationAccountButtonClicked
 activate BankFrame
 
 
-BankFrame->JDialog_AddPAcc:5.new
-activate JDialog_AddPAcc
+BankFrame->JDialog_AddCompAcc:6.<<new>>
+activate JDialog_AddCompAcc
 
-JDialog_AddPAcc->JDialog_AddPAcc:6.getAccFormInput
-activate JDialog_AddPAcc
-BankFrame<--JDialog_AddPAcc:defaultUIAccFormInput
-deactivate JDialog_AddPAcc
-deactivate JDialog_AddPAcc
-Client<--BankFrame:
-deactivate BankFrame
+Client->JDialog_AddCompAcc:7.userInput
+activate JDialog_AddCompAcc
+BankFrame<--JDialog_AddCompAcc:
 
-Client->JDialog_AddPAcc:userInput
-activate JDialog_AddPAcc
-space 
-deactivate JDialog_AddPAcc
-BankFrame<--JDialog_AddPAcc:
-activate BankFrame
-BankFrame->BankViewUtil:7.createBankOrgAccReqFromInput
-activate BankViewUtil
+deactivate JDialog_AddCompAcc
 
-BankViewUtil->Organization:8.new
-activate Organization
-BankViewUtil<--Organization:organization
-deactivate Organization
+BankFrame->JDialog_AddCompAcc:8.getOrgAFormInputModal
 
-BankFrame<--BankViewUtil:personAccountRequest
-deactivate BankViewUtil
+BankFrame<--JDialog_AddCompAcc:
+deactivate JDialog_AddCompAcc
+
+
+#Requesting Controller now
+space
 
 BankFrame->BankFrmController:9.addBankCompanyAccount
 activate BankFrmController
 
+# - create person
 BankFrmController->BankAccount:10.<<new>>
 activate BankAccount
 BankFrmController<--BankAccount:bankAccount
 deactivate BankAccount
 
-BankFrmController->AbstractAccountService:11.addAccount
+# - create bank account
+BankFrmController->Organization:11.<<new>>
+activate Organization
+BankFrmController<--Organization:organization
+deactivate Organization
+
+BankFrmController->AbstractAccountService:12.addAccount
 activate AbstractAccountService
 BankFrmController<--AbstractAccountService:
 deactivate AbstractAccountService
 
+# return response
 
+# - Create response object to return to UI
+BankFrmController->BankAccTableModelResponse:13.<<new>>
+activate BankAccTableModelResponse
+BankFrmController<--BankAccTableModelResponse:
+deactivate BankAccTableModelResponse
 
 BankFrame<--BankFrmController:BankAccTableModelResponse
 deactivate BankFrmController
 
+# - UI, add BankAccTableModelResponse to new row
 
-BankFrame->GenericJTableModel:12.addNewRow
+BankFrame->BankFrame:14.addDataToGenericJTableModel
+BankFrame->GenericJTableModel:15.addNewRow
 activate GenericJTableModel
-GenericJTableModel->GenericJTableModel:13.setNewAccount
+GenericJTableModel->GenericJTableModel:15.addRow
 BankFrame<--GenericJTableModel:
-
 deactivate GenericJTableModel
 
 
