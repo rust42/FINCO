@@ -2,127 +2,130 @@ title Credit Card Charge Sequence
 
 actor Client
 
-CreditCardApplication->framework:1.startFinco
-activate framework
-CreditCardApplication<--framework:
-deactivate framework
+# init CreditFrame and its required context and set Credit frame visible
+Credit->CreditFrame:1.<<new>>
+activate CreditFrame
+CreditFrame->CreditFrmController:2.<<new>>
+activate CreditFrmController
+CreditFrame<--CreditFrmController:
+deactivate CreditFrmController
 
-CreditCardApplication->CardFrm:2.<<new>>
-activate CardFrm
+CreditFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+CreditFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Credit<--CreditFrame:
+deactivate CreditFrame
 
-CreditCardApplication<--CardFrm:
-deactivate CardFrm
-space 
-
-participant GenericJTableModel
-
-CreditCardApplication->CardFrm:3.setvisible
-activate CardFrm
-CreditCardApplication<--CardFrm:
-deactivate CardFrm
+Credit->CreditFrame:4.setVisible
+activate CreditFrame
+Credit<--CreditFrame:
+deactivate CreditFrame
 
 
+# on withdraw button clicked
 
 
-Client->CardFrm:4.JButtonWithdraw_actionPerformed
-activate CardFrm
+Client->CreditFrame:5.onWithdrawButtonClicked
+activate CreditFrame
 
-CardFrm->GenericJDialog_Withdraw:5.<<new>>
+CreditFrame->GenericJDialog_Withdraw:6.<<new>>
 activate GenericJDialog_Withdraw
-CardFrm<--GenericJDialog_Withdraw:
+CreditFrame<--GenericJDialog_Withdraw:
 deactivate GenericJDialog_Withdraw
 
-CardFrm->GenericJDialog_Withdraw:6.show
+CreditFrame->GenericJDialog_Withdraw:7.show
 activate GenericJDialog_Withdraw
-CardFrm<--GenericJDialog_Withdraw:
-Client<--CardFrm:
+CreditFrame<--GenericJDialog_Withdraw:
+Client<--CreditFrame:
 
 deactivate GenericJDialog_Withdraw
-deactivate CardFrm
+deactivate CreditFrame
 
 
-Client->CardFrm:input withdraw amount
-activate CardFrm
+Client->CreditFrame:8.input withdraw amount
+activate CreditFrame
 
 
-CardFrm->CardFrm:7.getAmountWithdraw
-activate CardFrm
-space 
-deactivate CardFrm
+CreditFrame->GenericJDialog_Withdraw:9.getWithdrawAmount
+activate GenericJDialog_Withdraw
+space
+deactivate CreditFrame
+deactivate GenericJDialog_Withdraw
+CreditFrame<--GenericJDialog_Withdraw:
 
+activate CreditFrame
 participant CreditAccTableModelResponse
 
 
 
-CardFrm->CreditFrmController:8.charge
-activate CreditFrmController
-CreditFrmController->AbstractAccountService:9.withdrawMoney
+CreditFrame->CreditController:10.withdraw
+activate CreditController
+deactivate CreditFrame
+CreditController->AbstractAccountService:11.withdrawMoney
 activate AbstractAccountService
 
 
-AbstractAccountService->AbstractStorageService:10.getIAccountByUniqueId
+AbstractAccountService->AbstractStorageService:12.getIAccountByUniqueId
 activate AbstractStorageService
 
-AbstractAccountService<--AbstractStorageService:CCAccount
+AbstractAccountService<--AbstractStorageService:CreditAccount
 deactivate AbstractStorageService
 
 
-AbstractAccountService->CCAccount:11.setBalance
-activate CCAccount
-AbstractAccountService<--CCAccount:
-deactivate CCAccount
+AbstractAccountService->CreditAccount:13.setBalance
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+deactivate CreditAccount
 
-AbstractAccountService->Entry:12.<<new>>
+AbstractAccountService->Entry:14.<<new>>
 activate Entry
 AbstractAccountService<--Entry:
 deactivate Entry
 
-AbstractAccountService->CCAccount:13.addEntry
-activate CCAccount
-AbstractAccountService<--CCAccount:
-deactivate CCAccount
+AbstractAccountService->CreditAccount:15.addEntry
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+deactivate CreditAccount
 
 
-AbstractAccountService->AbstractStorageService:14.update
+AbstractAccountService->AbstractStorageService:16.update
 activate AbstractStorageService
 AbstractAccountService<-AbstractStorageService:
 deactivate AbstractStorageService
 
 
-AbstractAccountService->CCAccount:15.notifyPartyOnTxEntry
-activate CCAccount
-AbstractAccountService<--CCAccount:
-CreditFrmController<--AbstractAccountService:
+AbstractAccountService->CreditAccount:17.notifyPartyOnTxEntry
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+CreditController<--AbstractAccountService:
 
-deactivate CCAccount
+deactivate CreditAccount
 
 
 
 deactivate AbstractAccountService
 
 
-CreditFrmController->CreditAccTableModelResponse:16.<<new>>
+CreditController->CreditAccTableModelResponse:18.<<new>>
 activate CreditAccTableModelResponse
 
-CreditFrmController<--CreditAccTableModelResponse:
+CreditController<--CreditAccTableModelResponse:
 deactivate CreditAccTableModelResponse
 
-CreditFrmController->CreditAccTableModelResponse:17.setAmount
+CreditController->CreditAccTableModelResponse:19.setAmount
 activate CreditAccTableModelResponse
 
-CreditFrmController<--CreditAccTableModelResponse:
+CreditController<--CreditAccTableModelResponse:
 deactivate CreditAccTableModelResponse
+activate CreditFrame
 
-
-CardFrm<--CreditFrmController:
-deactivate CreditFrmController
-CardFrm->GenericJTableModel:update
+CreditFrame<--CreditController:
+deactivate CreditController
+CreditFrame->GenericJTableModel:20.updateModel
 activate GenericJTableModel
-CardFrm<--GenericJTableModel:
+CreditFrame<--GenericJTableModel:
 deactivate GenericJTableModel
-Client<--CardFrm:
-
-
-deactivate CardFrm
+Client<--CreditFrame:
 
 

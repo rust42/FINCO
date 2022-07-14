@@ -1,38 +1,40 @@
-title Withdraw Sequence
+title Bank Withdraw Sequence
 
 actor Client
 
-BankApplication->framework:1.startFinco
-activate framework
-BankApplication<--framework:
-deactivate framework
-
-BankApplication->BankFrame:2.<<new>>
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
 activate BankFrame
+BankFrame->BankFrmController:2.<<new>>
+activate BankFrmController
+BankFrame<--BankFrmController:
+deactivate BankFrmController
 
-BankApplication<--BankFrame:
-deactivate BankFrame
-space 
-
-participant GenericJTableModel
-
-BankApplication->BankFrame:3.setvisible
-activate BankFrame
-BankApplication<--BankFrame:
+BankFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Bank<--BankFrame:
 deactivate BankFrame
 
+Bank->BankFrame:4.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
 
 
+# on withdraw button clicked
 
-Client->BankFrame:4.JButtonWithdraw_actionPerformed
+
+Client->BankFrame:5.onWithdrawButtonClicked
 activate BankFrame
 
-BankFrame->GenericJDialog_Withdraw:5.<<new>>
+BankFrame->GenericJDialog_Withdraw:6.<<new>>
 activate GenericJDialog_Withdraw
 BankFrame<--GenericJDialog_Withdraw:
 deactivate GenericJDialog_Withdraw
 
-BankFrame->GenericJDialog_Withdraw:6.show
+BankFrame->GenericJDialog_Withdraw:7.show
 activate GenericJDialog_Withdraw
 BankFrame<--GenericJDialog_Withdraw:
 Client<--BankFrame:
@@ -41,55 +43,59 @@ deactivate GenericJDialog_Withdraw
 deactivate BankFrame
 
 
-Client->BankFrame:input withdraw amount
+Client->BankFrame:8.input withdraw amount
 activate BankFrame
 
 
-BankFrame->BankFrame:7.getAmountWithdraw
-activate BankFrame
-space 
+BankFrame->GenericJDialog_Withdraw:9.getWithdrawAmount
+activate GenericJDialog_Withdraw
+space
 deactivate BankFrame
+deactivate GenericJDialog_Withdraw
+BankFrame<--GenericJDialog_Withdraw:
 
+activate BankFrame
 participant BankAccTableModelResponse
 
 
 
-BankFrame->BankController:8.withdraw
+BankFrame->BankController:10.withdraw
 activate BankController
-BankController->AbstractAccountService:9.withdrawMoney
+deactivate BankFrame
+BankController->AbstractAccountService:11.withdrawMoney
 activate AbstractAccountService
 
 
-AbstractAccountService->AbstractStorageService:10.getIAccountByUniqueId
+AbstractAccountService->AbstractStorageService:12.getIAccountByUniqueId
 activate AbstractStorageService
 
 AbstractAccountService<--AbstractStorageService:BankAccount
 deactivate AbstractStorageService
 
 
-AbstractAccountService->BankAccount:11.setBalance
+AbstractAccountService->BankAccount:13.setBalance
 activate BankAccount
 AbstractAccountService<--BankAccount:
 deactivate BankAccount
 
-AbstractAccountService->Entry:12.<<new>>
+AbstractAccountService->Entry:14.<<new>>
 activate Entry
 AbstractAccountService<--Entry:
 deactivate Entry
 
-AbstractAccountService->BankAccount:13.addEntry
+AbstractAccountService->BankAccount:15.addEntry
 activate BankAccount
 AbstractAccountService<--BankAccount:
 deactivate BankAccount
 
 
-AbstractAccountService->AbstractStorageService:14.update
+AbstractAccountService->AbstractStorageService:16.update
 activate AbstractStorageService
 AbstractAccountService<-AbstractStorageService:
 deactivate AbstractStorageService
 
 
-AbstractAccountService->BankAccount:15.notifyPartyOnTxEntry
+AbstractAccountService->BankAccount:17.notifyPartyOnTxEntry
 activate BankAccount
 AbstractAccountService<--BankAccount:
 BankController<--AbstractAccountService:
@@ -101,28 +107,25 @@ deactivate BankAccount
 deactivate AbstractAccountService
 
 
-BankController->BankAccTableModelResponse:16.<<new>>
+BankController->BankAccTableModelResponse:18.<<new>>
 activate BankAccTableModelResponse
 
 BankController<--BankAccTableModelResponse:
 deactivate BankAccTableModelResponse
 
-BankController->BankAccTableModelResponse:17.setAmount
+BankController->BankAccTableModelResponse:19.setAmount
 activate BankAccTableModelResponse
 
 BankController<--BankAccTableModelResponse:
 deactivate BankAccTableModelResponse
-
+activate BankFrame
 
 BankFrame<--BankController:
 deactivate BankController
-BankFrame->GenericJTableModel:update
+BankFrame->GenericJTableModel:20.updateModel
 activate GenericJTableModel
 BankFrame<--GenericJTableModel:
 deactivate GenericJTableModel
 Client<--BankFrame:
-
-
-deactivate BankFrame
 
 
