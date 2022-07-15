@@ -1,7 +1,8 @@
 
 ###  Framework: FINCO
 
-Repo: https://github.com/rust42/FINCO
+All the submission documents, diagrams and sequence are in __"docs"__ folder.  
+Repo maintained at: https://github.com/rust42/FINCO
 
 # Introduction
 A simple FINCO framework, default support and extensible functionality for party and account.
