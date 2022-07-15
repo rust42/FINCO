@@ -76,12 +76,12 @@ A simple FINCO framework, default support and extensible functionality for party
 | Framework                                                          |
 
 
-| <a target="_blank" href="#">![GUI](./docs/Bank_A3_Final.PNG)</a> |
+| <a target="_blank" href="#">![GUI](./docs/Bank_A3_FInal.PNG)</a> |
 |------------------------------------------------------------------|
 | Bank with Framework                                              |
 
 
-| <a target="_blank" href="#">![GUI](./docs/Credit_A3_Final.PNG)</a> |
+| <a target="_blank" href="#">![GUI](./docs/Credit_A3_FInal.PNG)</a> |
 |--------------------------------------------------------------------|
 | Credit with Framework                                              |
 
