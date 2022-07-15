@@ -1,4 +1,4 @@
-title Create Personal Account
+title Create CCard Account
 
 actor Client
 
@@ -28,32 +28,32 @@ Client->BankFrame:5.onCreatePersonalAccountButtonClicked
 activate BankFrame
 
 
-BankFrame->JDialog_AddPAcc:6.<<new>>
-activate JDialog_AddPAcc
+BankFrame->JDialog_AddCCAccount:6.<<new>>
+activate JDialog_AddCCAccount
 
-Client->JDialog_AddPAcc:7.userInput
-activate JDialog_AddPAcc
-BankFrame<--JDialog_AddPAcc:
+Client->JDialog_AddCCAccount:7.userInput
+activate JDialog_AddCCAccount
+BankFrame<--JDialog_AddCCAccount:
 
-deactivate JDialog_AddPAcc
+deactivate JDialog_AddCCAccount
 
-BankFrame->JDialog_AddPAcc:8.getAccFormInput
+BankFrame->JDialog_AddCCAccount:8.getPAFormInputModal
 
-BankFrame<--JDialog_AddPAcc:
-deactivate JDialog_AddPAcc
+BankFrame<--JDialog_AddCCAccount:
+deactivate JDialog_AddCCAccount
 
 
 #Requesting Controller now
 space
 
-BankFrame->BankFrmController:9.addBankPersonalAccount
+BankFrame->BankFrmController:9.addCreditCardAccount
 activate BankFrmController
 
 # - create person
-BankFrmController->BankAccount:10.<<new>>
-activate BankAccount
-BankFrmController<--BankAccount:bankAccount
-deactivate BankAccount
+BankFrmController->CCAccount:10.<<new>>
+activate CCAccount
+BankFrmController<--CCAccount:creditAccount
+deactivate CCAccount
 
 # - create bank account
 BankFrmController->Person:11.<<new>>
@@ -69,15 +69,15 @@ deactivate AbstractAccountService
 # return response
 
 # - Create response object to return to UI
-BankFrmController->BankAccTableModelResponse:13.<<new>>
-activate BankAccTableModelResponse
-BankFrmController<--BankAccTableModelResponse:
-deactivate BankAccTableModelResponse
+BankFrmController->CreditAccTableModelResponse:13.<<new>>
+activate CreditAccTableModelResponse
+BankFrmController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
 
-BankFrame<--BankFrmController:BankAccTableModelResponse
+BankFrame<--BankFrmController:CreditAccTableModelResponse
 deactivate BankFrmController
 
-# - UI, add BankAccTableModelResponse to new row
+# - UI, add CreditAccTableModelResponse to new row
 
 BankFrame->BankFrame:14.addDataToGenericJTableModel
 BankFrame->GenericJTableModel:15.addNewRow

@@ -1,89 +1,83 @@
 title Create Personal Account
+fontfamily Verdana
 
 actor Client
 
-# init BankFrame and its required context and set bank frame visible
-Bank->BankFrame:1.<<new>>
-activate BankFrame
-BankFrame->BankFrmController:2.<<new>>
-activate BankFrmController
-BankFrame<--BankFrmController:
-deactivate BankFrmController
+Bank->Framework:1.startFinco
+activate Framework
+Bank<--Framework:
+deactivate Framework
 
-BankFrame->GenericJTableModel:3.<<new>>
-activate GenericJTableModel
-BankFrame<--GenericJTableModel:
-deactivate GenericJTableModel
-Bank<--BankFrame:
-deactivate BankFrame
 
-Bank->BankFrame:4.setVisible
+Bank->BankFrame:2.<<new>>
 activate BankFrame
 Bank<--BankFrame:
 deactivate BankFrame
 
 
-# Taking input from JDialog_Add PersonalAcc UI
-Client->BankFrame:5.onCreatePersonalAccountButtonClicked
+Bank->BankFrame:3.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+Client->BankFrame:4.JButtonPersonalAC_actionPerformed
 activate BankFrame
 
 
-BankFrame->JDialog_AddPAcc:6.<<new>>
+BankFrame->JDialog_AddPAcc:5.<<new>>
 activate JDialog_AddPAcc
 
-Client->JDialog_AddPAcc:7.userInput
+JDialog_AddPAcc->JDialog_AddPAcc:6.getAccFormInput
 activate JDialog_AddPAcc
 BankFrame<--JDialog_AddPAcc:
-
 deactivate JDialog_AddPAcc
-
-BankFrame->JDialog_AddPAcc:8.getAccFormInput
-
-BankFrame<--JDialog_AddPAcc:
 deactivate JDialog_AddPAcc
+Client<--BankFrame:
+deactivate BankFrame
 
+Client->JDialog_AddPAcc:userInput
+activate JDialog_AddPAcc
 
-#Requesting Controller now
 space
+BankFrame<--JDialog_AddPAcc:
+deactivate JDialog_AddPAcc
+activate BankFrame
+BankFrame->BankViewUtil:7.createBankAccReqFromInput
+activate BankViewUtil
+
+BankViewUtil->Person:8.<<new>>
+activate Person
+BankViewUtil<--Person:person
+deactivate Person
+
+BankFrame<--BankViewUtil:personAccountRequest
+deactivate BankViewUtil
 
 BankFrame->BankFrmController:9.addBankPersonalAccount
 activate BankFrmController
 
-# - create person
 BankFrmController->BankAccount:10.<<new>>
 activate BankAccount
 BankFrmController<--BankAccount:bankAccount
 deactivate BankAccount
 
-# - create bank account
-BankFrmController->Person:11.<<new>>
-activate Person
-BankFrmController<--Person:person
-deactivate Person
-
-BankFrmController->AbstractAccountService:12.addAccount
+BankFrmController->AbstractAccountService:11.addAccount
 activate AbstractAccountService
 BankFrmController<--AbstractAccountService:
 deactivate AbstractAccountService
 
-# return response
 
-# - Create response object to return to UI
-BankFrmController->BankAccTableModelResponse:13.<<new>>
-activate BankAccTableModelResponse
-BankFrmController<--BankAccTableModelResponse:
-deactivate BankAccTableModelResponse
 
 BankFrame<--BankFrmController:BankAccTableModelResponse
 deactivate BankFrmController
 
-# - UI, add BankAccTableModelResponse to new row
 
-BankFrame->BankFrame:14.addDataToGenericJTableModel
-BankFrame->GenericJTableModel:15.addNewRow
+BankFrame->GenericJTableModel:12.addNewRow
 activate GenericJTableModel
-GenericJTableModel->GenericJTableModel:15.addRow
+GenericJTableModel->GenericJTableModel:13.setNewAccount
 BankFrame<--GenericJTableModel:
+
 deactivate GenericJTableModel
 
 

@@ -1,0 +1,132 @@
+title Bank Deposit Sequence
+
+actor Client
+
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
+activate BankFrame
+
+
+BankFrame->GenericJTableModel:2.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Bank<--BankFrame:
+deactivate BankFrame
+
+Bank->BankFrame:3.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+
+
+Client->BankFrame:4.onDepositButtonClicked
+activate BankFrame
+
+BankFrame->GenericJDialog_Deposit:5.<<new>>
+activate GenericJDialog_Deposit
+BankFrame<--GenericJDialog_Deposit:
+deactivate GenericJDialog_Deposit
+
+BankFrame->GenericJDialog_Deposit:6.show
+activate GenericJDialog_Deposit
+BankFrame<--GenericJDialog_Deposit:
+Client<--BankFrame:
+
+deactivate GenericJDialog_Deposit
+deactivate BankFrame
+
+
+Client->GenericJDialog_Deposit:7.input deposit amount
+activate GenericJDialog_Deposit
+space 
+BankFrame<--GenericJDialog_Deposit:
+deactivate GenericJDialog_Deposit
+activate BankFrame
+
+
+BankFrame->GenericJDialog_Deposit:8.getAmountDeposit
+activate GenericJDialog_Deposit
+space
+deactivate BankFrame
+deactivate GenericJDialog_Deposit
+BankFrame<--GenericJDialog_Deposit:
+
+activate BankFrame
+participant BankAccTableModelResponse
+
+
+
+BankFrame->BankController:9.deposit
+activate BankController
+deactivate BankFrame
+BankController->AbstractAccountService:10.depositMoney
+activate AbstractAccountService
+
+
+AbstractAccountService->AbstractStorageService:11.getIAccountByUniqueId
+activate AbstractStorageService
+
+AbstractAccountService<--AbstractStorageService:BankAccount
+deactivate AbstractStorageService
+
+
+AbstractAccountService->BankAccount:12.setBalance
+activate BankAccount
+AbstractAccountService<--BankAccount:
+deactivate BankAccount
+
+AbstractAccountService->Entry:13.<<new>>
+activate Entry
+AbstractAccountService<--Entry:
+deactivate Entry
+
+AbstractAccountService->BankAccount:14.addEntry
+activate BankAccount
+AbstractAccountService<--BankAccount:
+deactivate BankAccount
+
+
+AbstractAccountService->AbstractStorageService:15.update
+activate AbstractStorageService
+AbstractAccountService<-AbstractStorageService:
+deactivate AbstractStorageService
+
+
+AbstractAccountService->BankAccount:16.notifyPartyOnTxEntry
+activate BankAccount
+AbstractAccountService<--BankAccount:
+BankController<--AbstractAccountService:
+
+deactivate BankAccount
+
+
+
+deactivate AbstractAccountService
+
+
+BankController->BankAccTableModelResponse:17.<<new>>
+activate BankAccTableModelResponse
+
+BankController<--BankAccTableModelResponse:
+deactivate BankAccTableModelResponse
+
+BankController->BankAccTableModelResponse:18.setAmount
+activate BankAccTableModelResponse
+
+BankController<--BankAccTableModelResponse:
+deactivate BankAccTableModelResponse
+activate BankFrame
+
+BankFrame<--BankController:
+deactivate BankController
+BankFrame->GenericJTableModel:19.updateModel
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Client<--BankFrame:
+
+
+deactivate BankFrame
