@@ -1,0 +1,68 @@
+title Generate Report
+
+actor Client
+
+# init BankFrame and its required context and set bank frame visible
+Bank->BankFrame:1.<<new>>
+activate BankFrame
+
+participant GenericJDialog
+
+BankFrame->BankFrmController:2.<<new>>
+activate BankFrmController
+BankFrame<--BankFrmController:
+deactivate BankFrmController
+
+
+BankFrame->GenericJTableModel:3.<<new>>
+activate GenericJTableModel
+BankFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Bank<--BankFrame:
+deactivate BankFrame
+
+Bank->BankFrame:4.setVisible
+activate BankFrame
+Bank<--BankFrame:
+deactivate BankFrame
+
+
+Client->BankFrame:5.onGenerateReportButtonClicked
+activate BankFrame
+
+BankFrame->AbstractAccountService:6.generateReport()
+activate AbstractAccountService
+
+AbstractAccountService->AbstractAccountService:7.getIAccountByUniqueId()
+activate AbstractAccountService
+space 
+deactivate AbstractAccountService
+AbstractAccountService->BankReportingStrategy:8.generateReport()
+activate BankReportingStrategy
+
+BankReportingStrategy->BankAccount:9.*entries()
+activate BankAccount
+BankReportingStrategy<--BankAccount:
+deactivate BankAccount
+
+AbstractAccountService<--BankReportingStrategy:
+deactivate BankReportingStrategy
+
+BankFrame<--AbstractAccountService:
+deactivate AbstractAccountService
+
+BankFrame->GenericJDialog:10.<<new>>
+activate GenericJDialog
+BankFrame<--GenericJDialog:
+deactivate GenericJDialog
+
+BankFrame->GenericJDialog:11.show()
+activate GenericJDialog
+BankFrame<--GenericJDialog:
+deactivate GenericJDialog
+
+Client<--BankFrame:
+deactivate BankFrame
+
+
+
