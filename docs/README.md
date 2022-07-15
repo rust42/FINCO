@@ -2,30 +2,21 @@
 ##  Diagrams
 
 ### # Bank: Sequence
-| <a target="_blank" href="#">![FINCO](./seq/bank_deposit.jpeg)</a> |
-|-------------------------------------------------------------------|
-| Bank Deposit Sequence                                             |
+| <a target="_blank" href="#">![FINCO](./seq/CreatePersonalAccountSeq.png)</a> |
+|--------------------------------------------------------------------------------|
+| Bank Personal Account                                                   |
 
 
-| <a target="_blank" href="#">![FINCO](./seq/bank_withdraw.jpeg)</a> |
-|--------------------------------------------------------------------|
-| Bank Withdraw Sequence                                             |
+| <a target="_blank" href="#">![FINCO](./seq/CreateCompanyAccountSeq.png)</a> |
+|--------------------------------------------------------------------------------|
+| Bank Organization Account                                                      |
 
-### # Credit: Sequence
+| <a target="_blank" href="#">![FINCO](./seq/BankDepositSeq.png)</a> |
+|------------------------------------------------------------------|
+| Bank Deposit Sequence                                            |
 
-| <a target="_blank" href="#">![FINCO](./seq/credit_deposit.jpeg)</a> |
+
+| <a target="_blank" href="#">![FINCO](./seq/BankWithdrawSeq.png)</a> |
 |---------------------------------------------------------------------|
-| Credit Deposit Sequence                                               |
-
-
-| <a target="_blank" href="#">![FINCO](./seq/credit_withdraw.jpeg)</a> |
-|----------------------------------------------------------------------|
-| Credit Withdraw Sequence                                             |
-
-
-### TODO
-
-- [ ] Bank Create Account Sequence
-- [ ] Credit Create Account Sequence
-- [ ] Bank generate Report Sequence
-- [ ] Credit generate Report Sequence
+| Bank Withdraw Sequence                                              |
+                                      |
