@@ -1,4 +1,4 @@
-package project;
+package Script;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -33,7 +33,6 @@ public class MetricsGenerator {
         writeDataToCSVFile(", Package, Class, size (LOC)");
         writeDataToCSVFile("Framework,,,");
         generateForFilePath(frameworkPathToSearch, frameworkPathToRemoveForPrint);
-        writeDataToCSVFile("Total,0,0,0");
         writeDataToCSVFile(",,,");
 
         // bank
@@ -41,7 +40,7 @@ public class MetricsGenerator {
         final String bankPathToSearch = "./src/project/bank";
         final String bankPathToRemoveForPrint = ".\\src\\project\\bank\\";
         generateForFilePath(bankPathToSearch, bankPathToRemoveForPrint);
-        writeDataToCSVFile("Total,0,0,0");
+//        writeDataToCSVFile("Total,0,0,0");
         writeDataToCSVFile(",,,");
 
 
@@ -50,7 +49,7 @@ public class MetricsGenerator {
         final String creditPathToSearch = "./src/project/ccard";
         final String creditPathToRemoveForPrint = ".\\src\\project\\ccard\\";
         generateForFilePath(creditPathToSearch, creditPathToRemoveForPrint);
-        writeDataToCSVFile("Total,0,0,0");
+//        writeDataToCSVFile("Total,0,0,0");
         writeDataToCSVFile(",,,");
 
         writer.close();
@@ -66,6 +65,7 @@ public class MetricsGenerator {
 
         Stream<Path> pathStream = Files.find(Paths.get(pathToSearch), 99999, FileMatcher);
         final String[] previousPkgName = {""};
+        final Long[] allStats = {-1L, 0L, 0L}; // packagesTotal (-1 ignore root), classesTotal, lineOfCodeTotal
         pathStream.forEach((Path x) -> {
             Stream<String> stream = null;
             try {
@@ -83,8 +83,12 @@ public class MetricsGenerator {
             String lineToWrite = ", " + currentPackageName + ", " + x.getFileName() + ", " + lineCount;
             if(previousPkgName[0].equals(currentPackageName)) {
                 lineToWrite = ", " + "~" + ", " + x.getFileName() + ", " + lineCount;
+            } else {
+                previousPkgName[0] = currentPackageName;
+                allStats[0]++; // packages total
             }
-            previousPkgName[0] = currentPackageName;
+            allStats[1]++; // classes total
+            allStats[2] = allStats[2] + lineCount; // lineCountTotal
             System.out.println(lineToWrite);
             try {
                 writeDataToCSVFile(lineToWrite);
@@ -92,6 +96,8 @@ public class MetricsGenerator {
                 throw new RuntimeException(e);
             }
         });
+        String totalToWrite = "Total" + "," + allStats[0] + "," + allStats[1] + "," + allStats[2];
+        writeDataToCSVFile(totalToWrite);
     }
 
     public static void writeDataToCSVFile(String data) throws IOException {

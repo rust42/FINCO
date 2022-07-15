@@ -68,14 +68,20 @@ A simple FINCO framework, default support and extensible functionality for party
  -  __"project.framework.gui"__ contains all the gui helper and default classes
 
 
-| <a target="_blank" href="#">![Framework](./docs/v4/Bank_01.PNG)</a> |
-|---------------------------------------------------------------------|
-| Framework                                                           |
+| <a target="_blank" href="#">![Framework](./docs/Framework_A3_Final.PNG)</a> |
+|--------------------------------------------------------------------|
+| Framework                                                          |
 
 
-| <a target="_blank" href="#">![GUI](./docs/v4/Bank_02.PNG)</a> |
-|---------------------------------------------------------------|
-| GUI                                                           |
+| <a target="_blank" href="#">![GUI](./docs/Bank_A3_Final.PNG)</a> |
+|------------------------------------------------------------------|
+| Bank with Framework                                              |
+
+
+| <a target="_blank" href="#">![GUI](./docs/Credit_A3_Final.PNG)</a> |
+|--------------------------------------------------------------------|
+| Credit with Framework                                              |
+
 
 # Development
 
