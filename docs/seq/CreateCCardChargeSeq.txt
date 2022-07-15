@@ -1,0 +1,130 @@
+title Credit Card Charge Sequence
+
+actor Client
+
+# init CreditFrame and its required context and set Credit frame visible
+Credit->CreditFrame:1.<<new>>
+activate CreditFrame
+
+
+CreditFrame->GenericJTableModel:2.<<new>>
+activate GenericJTableModel
+CreditFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Credit<--CreditFrame:
+deactivate CreditFrame
+
+Credit->CreditFrame:3.setVisible
+activate CreditFrame
+Credit<--CreditFrame:
+deactivate CreditFrame
+
+
+# on withdraw button clicked
+
+
+Client->CreditFrame:4.onWithdrawButtonClicked
+activate CreditFrame
+
+CreditFrame->GenericJDialog_Withdraw:5.<<new>>
+activate GenericJDialog_Withdraw
+CreditFrame<--GenericJDialog_Withdraw:
+deactivate GenericJDialog_Withdraw
+
+CreditFrame->GenericJDialog_Withdraw:6.show
+activate GenericJDialog_Withdraw
+CreditFrame<--GenericJDialog_Withdraw:
+Client<--CreditFrame:
+
+deactivate GenericJDialog_Withdraw
+deactivate CreditFrame
+
+
+Client->GenericJDialog_Withdraw:7.input withdraw amount
+activate GenericJDialog_Withdraw
+CreditFrame<--GenericJDialog_Withdraw:
+deactivate GenericJDialog_Withdraw
+activate CreditFrame
+
+
+CreditFrame->GenericJDialog_Withdraw:8.getWithdrawAmount
+activate GenericJDialog_Withdraw
+space
+deactivate CreditFrame
+deactivate GenericJDialog_Withdraw
+CreditFrame<--GenericJDialog_Withdraw:
+
+activate CreditFrame
+participant CreditAccTableModelResponse
+
+
+
+CreditFrame->CreditController:9.withdraw
+activate CreditController
+deactivate CreditFrame
+CreditController->AbstractAccountService:10.withdrawMoney
+activate AbstractAccountService
+
+
+AbstractAccountService->AbstractStorageService:11.getIAccountByUniqueId
+activate AbstractStorageService
+
+AbstractAccountService<--AbstractStorageService:CreditAccount
+deactivate AbstractStorageService
+
+
+AbstractAccountService->CreditAccount:12.setBalance
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+deactivate CreditAccount
+
+AbstractAccountService->Entry:13.<<new>>
+activate Entry
+AbstractAccountService<--Entry:
+deactivate Entry
+
+AbstractAccountService->CreditAccount:14.addEntry
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+deactivate CreditAccount
+
+
+AbstractAccountService->AbstractStorageService:15.update
+activate AbstractStorageService
+AbstractAccountService<-AbstractStorageService:
+deactivate AbstractStorageService
+
+
+AbstractAccountService->CreditAccount:16.notifyPartyOnTxEntry
+activate CreditAccount
+AbstractAccountService<--CreditAccount:
+CreditController<--AbstractAccountService:
+
+deactivate CreditAccount
+
+
+
+deactivate AbstractAccountService
+
+
+CreditController->CreditAccTableModelResponse:17.<<new>>
+activate CreditAccTableModelResponse
+
+CreditController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
+
+CreditController->CreditAccTableModelResponse:18.setAmount
+activate CreditAccTableModelResponse
+
+CreditController<--CreditAccTableModelResponse:
+deactivate CreditAccTableModelResponse
+activate CreditFrame
+
+CreditFrame<--CreditController:
+deactivate CreditController
+CreditFrame->GenericJTableModel:19.updateModel
+activate GenericJTableModel
+CreditFrame<--GenericJTableModel:
+deactivate GenericJTableModel
+Client<--CreditFrame:
+
